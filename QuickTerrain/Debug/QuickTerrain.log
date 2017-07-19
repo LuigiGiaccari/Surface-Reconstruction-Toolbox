@@ -1,0 +1,41 @@
+﻿  QuickTerrain_exe.cpp
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\sortlib\hcpo2d.h(81): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\sortlib\hcpo2d.h(210): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\sortlib\hcpo2d.h(214): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\triangulations\quickdel2d.cpp(542): warning C4101: 'idt': unreferenced local variable
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\triangulations\quickdel2d.cpp(856): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(168): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(169): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(170): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(174): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(175): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(176): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(180): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(181): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(182): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(187): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(188): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(189): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(137): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(211): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(246): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(252): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(2260): note: see declaration of 'sscanf'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\filemanager.h(264): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(2260): note: see declaration of 'sscanf'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\shell_io.h(36): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\time.h(505): note: see declaration of 'localtime'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\shell_io.h(42): warning C4996: 'asctime': This function or variable may be unsafe. Consider using asctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\time.h(116): note: see declaration of 'asctime'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\shell_io.h(63): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\shell_io.h(92): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\util\shell_io.h(97): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+c:\users\giacc\onedrive\documenti\surfacerecontoolbox\srtools\quickterrain_exe.cpp(99): warning C4101: 'flag': unreferenced local variable
+  QuickTerrain.vcxproj -> C:\Users\giacc\OneDrive\Documenti\SurfaceReconToolbox\Debug\QuickTerrain.exe
+  QuickTerrain.vcxproj -> C:\Users\giacc\OneDrive\Documenti\SurfaceReconToolbox\Debug\QuickTerrain.pdb (Partial PDB)
