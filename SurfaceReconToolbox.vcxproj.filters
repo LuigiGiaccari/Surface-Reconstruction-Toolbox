@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sds\SDS3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sds\SDS3D_MAP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srtools\BPAexe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srtools\QuickTerrain_exe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srtools\RCexe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srtools\SCBexe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srtools\TESTexe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tetgen1.4.3\predicates.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tetgen1.4.3\tetcall-2.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tetgen1.4.3\tetgen.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="triangulations\MeshGrowing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="triangulations\QuickDel2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="triangulations\STL_Import.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="triangulations\tmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="triangulations\triangle.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sds\SDS3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sds\SDS3D_MAP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\glsort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\HCPO2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\HCPO3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\sedgesort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\sedgesort_index.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\sortlibsortn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\sortn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sortlib\sortutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\Coord2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\Coord3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tetgen1.4.3\tetgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timers\foo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timers\hr_time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timers\hr_time_linux.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\Coord3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\Import_STL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\MeshGrowing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\PointEdgeMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\PowerCrust.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\predicates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\QuickDel2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\RobustCrust.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\tmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\TrianglesFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulations\TripletsMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\ArraysLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\ExceptionHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\filemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\shell_io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SmallPriorityQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Viewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
