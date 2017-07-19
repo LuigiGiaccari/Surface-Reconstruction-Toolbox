@@ -45,134 +45,187 @@ template <class arr1,class arr2> void Copy(arr1* destination,arr2* source, int N
 //CODE STARTS HERE
 
 template <class arr>
-void Allocate(arr** a,int N) {
+void Allocate(arr** a,int N)
+{
 
-  if (*a!=NULL){Error("Can not Allocate");;}
-  *a=new arr[N];
-  if (*a!=NULL)
-      {return;}
-  else
-      { Error("Out of Memory");}
+    if (*a!=NULL)
+    {
+        Error("Can not Allocate");;
+    }
+    *a=new arr[N];
+    if (*a!=NULL)
+    {
+        return;
+    }
+    else
+    {
+        Error("Out of Memory");
+    }
 }
 
 template <class arr>
-void AllocateAndInit (arr** a,int N,arr value) {
+void AllocateAndInit (arr** a,int N,arr value)
+{
 
 
 
-  if (*a!=NULL){Error("Can Not Allocate");;}
-  *a=new arr[N];
-  if (*a!=NULL)
-      { Alls(*a,N,value);
-      return;}
-  else
-      {Error("Out of Memory");}
+    if (*a!=NULL)
+    {
+        Error("Can Not Allocate");;
+    }
+    *a=new arr[N];
+    if (*a!=NULL)
+    {
+        Alls(*a,N,value);
+        return;
+    }
+    else
+    {
+        Error("Out of Memory");
+    }
 }
 
 
 template <class arr>
-void Deallocate (arr** a) {
-  if (*a==NULL){return;}
-  delete [] *a;*a=NULL;
-      return;
+void Deallocate (arr** a)
+{
+    if (*a==NULL)
+    {
+        return;
+    }
+    delete [] *a;
+    *a=NULL;
+    return;
 }
 
 
 template <class arr>
-void Alls(arr* a,int N,arr value) {
- int i;
-   for (i=0;i<N;i++){a[i]=value;}
-      return;
+void Alls(arr* a,int N,arr value)
+{
+    int i;
+    for (i=0; i<N; i++)
+    {
+        a[i]=value;
+    }
+    return;
 
 }
 
 
 template <class arr>
 void Random(arr* a,int N,arr min,arr max) //Generates random values between min and max
+{
+    int i;
+    for(i=0; i<N; i++)
     {
-     int i;
-     for(i=0;i<N;i++){a[i]=min+(arr)rand()/RAND_MAX*max;}
+        a[i]=min+(arr)rand()/RAND_MAX*max;
     }
+}
 
 template <class arr>
 arr Max(arr* a,int N,int step) //Gets The maximum value of the array
-    {//the variable step is use to iterate at step distance
-     arr max=a[0];
-     int i;
-     int c=step;//jumping the first element
-     for(i=1;i<N;i++)
-         {if(a[c]>max)max=a[c];c=c+step;}
-     return max;
+{
+    //the variable step is use to iterate at step distance
+    arr max=a[0];
+    int i;
+    int c=step;//jumping the first element
+    for(i=1; i<N; i++)
+    {
+        if(a[c]>max)max=a[c];
+        c=c+step;
     }
+    return max;
+}
 
 template <class arr>
 arr Min(arr* a,int N,int step) //Gets The minum value of the array
-    {//the variable step is use to iterate at step distance
-     arr min=a[0];
-     int i;
-     int c=step;
-     for(i=1;i<N;i++)
-         {if(a[c]<min)min=a[c];c=c+step;}
-     return min;
+{
+    //the variable step is use to iterate at step distance
+    arr min=a[0];
+    int i;
+    int c=step;
+    for(i=1; i<N; i++)
+    {
+        if(a[c]<min)min=a[c];
+        c=c+step;
     }
+    return min;
+}
 
 
 template <class arr>
 void MinMax(arr* a,int N,arr* max,arr*min,int step) //Gets The maximum and minium value of the array
-    {//the variable step is use to iterate at step distance
-     *min=a[0];*max=a[0] ;
-     int i;
-     int c=step;
-     for(i=1;i<N;i++)
-         {if(a[c]<*min)*min=a[c];
-          if(a[c]>*max)*max=a[c];
-          c=c+step;
-         }
+{
+    //the variable step is use to iterate at step distance
+    *min=a[0];
+    *max=a[0] ;
+    int i;
+    int c=step;
+    for(i=1; i<N; i++)
+    {
+        if(a[c]<*min)*min=a[c];
+        if(a[c]>*max)*max=a[c];
+        c=c+step;
     }
+}
 
 
 template <class arr>
 void PrintArray(arr* a,int N,int col,int step) //Prints all the values of an array using the rows col tabulation
-    {//the variable step is use to iterate at step distance
+{
+    //the variable step is use to iterate at step distance
 
-     int i,r,c;
-     i=0;r=0;c=0;
+    int i,r,c;
+    i=0;
+    r=0;
+    c=0;
 
-     while (1)
-         {
-               for(c=0;c<col;c++)//loop trough rows
+    while (1)
+    {
+        for(c=0; c<col; c++) //loop trough rows
 
-                   {cout<<" "<<a[i]<<" ";i+=step;
-               if(i>=N)
-                   {cout<<endl;
-               return;}}
-             cout<<endl;
-         }
-
-     return;
+        {
+            cout<<" "<<a[i]<<" ";
+            i+=step;
+            if(i>=N)
+            {
+                cout<<endl;
+                return;
+            }
+        }
+        cout<<endl;
     }
+
+    return;
+}
 
 template <class arr>
 arr Mean(arr* a,int N,int step) //gets the meanvalue
-    {//the variable step is use to iterate at step distance
+{
+    //the variable step is use to iterate at step distance
 
-     int i;
-     int c=0;
-     arr mean=0;
-     for(i=0;i<N;i++)
-         {mean+=a[c];c=c+step;}
-     return mean/N;
+    int i;
+    int c=0;
+    arr mean=0;
+    for(i=0; i<N; i++)
+    {
+        mean+=a[c];
+        c=c+step;
     }
+    return mean/N;
+}
 template <class arr1,class arr2>
 void Copy(arr1* destination,arr2* source, int N)
+{
+    int i;
+    for(i=0; i<N; i++)
     {
-      int i;
-       for(i=0;i<N;i++)
-         {destination[i]=source[i];}
-
-
-
+        destination[i]=source[i];
     }
+
+
+
+}
 
 
 
