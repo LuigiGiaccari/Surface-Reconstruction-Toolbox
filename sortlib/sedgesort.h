@@ -1,6 +1,6 @@
 #define SWAP(x,y)\
 		 temp = x; x = y; y = temp;
-       
+
 
 
 #ifndef CUTOFF
@@ -25,7 +25,7 @@
  * Bug: 'insort()' doesn't use the SWAP macro.
  */
 
-/*------------------------------------------------------------------- 
+/*-------------------------------------------------------------------
  *		  This file shouldn't be touched.
  *	     For customizable parameters, see 'sort.h'
  *-----------------------------------------------------------------*/
@@ -44,22 +44,24 @@ void  insort (double*a,int len)
 
 {
     int	i, j;
-	double	temp;
+    double	temp;
 
-    
-	for (i = 1; i < len; i++) {
-		/* invariant:  array[0..i-1] is sorted */
-		j = i;
-		/* customization bug: SWAP is not used here */
-		temp = a[j];
-	
-		while (j > 0 && GT(a[j-1], temp)) {
-			a[j] = a[j-1];
-			j--;
-		}
-		a[j] = temp;
-	
-	}
+
+    for (i = 1; i < len; i++)
+    {
+        /* invariant:  array[0..i-1] is sorted */
+        j = i;
+        /* customization bug: SWAP is not used here */
+        temp = a[j];
+
+        while (j > 0 && GT(a[j-1], temp))
+        {
+            a[j] = a[j-1];
+            j--;
+        }
+        a[j] = temp;
+
+    }
 }
 
 
@@ -94,27 +96,33 @@ void  insort (double*a,int len)
 void  partial_quickersort (double*a,int lower,int upper)
 
 {
-   int	i, j;
+    int	i, j;
     double	temp, pivot;
 
 
-    if (upper - lower > CUTOFF) {
-	SWAP(a[lower], a[(upper+lower)/2]);
-	i = lower;  j = upper + 1;  pivot = a[lower];
-	while (1) {
-	    /*
-	     * ------------------------- NOTE --------------------------
-	     * ignoring BIG NOTE above may lead to an infinite loop here
-	     * ---------------------------------------------------------
-	     */
-	    do i++; while (LT(a[i], pivot));
-	    do j--; while (GT(a[j], pivot));
-	    if (j < i) break;
-	    SWAP(a[i],a[j]);
-	}
-	SWAP(a[lower], a[j]);
-	partial_quickersort (a, lower, j - 1);
-	partial_quickersort (a, i, upper);
+    if (upper - lower > CUTOFF)
+    {
+        SWAP(a[lower], a[(upper+lower)/2]);
+        i = lower;
+        j = upper + 1;
+        pivot = a[lower];
+        while (1)
+        {
+            /*
+             * ------------------------- NOTE --------------------------
+             * ignoring BIG NOTE above may lead to an infinite loop here
+             * ---------------------------------------------------------
+             */
+            do i++;
+            while (LT(a[i], pivot));
+            do j--;
+            while (GT(a[j], pivot));
+            if (j < i) break;
+            SWAP(a[i],a[j]);
+        }
+        SWAP(a[lower], a[j]);
+        partial_quickersort (a, lower, j - 1);
+        partial_quickersort (a, i, upper);
     }
 }
 

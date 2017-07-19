@@ -13,32 +13,35 @@ void Warning(const char* warn);//display a warnign message
 void ExitProgram(int exitflag=0);//exit program
 
 void ExitProgram(int exitflag)//exit program
-{//if pause is set to true it will pause before exiting
+{
+    //if pause is set to true it will pause before exiting
 #ifdef WIN32
-	if(PAUSE_BEFORE_EXIT)system("pause");
+    if(PAUSE_BEFORE_EXIT)system("pause");
 
 #else#linux "PAUSE"function
-if(PAUSE_BEFORE_EXIT){
-   printf("Press 'Enter' to exit the program");
-    while (getchar() != '\n');}
+    if(PAUSE_BEFORE_EXIT)
+    {
+        printf("Press 'Enter' to exit the program");
+        while (getchar() != '\n');
+    }
 
 #endif
-	exit(exitflag);
+    exit(exitflag);
 }
 
 //Utility Function
 void Error(const char* error,int flag=1)//fatal error
-    {
+{
     printf("FATAL ERROR:");
-     printf(error);
-      printf("\n");
-      ExitProgram(flag);
-    }
+    printf(error);
+    printf("\n");
+    ExitProgram(flag);
+}
 void Warning(const char* warn)//warning
-    {
+{
     printf("WARNING:");
-     printf(warn);
-      printf("\n");
-    }
+    printf(warn);
+    printf("\n");
+}
 
 #endif

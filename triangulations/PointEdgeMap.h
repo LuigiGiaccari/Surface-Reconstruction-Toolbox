@@ -23,31 +23,31 @@
 
 struct PENode
 {
-	int Point2Point;
-	int Point2Edge;
-	int Next;
+    int Point2Point;
+    int Point2Edge;
+    int Next;
 };
 
 class PointEdgeMap
 {
-    private:
+private:
 
 
-  int *First;//Get the first node to check
-  PENode* Map;//Store for PEnodes
-  int counter;//numero di nodi inseriti nella mappa
+    int *First;//Get the first node to check
+    PENode* Map;//Store for PEnodes
+    int counter;//numero di nodi inseriti nella mappa
 
-  public:
+public:
 
 
-	PointEdgeMap();//constructor
-	~PointEdgeMap();//destructor
+    PointEdgeMap();//constructor
+    ~PointEdgeMap();//destructor
 
 
 
 //funzioni membro
-	int BuildPointEdgeMap(int Np,int MAXE);
-	void AddEdge(int p1,int p2,int idedge);
+    int BuildPointEdgeMap(int Np,int MAXE);
+    void AddEdge(int p1,int p2,int idedge);
     int GetEdge(int p1,int p2);
     void GetEdges(int p1);
     void Deallocate();
@@ -56,7 +56,7 @@ class PointEdgeMap
 
 PointEdgeMap::PointEdgeMap()//constructor
 {
-	//do nothing just allocate memory
+    //do nothing just allocate memory
 }
 
 //Costruisce la pointedgeMap
@@ -65,34 +65,49 @@ int PointEdgeMap::BuildPointEdgeMap(int Np,int MAXE)
 //return:
 //     0: ok
 //     1: out of memory
-	int i;
-  counter=0;
+    int i;
+    counter=0;
 //Dimensiono le mappe in base al numero di punti (inizializzo con -1 )
 
-  First=new int[Np];
-  if (First==NULL){return 1;}
-  for(i=0;i<Np;i++){First[i]=-1;}
+    First=new int[Np];
+    if (First==NULL)
+    {
+        return 1;
+    }
+    for(i=0; i<Np; i++)
+    {
+        First[i]=-1;
+    }
 
-  Map=new PENode[MAXE];
-  if (Map==NULL){delete [] First;return 1;}//out of memory (delete first and quit)
+    Map=new PENode[MAXE];
+    if (Map==NULL)
+    {
+        delete [] First;    //out of memory (delete first and quit)
+        return 1;
+    }
 
-  for(i=0;i<MAXE;i++){Map[i].Next=-1;}//sovradimensionato a 3 volte il numero di punti
+    for(i=0; i<MAXE; i++)
+    {
+        Map[i].Next=-1;   //sovradimensionato a 3 volte il numero di punti
+    }
 
 
-  return 0;
+    return 0;
 }
 
 
 PointEdgeMap::~PointEdgeMap()//destructor
 {
-   Deallocate();
+    Deallocate();
 
 }
 
 void PointEdgeMap::Deallocate()//destructor
 {
-    if(First!=NULL) delete [] First; First=NULL;
-	if(Map!=NULL) delete [] Map; Map=NULL;
+    if(First!=NULL) delete [] First;
+    First=NULL;
+    if(Map!=NULL) delete [] Map;
+    Map=NULL;
 
 }
 
@@ -104,17 +119,17 @@ void PointEdgeMap::Deallocate()//destructor
 int PointEdgeMap::GetEdge(int p1,int p2)
 {
 
-	int id;
+    int id;
 
-	if (p1>p2)//sort p1 and p2
-	{
-		SearchEdge(p1,p2)
-	}
-	else
-	{
-       SearchEdge(p2,p1)
-	}
-	return -1;
+    if (p1>p2)//sort p1 and p2
+    {
+        SearchEdge(p1,p2)
+    }
+    else
+    {
+        SearchEdge(p2,p1)
+    }
+    return -1;
 
 }
 
@@ -122,18 +137,18 @@ int PointEdgeMap::GetEdge(int p1,int p2)
 //Aggiunge un edge alla mappa formato dai punti p1 e p2
 void PointEdgeMap::AddEdge(int p1,int p2,int idedge)
 {
-	int idFirst;
+    int idFirst;
 
-	if (p1>p2)//sort p1 and p2
-	{
+    if (p1>p2)//sort p1 and p2
+    {
 
-       InsertNode(p1,p2)
-	}
-	else
-	{
-         InsertNode(p2,p1)
-	}
-	counter++;//c'è un nodo in più
+        InsertNode(p1,p2)
+    }
+    else
+    {
+        InsertNode(p2,p1)
+    }
+    counter++;//c'è un nodo in più
 
 }
 
