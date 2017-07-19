@@ -5,21 +5,24 @@
 #include <stdlib.h>
 
 //globals
-bool PAUSE_BEFORE_EXIT=true;//pause before exit?
+bool PAUSE_BEFORE_EXIT = true; //pause before exit?
 
 //PROTOTYPES
-void Error(const char* error,int flag);//display an error message and quit
+void Error(const char* error, int flag); //display an error message and quit
 void Warning(const char* warn);//display a warnign message
-void ExitProgram(int exitflag=0);//exit program
+void ExitProgram(int exitflag = 0); //exit program
 
 void ExitProgram(int exitflag)//exit program
 {
     //if pause is set to true it will pause before exiting
 #ifdef WIN32
-    if(PAUSE_BEFORE_EXIT)system("pause");
+    if (PAUSE_BEFORE_EXIT)
+    {
+        system("pause");
+    }
 
 #else#linux "PAUSE"function
-    if(PAUSE_BEFORE_EXIT)
+    if (PAUSE_BEFORE_EXIT)
     {
         printf("Press 'Enter' to exit the program");
         while (getchar() != '\n');
@@ -30,7 +33,7 @@ void ExitProgram(int exitflag)//exit program
 }
 
 //Utility Function
-void Error(const char* error,int flag=1)//fatal error
+void Error(const char* error, int flag = 1) //fatal error
 {
     printf("FATAL ERROR:");
     printf(error);

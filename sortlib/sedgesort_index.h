@@ -11,7 +11,7 @@
 
 //Swaps both integer and doubles values between indexes i1 and i2;
 #define SWAP(i1,i2) tempd = a[i1];a[i1] = a[i2]; a[i2] = tempd;\
-         tempi = index[i1]; index[i1] = index[i2]; index[i2] = tempi;
+    tempi = index[i1]; index[i1] = index[i2]; index[i2] = tempi;
 
 
 
@@ -48,7 +48,7 @@
  |  Method:	Optimized insertion-sort (ala Jon Bentley)
  */
 
-void  insort_index (double*a,int* index,int len)
+void  insort_index (double* a, int* index, int len)
 
 {
     int	i, j;
@@ -62,11 +62,11 @@ void  insort_index (double*a,int* index,int len)
         j = i;
         /* customization bug: SWAP is not used here */
         tempd = a[j];
-        tempi= index[j];
-        while (j > 0 && GT(a[j-1], tempd))
+        tempi = index[j];
+        while (j > 0 && GT(a[j - 1], tempd))
         {
-            a[j] = a[j-1];
-            index[j] = index[j-1];
+            a[j] = a[j - 1];
+            index[j] = index[j - 1];
             j--;
         }
         a[j] = tempd;
@@ -103,7 +103,7 @@ void  insort_index (double*a,int* index,int len)
  |	with a cutoff value of CUTOFF.
  */
 
-void  partial_quickersort_index (double*a,int*index,int lower,int upper)
+void  partial_quickersort_index (double* a, int* index, int lower, int upper)
 
 {
     int	i, j;
@@ -114,7 +114,7 @@ void  partial_quickersort_index (double*a,int*index,int lower,int upper)
     if (upper - lower > CUTOFF)
     {
 
-        SWAP(lower, (upper+lower)/2);
+        SWAP(lower, (upper + lower) / 2);
         i = lower;
         j = upper + 1;
         pivot = a[lower];
@@ -125,16 +125,25 @@ void  partial_quickersort_index (double*a,int*index,int lower,int upper)
              * ignoring BIG NOTE above may lead to an infinite loop here
              * ---------------------------------------------------------
              */
-            do i++;
+            do
+            {
+                i++;
+            }
             while (LT(a[i], pivot));
-            do j--;
+            do
+            {
+                j--;
+            }
             while (GT(a[j], pivot));
-            if (j < i) break;
-            SWAP(i,j);
+            if (j < i)
+            {
+                break;
+            }
+            SWAP(i, j);
         }
         SWAP(lower, j);
-        partial_quickersort_index (a,index, lower, j - 1);
-        partial_quickersort_index (a,index, i, upper);
+        partial_quickersort_index (a, index, lower, j - 1);
+        partial_quickersort_index (a, index, i, upper);
     }
 }
 
@@ -162,7 +171,7 @@ void  partial_quickersort_index (double*a,int*index,int lower,int upper)
  | 	len+1 elements [0..len], and assign MAXINT or some such
  |	to the last location before starting the sort (see sorttest.c)
  */
-void  sedgesort_index (double*a,int*index,int len)
+void  sedgesort_index (double* a, int* index, int len)
 
 {
     /*
@@ -170,8 +179,8 @@ void  sedgesort_index (double*a,int*index,int len)
      * ignoring BIG NOTE above may lead to an infinite loop here
      * ---------------------------------------------------------
      */
-    partial_quickersort_index (a,index, 0, len - 1);
-    insort_index (a,index, len);//insertion sort on all the array
+    partial_quickersort_index (a, index, 0, len - 1);
+    insort_index (a, index, len); //insertion sort on all the array
 }
 
 

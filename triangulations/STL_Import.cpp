@@ -5,13 +5,13 @@
 
 STL_FILE_MANAGER::STL_FILE_MANAGER()
 {
-    NT=NULL;
-    NP=NULL;
-    v=NULL;
-    t=NULL;
-    p=NULL;
-    Header=NULL;
-    Type='n';
+    NT = NULL;
+    NP = NULL;
+    v = NULL;
+    t = NULL;
+    p = NULL;
+    Header = NULL;
+    Type = 'n';
 }
 /////////////////////////////////////////////
 //     distruttore   //
@@ -24,34 +24,34 @@ STL_FILE_MANAGER::~STL_FILE_MANAGER()
 void STL_FILE_MANAGER::FreeMemory()
 {
     //deallocate memory
-    if (v!=NULL)
+    if (v != NULL)
     {
         delete [] v;
-        v=NULL;
+        v = NULL;
     }
-    if (p!=NULL)
+    if (p != NULL)
     {
         delete [] p;
-        p=NULL;
+        p = NULL;
     }
-    if (t!=NULL)
+    if (t != NULL)
     {
         delete [] t;
-        t=NULL;
+        t = NULL;
     }
-    if (tnorm!=NULL)
+    if (tnorm != NULL)
     {
         delete [] tnorm;
-        tnorm=NULL;
+        tnorm = NULL;
     }
-    if (Header!=NULL)
+    if (Header != NULL)
     {
         delete [] Header;
-        Header=NULL;
+        Header = NULL;
     }
-    NP=0;
-    NT=0;
-    Type='n';
+    NP = 0;
+    NT = 0;
+    Type = 'n';
 }
 
 //The core function to import stl files
@@ -61,17 +61,17 @@ int STL_FILE_MANAGER::STL_Import(char* file_name)
     int flag;
 
     //Check whether the file is binary or ascii
-    flag=CheckFileType(file_name);
+    flag = CheckFileType(file_name);
 
-    Type='a';
+    Type = 'a';
     //import file
-    if (Type=='b')
+    if (Type == 'b')
     {
-        flag=ImportBinary(file_name);
+        flag = ImportBinary(file_name);
     }
-    else if(Type=='a')
+    else if (Type == 'a')
     {
-        flag=ImportAscii(file_name);
+        flag = ImportAscii(file_name);
     }
 
 
@@ -92,24 +92,24 @@ int STL_FILE_MANAGER::ImportBinary(char* file_name)
     int i;//internal counter
 
 
-    Header=new char[80];//allocating memory for header
-    if (Header==NULL)
+    Header = new char[80]; //allocating memory for header
+    if (Header == NULL)
     {
         FreeMemory();
         return 1;
     }//out of memory
 
     //Opening the stl binary file
-    pFile=fopen(file_name,"rb");
-    if (pFile==NULL)
+    pFile = fopen(file_name, "rb");
+    if (pFile == NULL)
     {
         return 3;   //can not open file
     }
-    nread=fread(Header, sizeof(char), 80, pFile);//read the header
+    nread = fread(Header, sizeof(char), 80, pFile); //read the header
 
     //Bytes 81-84 are an unsigned 32-bit integer specifying the number of faces
     // that follow.
-    nread=fread(&NT, sizeof(unsigned int), 1, pFile);//number of faces
+    nread = fread(&NT, sizeof(unsigned int), 1, pFile); //number of faces
 
     if (NT <= 0)
     {
@@ -119,9 +119,9 @@ int STL_FILE_MANAGER::ImportBinary(char* file_name)
 
     //allocate memory
 
-    v= new Coord3D[NT*3];
-    tnorm=new Coord3D[NT];
-    if ( v==NULL || tnorm==NULL)
+    v = new Coord3D[NT * 3];
+    tnorm = new Coord3D[NT];
+    if ( v == NULL || tnorm == NULL)
     {
         FreeMemory();
         return 1;
@@ -129,18 +129,18 @@ int STL_FILE_MANAGER::ImportBinary(char* file_name)
 
     //loop trough all facets and import data
 
-    for(i=0; i<NT; i++)
+    for (i = 0; i < NT; i++)
     {
 
-        nread=fread(&tnorm[i].x, sizeof(float), 3, pFile);//reading normals
+        nread = fread(&tnorm[i].x, sizeof(float), 3, pFile); //reading normals
 
-        nread=fread(&v[i*3].x, sizeof(float), 3, pFile);//reading first vertex
-        nread=fread(&v[i*3+1].x, sizeof(float), 3, pFile);//reading second vertex
-        nread=fread(&v[i*3+2].x, sizeof(float), 3, pFile);//reading third vertex
+        nread = fread(&v[i * 3].x, sizeof(float), 3, pFile); //reading first vertex
+        nread = fread(&v[i * 3 + 1].x, sizeof(float), 3, pFile); //reading second vertex
+        nread = fread(&v[i * 3 + 2].x, sizeof(float), 3, pFile); //reading third vertex
 
 
         //Skip the option WARNING IF OPTION !=0 THIS WILL CAUSE A CRASH
-        nread=fread(&option, sizeof(unsigned __int16), 1, pFile);
+        nread = fread(&option, sizeof(unsigned __int16), 1, pFile);
         //if (option>=0) {return 2;} //can not open files with options}
 
     }
@@ -172,50 +172,59 @@ int STL_FILE_MANAGER::v2pt()
 
     int i;//counters
     int c;//unique points counter
-    int m,n;//conscutive vertex after sorting
+    int m, n; //conscutive vertex after sorting
 
 
-    if (NT<=0)
+    if (NT <= 0)
     {
         return 101;   //no vertes data
     }
 
-    int * reindex=new int[NT*3];//map vertex index-->point index   pointid=reindex[i]
-    Vertex3D* vcopy=new Vertex3D[NT*3];//copy for sorting
-    bool* equal=new bool[NT*3];//to check if points are equal
+    int* reindex = new int[NT * 3]; //map vertex index-->point index   pointid=reindex[i]
+    Vertex3D* vcopy = new Vertex3D[NT * 3]; //copy for sorting
+    bool* equal = new bool[NT * 3]; //to check if points are equal
     float temp;//temporary float for swap operations
 
 
-    if ( vcopy==NULL || reindex==NULL || equal==NULL)
+    if ( vcopy == NULL || reindex == NULL || equal == NULL)
     {
-        if(reindex!=NULL)delete [] reindex;
-        if(equal!=NULL)delete [] equal;
-        if(vcopy!=NULL)delete [] vcopy;
+        if (reindex != NULL)
+        {
+            delete [] reindex;
+        }
+        if (equal != NULL)
+        {
+            delete [] equal;
+        }
+        if (vcopy != NULL)
+        {
+            delete [] vcopy;
+        }
         FreeMemory();
         return 1;
     }//out of memory
 
 
     //copying teh v into vcopy
-    for (i=0; i<NT*3; i++)
+    for (i = 0; i < NT * 3; i++)
     {
-        vcopy[i].x=v[i].x;
-        vcopy[i].y=v[i].y;
-        vcopy[i].z=v[i].z;
-        vcopy[i].id=i;
+        vcopy[i].x = v[i].x;
+        vcopy[i].y = v[i].y;
+        vcopy[i].z = v[i].z;
+        vcopy[i].id = i;
     }
 
 
 
     //Sort the vertex by rows
-    for (i=0; i<NT*3; i++)
+    for (i = 0; i < NT * 3; i++)
     {
-        Sort3(vcopy[i].x,vcopy[i].y,vcopy[i].z,temp)
+        Sort3(vcopy[i].x, vcopy[i].y, vcopy[i].z, temp)
     }
 
 
     //soting the vertexes
-    sort(&vcopy[0],&vcopy[NT*3-1]);
+    sort(&vcopy[0], &vcopy[NT * 3 - 1]);
 
     //print the first sorted values
     //for (i=0;i<10;i++)
@@ -225,15 +234,15 @@ int STL_FILE_MANAGER::v2pt()
     //count the number of unique points and build the reindex array
 
     //initilaize the first data and uniquepoints counter
-    c=0;
-    reindex[vcopy[0].id]=0;
-    equal[0]=false;
-    for(i=1; i<NT*3; i++)
+    c = 0;
+    reindex[vcopy[0].id] = 0;
+    equal[0] = false;
+    for (i = 1; i < NT * 3; i++)
     {
-        m=i;
-        n=i-1;
+        m = i;
+        n = i - 1;
         //compare two consecutive points
-        equal[i]=( (vcopy[m].x==vcopy[n].x) && (vcopy[m].y==vcopy[n].y) && (vcopy[m].z==vcopy[n].z));
+        equal[i] = ( (vcopy[m].x == vcopy[n].x) && (vcopy[m].y == vcopy[n].y) && (vcopy[m].z == vcopy[n].z));
 
 
         if (!equal[i])//vertex are not unique we can increase counter
@@ -242,17 +251,17 @@ int STL_FILE_MANAGER::v2pt()
         }
 
         // not unique vertex i equals unique points c;
-        m=vcopy[i].id;//not unique vertex id
-        reindex[m]=c; //that vertex equals the unique point c;
+        m = vcopy[i].id; //not unique vertex id
+        reindex[m] = c; //that vertex equals the unique point c;
     }
-    NP=c+1;//setting the unique points number
+    NP = c + 1; //setting the unique points number
 
     //build the unique points array
 
-    p=new Coord3D[NP];//we now know the number of unique points
-    t=new Triangle[NT];
+    p = new Coord3D[NP]; //we now know the number of unique points
+    t = new Triangle[NT];
 
-    if ( p==NULL || t==NULL)
+    if ( p == NULL || t == NULL)
     {
         delete [] reindex;
         delete [] equal;
@@ -265,24 +274,24 @@ int STL_FILE_MANAGER::v2pt()
     //saving the unique points value
 
     //first point
-    for (i=0; i<NT*3; i++)
+    for (i = 0; i < NT * 3; i++)
     {
         if (!equal[i])//to copy just once the unique points
         {
-            m=vcopy[i].id;//id of unique vertex taken from sorted index
-            c=reindex[m];//id unique point
-            p[c]=v[m];//unique point m equals vertex i according to the map reindex
+            m = vcopy[i].id; //id of unique vertex taken from sorted index
+            c = reindex[m]; //id unique point
+            p[c] = v[m]; //unique point m equals vertex i according to the map reindex
         }
     }
 
     //Writing the triangle data pointing to unique points
-    c=0;//now used as general counter
-    for (i=0; i<NT; i++)
+    c = 0; //now used as general counter
+    for (i = 0; i < NT; i++)
     {
-        t[i].p1=reindex[c];
-        t[i].p2=reindex[c+1];
-        t[i].p3=reindex[c+2];
-        c=c+3;
+        t[i].p1 = reindex[c];
+        t[i].p2 = reindex[c + 1];
+        t[i].p3 = reindex[c + 2];
+        c = c + 3;
     }
 
 
@@ -309,63 +318,63 @@ int STL_FILE_MANAGER::ImportAscii(char* file_name)
 {
     FILE* pFile;//pointer to the stl file
 
-    const int bufsize=100;
+    const int bufsize = 100;
     char line[bufsize];//buffer for reading
 
     int nlines;//number of lines
-    float x,y,z;//temp values
-    int cv,cn;//counters for vertex and normals
-    int flag,i,j;
+    float x, y, z; //temp values
+    int cv, cn; //counters for vertex and normals
+    int flag, i, j;
     char FirstChar;
     //Counting the number of points
-    flag=CountLinesNumber(file_name,&nlines);
+    flag = CountLinesNumber(file_name, &nlines);
 
     //retrieving the number of triangles from the number of lines
 
-    NT=(nlines-3)/7;//removing header and footer each facets has 7 lines (-3 for the header footer and end of file)
+    NT = (nlines - 3) / 7; //removing header and footer each facets has 7 lines (-3 for the header footer and end of file)
 
-    pFile=fopen(file_name,"r");//open the file
-    if(!pFile)
+    pFile = fopen(file_name, "r"); //open the file
+    if (!pFile)
     {
         return 2;   //file can not be opened
     }
 
     //allocating memory
-    Header=new char[80];
-    v=new Coord3D[NT*3];
-    tnorm=new Coord3D[NT];
+    Header = new char[80];
+    v = new Coord3D[NT * 3];
+    tnorm = new Coord3D[NT];
 
-    if (Header==NULL || v==NULL || tnorm==NULL)
+    if (Header == NULL || v == NULL || tnorm == NULL)
     {
         FreeMemory();
         return 1;
     }//out of memory
 
-    fgets(Header,80,pFile);//get the file header (solid someting)
+    fgets(Header, 80, pFile); //get the file header (solid someting)
 
     //importing points the number of points
-    cv=0;
-    cn=0;
+    cv = 0;
+    cn = 0;
     do
     {
-        fgets(line,bufsize,pFile);//get the line characters
+        fgets(line, bufsize, pFile); //get the line characters
 
         //getting the first non nll char
-        for(j=0; j<bufsize; j++)
+        for (j = 0; j < bufsize; j++)
         {
-            if (line[j]!=' ')
+            if (line[j] != ' ')
             {
-                FirstChar=line[j];
+                FirstChar = line[j];
                 break;
             }
         }
         //il primo carattere non nullo è j;
 
-        if (FirstChar=='v')//vertex data
+        if (FirstChar == 'v') //vertex data
         {
-            i=sscanf(&line[j+6],"%f%f%f",&x,&y,&z);//j+6 to jump "vertex"
+            i = sscanf(&line[j + 6], "%f%f%f", &x, &y, &z); //j+6 to jump "vertex"
 
-            if (i!=3)//check if the data is readenn correclty
+            if (i != 3) //check if the data is readenn correclty
 
             {
                 fclose(pFile);//close the file
@@ -375,15 +384,15 @@ int STL_FILE_MANAGER::ImportAscii(char* file_name)
 
 
 
-            v[cv].x=x;
-            v[cv].y=y;
-            v[cv].z=z;
+            v[cv].x = x;
+            v[cv].y = y;
+            v[cv].z = z;
             cv++;
         }
-        else if (FirstChar=='f')//facet data
+        else if (FirstChar == 'f') //facet data
         {
-            i=sscanf(&line[j+12],"%f %f %f",&x,&y,&z);//j+12 to jump   facet normal
-            if (i!=3)//check if the data is readenn correclty
+            i = sscanf(&line[j + 12], "%f %f %f", &x, &y, &z); //j+12 to jump   facet normal
+            if (i != 3) //check if the data is readenn correclty
 
             {
                 fclose(pFile);//close the file
@@ -391,19 +400,19 @@ int STL_FILE_MANAGER::ImportAscii(char* file_name)
                 return 3;
             }//wrong file format
 
-            tnorm[cn].x=x;
-            tnorm[cn].y=y;
-            tnorm[cn].z=z;
+            tnorm[cn].x = x;
+            tnorm[cn].y = y;
+            tnorm[cn].z = z;
             cn++;
         }
 
     }
-    while(!feof(pFile));
+    while (!feof(pFile));
 
     fclose(pFile);//close the file
 
 
-    if (cn!=NT || cv!=NT*3)//problem in reading the file
+    if (cn != NT || cv != NT * 3) //problem in reading the file
     {
         FreeMemory();
         return 3;
@@ -418,13 +427,13 @@ int STL_FILE_MANAGER::ImportAscii(char* file_name)
 
 //retunrs the number of lines into a text file
 //retunrs 0 if the file cna not be opened
-int STL_FILE_MANAGER::CountLinesNumber(char* file_name,int* size)
+int STL_FILE_MANAGER::CountLinesNumber(char* file_name, int* size)
 {
     ifstream inData;
 
     inData.open( file_name );
-//if ( !inData )
-//return 0;
+    //if ( !inData )
+    //return 0;
 
 
     *size = 0;
@@ -432,7 +441,7 @@ int STL_FILE_MANAGER::CountLinesNumber(char* file_name,int* size)
     while ( !inData.eof() )
     {
         getline(inData, line);
-        *size=*size+1;
+        *size = *size + 1;
     }
     return 0;
 }
@@ -443,14 +452,14 @@ int STL_FILE_MANAGER::CheckFileType(char* file_name)
 {
 
     FILE* pFile;
-    const int N=30;//numbers of letters to be read
+    const int N = 30; //numbers of letters to be read
     char LastLine[N];//line to be read
-    char*CompString="endsolid";
-    int i,j;
+    char* CompString = "endsolid";
+    int i, j;
     bool found;
 
 
-    pFile=fopen(file_name,"rb");
+    pFile = fopen(file_name, "rb");
     if (!pFile)
     {
         return 2;//file ca not be openend
@@ -458,26 +467,26 @@ int STL_FILE_MANAGER::CheckFileType(char* file_name)
 
 
 
-    fseek(pFile,-N*sizeof(char),SEEK_END);//set the read to start N char before the end of file
-    fread(&LastLine[0],sizeof(char),N,pFile);
+    fseek(pFile, -N * sizeof(char), SEEK_END); //set the read to start N char before the end of file
+    fread(&LastLine[0], sizeof(char), N, pFile);
 
 
-    found=false;
-    j=0;
-    for (i=0; i<N; i++)
+    found = false;
+    j = 0;
+    for (i = 0; i < N; i++)
     {
-        if (LastLine[i]==CompString[j])
+        if (LastLine[i] == CompString[j])
         {
             j++;
-            if (j>=8)//length of "endsolid"
+            if (j >= 8) //length of "endsolid"
             {
-                found=true;
+                found = true;
                 break;
             }
         }
         else
         {
-            j=0;
+            j = 0;
         }
     }
 
@@ -485,12 +494,12 @@ int STL_FILE_MANAGER::CheckFileType(char* file_name)
     if (found)
         //string found file is ascci
     {
-        Type='a';
+        Type = 'a';
     }
     else
     {
         //string not found file is binary
-        Type='b';
+        Type = 'b';
     }
 
 

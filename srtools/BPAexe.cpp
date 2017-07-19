@@ -15,15 +15,15 @@
 using namespace std;
 
 //char for the header
-char algoname[256]="Ball Pivoting Algorithm";
-char version[256]="v0.1";
-char author[256]="Luigi Giaccari";
-char user[256]="WhoEver";
+char algoname[256] = "Ball Pivoting Algorithm";
+char version[256] = "v0.1";
+char author[256] = "Luigi Giaccari";
+char user[256] = "WhoEver";
 
 double* p;
 int N;
 
-int main(int argc,char *argv[])
+int main(int argc, char* argv[])
 {
 
     int flag;
@@ -31,51 +31,54 @@ int main(int argc,char *argv[])
     CStopWatch Timer;
 
 
-    PrintHeader(algoname,version,author,user);
+    PrintHeader(algoname, version, author, user);
 
 
-    cout<<endl<<"PROGRAM STARTED!"<<endl;
+    cout << endl << "PROGRAM STARTED!" << endl;
 
 
-    if (argc>1)//read input when provided
+    if (argc > 1) //read input when provided
     {
-        cout<<"Reading input!"<<endl;
-        ReadInputs(argc,argv);
+        cout << "Reading input!" << endl;
+        ReadInputs(argc, argv);
     }
     else//otherwise asks for inputs/output
     {
         AskForInputs(1);//BPA requires mode one
     }
 
-    cout<<"Importing points...";
-    FileManager.Read_Points(&p,&N,inputfile) ;
+    cout << "Importing points...";
+    FileManager.Read_Points(&p, &N, inputfile) ;
 
 
-    cout<<N<<" Points imported"<<endl;
+    cout << N << " Points imported" << endl;
     Timer.startTimer();
-    if(N<4)Error("Not enough points to launch the algorithm");
+    if (N < 4)
+    {
+        Error("Not enough points to launch the algorithm");
+    }
 
 
-    cout<<endl<<"LAUNCHING BPA"<<endl;
-    Surface.ImportPoints_Pointers(p,N);
+    cout << endl << "LAUNCHING BPA" << endl;
+    Surface.ImportPoints_Pointers(p, N);
     Surface.BallPivoting(R);
     // Surface.SCBMesher();
 
 
     Timer.stopTimer();
-    cout<<"Total Time: "<<Timer.getElapsedTime()/1000<<" s"<<endl;
+    cout << "Total Time: " << Timer.getElapsedTime() / 1000 << " s" << endl;
 
 
-    cout<<endl<<"OUTPUT!"<<endl;
-    cout<<"Writing stl file...";
-    FileManager.Write_stl(p,&Surface.t[0].p1,Surface.nt,outputfile);
-    cout<<"Done"<<endl;
+    cout << endl << "OUTPUT!" << endl;
+    cout << "Writing stl file...";
+    FileManager.Write_stl(p, &Surface.t[0].p1, Surface.nt, outputfile);
+    cout << "Done" << endl;
 
 
     //memory deallocation
     Deallocate(&p);
 
-    cout<<endl<<"PROGRAM ENDED!"<<endl<<endl;
-    cout<<endl<<"UNMESHABLE IS NOTHING!"<<endl<<endl;
+    cout << endl << "PROGRAM ENDED!" << endl << endl;
+    cout << endl << "UNMESHABLE IS NOTHING!" << endl << endl;
     ExitProgram(0);
 }

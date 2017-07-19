@@ -18,25 +18,25 @@ typedef struct
 class CStopWatch
 {
 
-private:
-    stopWatch timer;
-    LARGE_INTEGER frequency;
-    double LIToSecs( LARGE_INTEGER & L) ;
-public:
-    CStopWatch() ;
-    void startTimer( ) ;
-    void stopTimer( ) ;
-    double getElapsedTime() ;
+    private:
+        stopWatch timer;
+        LARGE_INTEGER frequency;
+        double LIToSecs( LARGE_INTEGER& L) ;
+    public:
+        CStopWatch() ;
+        void startTimer( ) ;
+        void stopTimer( ) ;
+        double getElapsedTime() ;
 };
-double CStopWatch::LIToSecs( LARGE_INTEGER & L)
+double CStopWatch::LIToSecs( LARGE_INTEGER& L)
 {
-    return ((double)L.QuadPart /(double)frequency.QuadPart) ;
+    return ((double)L.QuadPart / (double)frequency.QuadPart) ;
 }
 
 CStopWatch::CStopWatch()
 {
-    timer.start.QuadPart=0;
-    timer.stop.QuadPart=0;
+    timer.start.QuadPart = 0;
+    timer.stop.QuadPart = 0;
     QueryPerformanceFrequency( &frequency ) ;
 }
 
@@ -53,7 +53,7 @@ void CStopWatch::stopTimer( )
 double CStopWatch::getElapsedTime()
 {
     LARGE_INTEGER time;
-    time.QuadPart = 1000*(timer.stop.QuadPart - timer.start.QuadPart);//Elapsed Time in ms
+    time.QuadPart = 1000 * (timer.stop.QuadPart - timer.start.QuadPart); //Elapsed Time in ms
     return LIToSecs( time) ;
 }
 
@@ -65,13 +65,13 @@ double CStopWatch::getElapsedTime()
 
 class CStopWatch
 {
-    timeval t1, t2;
+        timeval t1, t2;
 
-public:
-    CStopWatch() ;
-    void startTimer( ) ;
-    void stopTimer( ) ;
-    double getElapsedTime() ;
+    public:
+        CStopWatch() ;
+        void startTimer( ) ;
+        void stopTimer( ) ;
+        double getElapsedTime() ;
 };
 
 
@@ -80,7 +80,7 @@ public:
 CStopWatch::CStopWatch()
 {
 
-//init t1,t2
+    //init t1,t2
     gettimeofday(&t1, NULL);
     gettimeofday(&t2, NULL);
 }

@@ -360,8 +360,8 @@
 /* A few forward declarations.                                               */
 
 #ifndef TRILIBRARY
-char *readline();
-char *findfield();
+char* readline();
+char* findfield();
 #endif /* not TRILIBRARY */
 
 /* Labels that signify the result of point location.  The result of a        */
@@ -504,7 +504,7 @@ enum finddirectionresult {WITHIN, LEFTCOLLINEAR, RIGHTCOLLINEAR};
 /*   Because the size and structure of a `triangle' is not decided until     */
 /*   runtime, I haven't simply declared the type `triangle' as a struct.     */
 
-typedef REAL **triangle;            /* Really:  typedef triangle *triangle   */
+typedef REAL** triangle;            /* Really:  typedef triangle *triangle   */
 
 /* An oriented triangle:  includes a pointer to a triangle and orientation.  */
 /*   The orientation denotes an edge of the triangle.  Hence, there are      */
@@ -513,7 +513,7 @@ typedef REAL **triangle;            /* Really:  typedef triangle *triangle   */
 
 struct otri
 {
-    triangle *tri;
+    triangle* tri;
     int orient;                                         /* Ranges from 0 to 2. */
 };
 
@@ -522,7 +522,7 @@ struct otri
 /*   pointers to adjoining triangles, plus one boundary marker, plus one     */
 /*   segment number.                                                         */
 
-typedef REAL **subseg;                  /* Really:  typedef subseg *subseg   */
+typedef REAL** subseg;                  /* Really:  typedef subseg *subseg   */
 
 /* An oriented subsegment:  includes a pointer to a subsegment and an        */
 /*   orientation.  The orientation denotes a side of the edge.  Hence, there */
@@ -531,7 +531,7 @@ typedef REAL **subseg;                  /* Really:  typedef subseg *subseg   */
 
 struct osub
 {
-    subseg *ss;
+    subseg* ss;
     int ssorient;                                       /* Ranges from 0 to 1. */
 };
 
@@ -540,7 +540,7 @@ struct osub
 /*   marker, and sometimes a pointer to a triangle, is appended after the    */
 /*   REALs.                                                                  */
 
-typedef REAL *vertex;
+typedef REAL* vertex;
 
 /* A queue used to store encroached subsegments.  Each subsegment's vertices */
 /*   are stored so that we can check whether a subsegment is still the same. */
@@ -560,7 +560,7 @@ struct badtriang
     triangle poortri;                       /* A skinny or too-large triangle. */
     REAL key;                             /* cos^2 of smallest (apical) angle. */
     vertex triangorg, triangdest, triangapex;           /* Its three vertices. */
-    struct badtriang *nexttriang;             /* Pointer to next bad triangle. */
+    struct badtriang* nexttriang;             /* Pointer to next bad triangle. */
 };
 
 /* A stack of triangles flipped during the most recent vertex insertion.     */
@@ -570,7 +570,7 @@ struct badtriang
 struct flipstacker
 {
     triangle flippedtri;                       /* A recently flipped triangle. */
-    struct flipstacker *prevflip;               /* Previous flip in the stack. */
+    struct flipstacker* prevflip;               /* Previous flip in the stack. */
 };
 
 /* A node in a heap used to store events for the sweepline Delaunay          */
@@ -586,7 +586,7 @@ struct flipstacker
 struct event
 {
     REAL xkey, ykey;                              /* Coordinates of the event. */
-    VOID *eventptr;      /* Can be a vertex or the location of a circle event. */
+    VOID* eventptr;      /* Can be a vertex or the location of a circle event. */
     int heapposition;              /* Marks this event's position in the heap. */
 };
 
@@ -605,7 +605,7 @@ struct splaynode
 {
     struct otri keyedge;                     /* Lprev of an edge on the front. */
     vertex keydest;           /* Used to verify that splay node is still live. */
-    struct splaynode *lchild, *rchild;              /* Children in splay tree. */
+    struct splaynode* lchild, *rchild;              /* Children in splay tree. */
 };
 
 /* A type used to allocate memory.  firstblock is the first block of items.  */
@@ -633,11 +633,11 @@ struct splaynode
 
 struct memorypool
 {
-    VOID **firstblock, **nowblock;
-    VOID *nextitem;
-    VOID *deaditemstack;
-    VOID **pathblock;
-    VOID *pathitem;
+    VOID** firstblock, ** nowblock;
+    VOID* nextitem;
+    VOID* deaditemstack;
+    VOID** pathblock;
+    VOID* pathitem;
     int alignbytes;
     int itembytes;
     int itemsperblock;
@@ -684,14 +684,14 @@ struct mesh
     /* Variables that maintain the bad triangle queues.  The queues are          */
     /*   ordered from 4095 (highest priority) to 0 (lowest priority).            */
 
-    struct badtriang *queuefront[4096];
-    struct badtriang *queuetail[4096];
+    struct badtriang* queuefront[4096];
+    struct badtriang* queuetail[4096];
     int nextnonemptyq[4096];
     int firstnonemptyq;
 
     /* Variable that maintains the stack of recently flipped triangles.          */
 
-    struct flipstacker *lastflip;
+    struct flipstacker* lastflip;
 
     /* Other variables. */
 
@@ -732,15 +732,15 @@ struct mesh
 
     /* Pointer to the `triangle' that occupies all of "outer space."             */
 
-    triangle *dummytri;
-    triangle *dummytribase;    /* Keep base address so we can free() it later. */
+    triangle* dummytri;
+    triangle* dummytribase;    /* Keep base address so we can free() it later. */
 
     /* Pointer to the omnipresent subsegment.  Referenced by any triangle or     */
     /*   subsegment that isn't really connected to a subsegment at that          */
     /*   location.                                                               */
 
-    subseg *dummysub;
-    subseg *dummysubbase;      /* Keep base address so we can free() it later. */
+    subseg* dummysub;
+    subseg* dummysubbase;      /* Keep base address so we can free() it later. */
 
     /* Pointer to a recently visited triangle.  Improves point location if       */
     /*   proximate vertices are inserted sequentially.                           */
@@ -949,16 +949,16 @@ int minus1mod3[3] = {2, 0, 1};
 /*   extracted from the two least significant bits of the pointer.           */
 
 #define decode(ptr, otri)                                                     \
-  (otri).orient = (int) ((unsigned long) (ptr) & (unsigned long) 3l);         \
-  (otri).tri = (triangle *)                                                   \
-                  ((unsigned long) (ptr) ^ (unsigned long) (otri).orient)
+    (otri).orient = (int) ((unsigned long) (ptr) & (unsigned long) 3l);         \
+    (otri).tri = (triangle *)                                                   \
+                 ((unsigned long) (ptr) ^ (unsigned long) (otri).orient)
 
 /* encode() compresses an oriented triangle into a single pointer.  It       */
 /*   relies on the assumption that all triangles are aligned to four-byte    */
 /*   boundaries, so the two least significant bits of (otri).tri are zero.   */
 
 #define encode(otri)                                                          \
-  (triangle) ((unsigned long) (otri).tri | (unsigned long) (otri).orient)
+    (triangle) ((unsigned long) (otri).tri | (unsigned long) (otri).orient)
 
 /* The following handle manipulation primitives are all described by Guibas  */
 /*   and Stolfi.  However, Guibas and Stolfi use an edge-based data          */
@@ -969,133 +969,133 @@ int minus1mod3[3] = {2, 0, 1};
 /*   oriented triangle is directed counterclockwise around the triangle.     */
 
 #define sym(otri1, otri2)                                                     \
-  ptr = (otri1).tri[(otri1).orient];                                          \
-  decode(ptr, otri2);
+    ptr = (otri1).tri[(otri1).orient];                                          \
+    decode(ptr, otri2);
 
 #define symself(otri)                                                         \
-  ptr = (otri).tri[(otri).orient];                                            \
-  decode(ptr, otri);
+    ptr = (otri).tri[(otri).orient];                                            \
+    decode(ptr, otri);
 
 /* lnext() finds the next edge (counterclockwise) of a triangle.             */
 
 #define lnext(otri1, otri2)                                                   \
-  (otri2).tri = (otri1).tri;                                                  \
-  (otri2).orient = plus1mod3[(otri1).orient]
+    (otri2).tri = (otri1).tri;                                                  \
+    (otri2).orient = plus1mod3[(otri1).orient]
 
 #define lnextself(otri)                                                       \
-  (otri).orient = plus1mod3[(otri).orient]
+    (otri).orient = plus1mod3[(otri).orient]
 
 /* lprev() finds the previous edge (clockwise) of a triangle.                */
 
 #define lprev(otri1, otri2)                                                   \
-  (otri2).tri = (otri1).tri;                                                  \
-  (otri2).orient = minus1mod3[(otri1).orient]
+    (otri2).tri = (otri1).tri;                                                  \
+    (otri2).orient = minus1mod3[(otri1).orient]
 
 #define lprevself(otri)                                                       \
-  (otri).orient = minus1mod3[(otri).orient]
+    (otri).orient = minus1mod3[(otri).orient]
 
 /* onext() spins counterclockwise around a vertex; that is, it finds the     */
 /*   next edge with the same origin in the counterclockwise direction.  This */
 /*   edge is part of a different triangle.                                   */
 
 #define onext(otri1, otri2)                                                   \
-  lprev(otri1, otri2);                                                        \
-  symself(otri2);
+    lprev(otri1, otri2);                                                        \
+    symself(otri2);
 
 #define onextself(otri)                                                       \
-  lprevself(otri);                                                            \
-  symself(otri);
+    lprevself(otri);                                                            \
+    symself(otri);
 
 /* oprev() spins clockwise around a vertex; that is, it finds the next edge  */
 /*   with the same origin in the clockwise direction.  This edge is part of  */
 /*   a different triangle.                                                   */
 
 #define oprev(otri1, otri2)                                                   \
-  sym(otri1, otri2);                                                          \
-  lnextself(otri2);
+    sym(otri1, otri2);                                                          \
+    lnextself(otri2);
 
 #define oprevself(otri)                                                       \
-  symself(otri);                                                              \
-  lnextself(otri);
+    symself(otri);                                                              \
+    lnextself(otri);
 
 /* dnext() spins counterclockwise around a vertex; that is, it finds the     */
 /*   next edge with the same destination in the counterclockwise direction.  */
 /*   This edge is part of a different triangle.                              */
 
 #define dnext(otri1, otri2)                                                   \
-  sym(otri1, otri2);                                                          \
-  lprevself(otri2);
+    sym(otri1, otri2);                                                          \
+    lprevself(otri2);
 
 #define dnextself(otri)                                                       \
-  symself(otri);                                                              \
-  lprevself(otri);
+    symself(otri);                                                              \
+    lprevself(otri);
 
 /* dprev() spins clockwise around a vertex; that is, it finds the next edge  */
 /*   with the same destination in the clockwise direction.  This edge is     */
 /*   part of a different triangle.                                           */
 
 #define dprev(otri1, otri2)                                                   \
-  lnext(otri1, otri2);                                                        \
-  symself(otri2);
+    lnext(otri1, otri2);                                                        \
+    symself(otri2);
 
 #define dprevself(otri)                                                       \
-  lnextself(otri);                                                            \
-  symself(otri);
+    lnextself(otri);                                                            \
+    symself(otri);
 
 /* rnext() moves one edge counterclockwise about the adjacent triangle.      */
 /*   (It's best understood by reading Guibas and Stolfi.  It involves        */
 /*   changing triangles twice.)                                              */
 
 #define rnext(otri1, otri2)                                                   \
-  sym(otri1, otri2);                                                          \
-  lnextself(otri2);                                                           \
-  symself(otri2);
+    sym(otri1, otri2);                                                          \
+    lnextself(otri2);                                                           \
+    symself(otri2);
 
 #define rnextself(otri)                                                       \
-  symself(otri);                                                              \
-  lnextself(otri);                                                            \
-  symself(otri);
+    symself(otri);                                                              \
+    lnextself(otri);                                                            \
+    symself(otri);
 
 /* rprev() moves one edge clockwise about the adjacent triangle.             */
 /*   (It's best understood by reading Guibas and Stolfi.  It involves        */
 /*   changing triangles twice.)                                              */
 
 #define rprev(otri1, otri2)                                                   \
-  sym(otri1, otri2);                                                          \
-  lprevself(otri2);                                                           \
-  symself(otri2);
+    sym(otri1, otri2);                                                          \
+    lprevself(otri2);                                                           \
+    symself(otri2);
 
 #define rprevself(otri)                                                       \
-  symself(otri);                                                              \
-  lprevself(otri);                                                            \
-  symself(otri);
+    symself(otri);                                                              \
+    lprevself(otri);                                                            \
+    symself(otri);
 
 /* These primitives determine or set the origin, destination, or apex of a   */
 /* triangle.                                                                 */
 
 #define org(otri, vertexptr)                                                  \
-  vertexptr = (vertex) (otri).tri[plus1mod3[(otri).orient] + 3]
+    vertexptr = (vertex) (otri).tri[plus1mod3[(otri).orient] + 3]
 
 #define dest(otri, vertexptr)                                                 \
-  vertexptr = (vertex) (otri).tri[minus1mod3[(otri).orient] + 3]
+    vertexptr = (vertex) (otri).tri[minus1mod3[(otri).orient] + 3]
 
 #define apex(otri, vertexptr)                                                 \
-  vertexptr = (vertex) (otri).tri[(otri).orient + 3]
+    vertexptr = (vertex) (otri).tri[(otri).orient + 3]
 
 #define setorg(otri, vertexptr)                                               \
-  (otri).tri[plus1mod3[(otri).orient] + 3] = (triangle) vertexptr
+    (otri).tri[plus1mod3[(otri).orient] + 3] = (triangle) vertexptr
 
 #define setdest(otri, vertexptr)                                              \
-  (otri).tri[minus1mod3[(otri).orient] + 3] = (triangle) vertexptr
+    (otri).tri[minus1mod3[(otri).orient] + 3] = (triangle) vertexptr
 
 #define setapex(otri, vertexptr)                                              \
-  (otri).tri[(otri).orient + 3] = (triangle) vertexptr
+    (otri).tri[(otri).orient + 3] = (triangle) vertexptr
 
 /* Bond two triangles together.                                              */
 
 #define bond(otri1, otri2)                                                    \
-  (otri1).tri[(otri1).orient] = encode(otri2);                                \
-  (otri2).tri[(otri2).orient] = encode(otri1)
+    (otri1).tri[(otri1).orient] = encode(otri2);                                \
+    (otri2).tri[(otri2).orient] = encode(otri1)
 
 /* Dissolve a bond (from one side).  Note that the other triangle will still */
 /*   think it's connected to this triangle.  Usually, however, the other     */
@@ -1103,50 +1103,50 @@ int minus1mod3[3] = {2, 0, 1};
 /*   it doesn't matter.                                                      */
 
 #define dissolve(otri)                                                        \
-  (otri).tri[(otri).orient] = (triangle) m->dummytri
+    (otri).tri[(otri).orient] = (triangle) m->dummytri
 
 /* Copy an oriented triangle.                                                */
 
 #define otricopy(otri1, otri2)                                                \
-  (otri2).tri = (otri1).tri;                                                  \
-  (otri2).orient = (otri1).orient
+    (otri2).tri = (otri1).tri;                                                  \
+    (otri2).orient = (otri1).orient
 
 /* Test for equality of oriented triangles.                                  */
 
 #define otriequal(otri1, otri2)                                               \
-  (((otri1).tri == (otri2).tri) &&                                            \
-   ((otri1).orient == (otri2).orient))
+    (((otri1).tri == (otri2).tri) &&                                            \
+     ((otri1).orient == (otri2).orient))
 
 /* Primitives to infect or cure a triangle with the virus.  These rely on    */
 /*   the assumption that all subsegments are aligned to four-byte boundaries.*/
 
 #define infect(otri)                                                          \
-  (otri).tri[6] = (triangle)                                                  \
+    (otri).tri[6] = (triangle)                                                  \
                     ((unsigned long) (otri).tri[6] | (unsigned long) 2l)
 
 #define uninfect(otri)                                                        \
-  (otri).tri[6] = (triangle)                                                  \
+    (otri).tri[6] = (triangle)                                                  \
                     ((unsigned long) (otri).tri[6] & ~ (unsigned long) 2l)
 
 /* Test a triangle for viral infection.                                      */
 
 #define infected(otri)                                                        \
-  (((unsigned long) (otri).tri[6] & (unsigned long) 2l) != 0l)
+    (((unsigned long) (otri).tri[6] & (unsigned long) 2l) != 0l)
 
 /* Check or set a triangle's attributes.                                     */
 
 #define elemattribute(otri, attnum)                                           \
-  ((REAL *) (otri).tri)[m->elemattribindex + (attnum)]
+    ((REAL *) (otri).tri)[m->elemattribindex + (attnum)]
 
 #define setelemattribute(otri, attnum, value)                                 \
-  ((REAL *) (otri).tri)[m->elemattribindex + (attnum)] = value
+    ((REAL *) (otri).tri)[m->elemattribindex + (attnum)] = value
 
 /* Check or set a triangle's maximum area bound.                             */
 
 #define areabound(otri)  ((REAL *) (otri).tri)[m->areaboundindex]
 
 #define setareabound(otri, value)                                             \
-  ((REAL *) (otri).tri)[m->areaboundindex] = value
+    ((REAL *) (otri).tri)[m->areaboundindex] = value
 
 /* Check or set a triangle's deallocation.  Its second pointer is set to     */
 /*   NULL to indicate that it is not allocated.  (Its first pointer is used  */
@@ -1156,8 +1156,8 @@ int minus1mod3[3] = {2, 0, 1};
 #define deadtri(tria)  ((tria)[1] == (triangle) NULL)
 
 #define killtri(tria)                                                         \
-  (tria)[1] = (triangle) NULL;                                                \
-  (tria)[3] = (triangle) NULL
+    (tria)[1] = (triangle) NULL;                                                \
+    (tria)[3] = (triangle) NULL
 
 /********* Primitives for subsegments                                *********/
 /*                                                                           */
@@ -1169,74 +1169,74 @@ int minus1mod3[3] = {2, 0, 1};
 /*   are masked out to produce the real pointer.                             */
 
 #define sdecode(sptr, osub)                                                   \
-  (osub).ssorient = (int) ((unsigned long) (sptr) & (unsigned long) 1l);      \
-  (osub).ss = (subseg *)                                                      \
-              ((unsigned long) (sptr) & ~ (unsigned long) 3l)
+    (osub).ssorient = (int) ((unsigned long) (sptr) & (unsigned long) 1l);      \
+    (osub).ss = (subseg *)                                                      \
+                ((unsigned long) (sptr) & ~ (unsigned long) 3l)
 
 /* sencode() compresses an oriented subsegment into a single pointer.  It    */
 /*   relies on the assumption that all subsegments are aligned to two-byte   */
 /*   boundaries, so the least significant bit of (osub).ss is zero.          */
 
 #define sencode(osub)                                                         \
-  (subseg) ((unsigned long) (osub).ss | (unsigned long) (osub).ssorient)
+    (subseg) ((unsigned long) (osub).ss | (unsigned long) (osub).ssorient)
 
 /* ssym() toggles the orientation of a subsegment.                           */
 
 #define ssym(osub1, osub2)                                                    \
-  (osub2).ss = (osub1).ss;                                                    \
-  (osub2).ssorient = 1 - (osub1).ssorient
+    (osub2).ss = (osub1).ss;                                                    \
+    (osub2).ssorient = 1 - (osub1).ssorient
 
 #define ssymself(osub)                                                        \
-  (osub).ssorient = 1 - (osub).ssorient
+    (osub).ssorient = 1 - (osub).ssorient
 
 /* spivot() finds the other subsegment (from the same segment) that shares   */
 /*   the same origin.                                                        */
 
 #define spivot(osub1, osub2)                                                  \
-  sptr = (osub1).ss[(osub1).ssorient];                                        \
-  sdecode(sptr, osub2)
+    sptr = (osub1).ss[(osub1).ssorient];                                        \
+    sdecode(sptr, osub2)
 
 #define spivotself(osub)                                                      \
-  sptr = (osub).ss[(osub).ssorient];                                          \
-  sdecode(sptr, osub)
+    sptr = (osub).ss[(osub).ssorient];                                          \
+    sdecode(sptr, osub)
 
 /* snext() finds the next subsegment (from the same segment) in sequence;    */
 /*   one whose origin is the input subsegment's destination.                 */
 
 #define snext(osub1, osub2)                                                   \
-  sptr = (osub1).ss[1 - (osub1).ssorient];                                    \
-  sdecode(sptr, osub2)
+    sptr = (osub1).ss[1 - (osub1).ssorient];                                    \
+    sdecode(sptr, osub2)
 
 #define snextself(osub)                                                       \
-  sptr = (osub).ss[1 - (osub).ssorient];                                      \
-  sdecode(sptr, osub)
+    sptr = (osub).ss[1 - (osub).ssorient];                                      \
+    sdecode(sptr, osub)
 
 /* These primitives determine or set the origin or destination of a          */
 /*   subsegment or the segment that includes it.                             */
 
 #define sorg(osub, vertexptr)                                                 \
-  vertexptr = (vertex) (osub).ss[2 + (osub).ssorient]
+    vertexptr = (vertex) (osub).ss[2 + (osub).ssorient]
 
 #define sdest(osub, vertexptr)                                                \
-  vertexptr = (vertex) (osub).ss[3 - (osub).ssorient]
+    vertexptr = (vertex) (osub).ss[3 - (osub).ssorient]
 
 #define setsorg(osub, vertexptr)                                              \
-  (osub).ss[2 + (osub).ssorient] = (subseg) vertexptr
+    (osub).ss[2 + (osub).ssorient] = (subseg) vertexptr
 
 #define setsdest(osub, vertexptr)                                             \
-  (osub).ss[3 - (osub).ssorient] = (subseg) vertexptr
+    (osub).ss[3 - (osub).ssorient] = (subseg) vertexptr
 
 #define segorg(osub, vertexptr)                                               \
-  vertexptr = (vertex) (osub).ss[4 + (osub).ssorient]
+    vertexptr = (vertex) (osub).ss[4 + (osub).ssorient]
 
 #define segdest(osub, vertexptr)                                              \
-  vertexptr = (vertex) (osub).ss[5 - (osub).ssorient]
+    vertexptr = (vertex) (osub).ss[5 - (osub).ssorient]
 
 #define setsegorg(osub, vertexptr)                                            \
-  (osub).ss[4 + (osub).ssorient] = (subseg) vertexptr
+    (osub).ss[4 + (osub).ssorient] = (subseg) vertexptr
 
 #define setsegdest(osub, vertexptr)                                           \
-  (osub).ss[5 - (osub).ssorient] = (subseg) vertexptr
+    (osub).ss[5 - (osub).ssorient] = (subseg) vertexptr
 
 /* These primitives read or set a boundary marker.  Boundary markers are     */
 /*   used to hold user-defined tags for setting boundary conditions in       */
@@ -1245,31 +1245,31 @@ int minus1mod3[3] = {2, 0, 1};
 #define mark(osub)  (* (int *) ((osub).ss + 8))
 
 #define setmark(osub, value)                                                  \
-  * (int *) ((osub).ss + 8) = value
+    * (int *) ((osub).ss + 8) = value
 
 /* Bond two subsegments together.                                            */
 
 #define sbond(osub1, osub2)                                                   \
-  (osub1).ss[(osub1).ssorient] = sencode(osub2);                              \
-  (osub2).ss[(osub2).ssorient] = sencode(osub1)
+    (osub1).ss[(osub1).ssorient] = sencode(osub2);                              \
+    (osub2).ss[(osub2).ssorient] = sencode(osub1)
 
 /* Dissolve a subsegment bond (from one side).  Note that the other          */
 /*   subsegment will still think it's connected to this subsegment.          */
 
 #define sdissolve(osub)                                                       \
-  (osub).ss[(osub).ssorient] = (subseg) m->dummysub
+    (osub).ss[(osub).ssorient] = (subseg) m->dummysub
 
 /* Copy a subsegment.                                                        */
 
 #define subsegcopy(osub1, osub2)                                              \
-  (osub2).ss = (osub1).ss;                                                    \
-  (osub2).ssorient = (osub1).ssorient
+    (osub2).ss = (osub1).ss;                                                    \
+    (osub2).ssorient = (osub1).ssorient
 
 /* Test for equality of subsegments.                                         */
 
 #define subsegequal(osub1, osub2)                                             \
-  (((osub1).ss == (osub2).ss) &&                                              \
-   ((osub1).ssorient == (osub2).ssorient))
+    (((osub1).ss == (osub2).ss) &&                                              \
+     ((osub1).ssorient == (osub2).ssorient))
 
 /* Check or set a subsegment's deallocation.  Its second pointer is set to   */
 /*   NULL to indicate that it is not allocated.  (Its first pointer is used  */
@@ -1279,8 +1279,8 @@ int minus1mod3[3] = {2, 0, 1};
 #define deadsubseg(sub)  ((sub)[1] == (subseg) NULL)
 
 #define killsubseg(sub)                                                       \
-  (sub)[1] = (subseg) NULL;                                                   \
-  (sub)[2] = (subseg) NULL
+    (sub)[1] = (subseg) NULL;                                                   \
+    (sub)[2] = (subseg) NULL
 
 /********* Primitives for interacting triangles and subsegments      *********/
 /*                                                                           */
@@ -1289,31 +1289,31 @@ int minus1mod3[3] = {2, 0, 1};
 /* tspivot() finds a subsegment abutting a triangle.                         */
 
 #define tspivot(otri, osub)                                                   \
-  sptr = (subseg) (otri).tri[6 + (otri).orient];                              \
-  sdecode(sptr, osub)
+    sptr = (subseg) (otri).tri[6 + (otri).orient];                              \
+    sdecode(sptr, osub)
 
 /* stpivot() finds a triangle abutting a subsegment.  It requires that the   */
 /*   variable `ptr' of type `triangle' be defined.                           */
 
 #define stpivot(osub, otri)                                                   \
-  ptr = (triangle) (osub).ss[6 + (osub).ssorient];                            \
-  decode(ptr, otri)
+    ptr = (triangle) (osub).ss[6 + (osub).ssorient];                            \
+    decode(ptr, otri)
 
 /* Bond a triangle to a subsegment.                                          */
 
 #define tsbond(otri, osub)                                                    \
-  (otri).tri[6 + (otri).orient] = (triangle) sencode(osub);                   \
-  (osub).ss[6 + (osub).ssorient] = (subseg) encode(otri)
+    (otri).tri[6 + (otri).orient] = (triangle) sencode(osub);                   \
+    (osub).ss[6 + (osub).ssorient] = (subseg) encode(otri)
 
 /* Dissolve a bond (from the triangle side).                                 */
 
 #define tsdissolve(otri)                                                      \
-  (otri).tri[6 + (otri).orient] = (triangle) m->dummysub
+    (otri).tri[6 + (otri).orient] = (triangle) m->dummysub
 
 /* Dissolve a bond (from the subsegment side).                               */
 
 #define stdissolve(osub)                                                      \
-  (osub).ss[6 + (osub).ssorient] = (subseg) m->dummytri
+    (osub).ss[6 + (osub).ssorient] = (subseg) m->dummytri
 
 /********* Primitives for vertices                                   *********/
 /*                                                                           */
@@ -1322,17 +1322,17 @@ int minus1mod3[3] = {2, 0, 1};
 #define vertexmark(vx)  ((int *) (vx))[m->vertexmarkindex]
 
 #define setvertexmark(vx, value)                                              \
-  ((int *) (vx))[m->vertexmarkindex] = value
+    ((int *) (vx))[m->vertexmarkindex] = value
 
 #define vertextype(vx)  ((int *) (vx))[m->vertexmarkindex + 1]
 
 #define setvertextype(vx, value)                                              \
-  ((int *) (vx))[m->vertexmarkindex + 1] = value
+    ((int *) (vx))[m->vertexmarkindex + 1] = value
 
 #define vertex2tri(vx)  ((triangle *) (vx))[m->vertex2triindex]
 
 #define setvertex2tri(vx, value)                                              \
-  ((triangle *) (vx))[m->vertex2triindex] = value
+    ((triangle *) (vx))[m->vertex2triindex] = value
 
 /**                                                                         **/
 /**                                                                         **/
@@ -1433,29 +1433,29 @@ int status;
 }
 
 #ifdef ANSI_DECLARATORS
-VOID *trimalloc(int size)
+VOID* trimalloc(int size)
 #else /* not ANSI_DECLARATORS */
-VOID *trimalloc(size)
+VOID* trimalloc(size)
 int size;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    VOID *memptr;
+    VOID* memptr;
 
-    memptr = (VOID *) malloc((unsigned int) size);
-    if (memptr == (VOID *) NULL)
+    memptr = (VOID*) malloc((unsigned int) size);
+    if (memptr == (VOID*) NULL)
     {
         printf("Error:  Out of memory.\n");
         triexit(1);
     }
-    return(memptr);
+    return (memptr);
 }
 
 #ifdef ANSI_DECLARATORS
-void trifree(VOID *memptr)
+void trifree(VOID* memptr)
 #else /* not ANSI_DECLARATORS */
 void trifree(memptr)
-VOID *memptr;
+VOID* memptr;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -3295,12 +3295,12 @@ void internalerror()
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void parsecommandline(int argc, char **argv, struct behavior *b)
+void parsecommandline(int argc, char** argv, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void parsecommandline(argc, argv, b)
 int argc;
-char **argv;
-struct behavior *b;
+char** argv;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -3369,7 +3369,7 @@ struct behavior *b;
                             k++;
                         }
                         workstring[k] = '\0';
-                        b->minangle = (REAL) strtod(workstring, (char **) NULL);
+                        b->minangle = (REAL) strtod(workstring, (char**) NULL);
                     }
                     else
                     {
@@ -3392,7 +3392,7 @@ struct behavior *b;
                             k++;
                         }
                         workstring[k] = '\0';
-                        b->maxarea = (REAL) strtod(workstring, (char **) NULL);
+                        b->maxarea = (REAL) strtod(workstring, (char**) NULL);
                         if (b->maxarea <= 0.0)
                         {
                             printf("Error:  Maximum area must be greater than zero.\n");
@@ -3754,12 +3754,12 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void printtriangle(struct mesh *m, struct behavior *b, struct otri *t)
+void printtriangle(struct mesh* m, struct behavior* b, struct otri* t)
 #else /* not ANSI_DECLARATORS */
 void printtriangle(m, b, t)
-struct mesh *m;
-struct behavior *b;
-struct otri *t;
+struct mesh* m;
+struct behavior* b;
+struct otri* t;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -3802,21 +3802,27 @@ struct otri *t;
 
     org(*t, printvertex);
     if (printvertex == (vertex) NULL)
+    {
         printf("    Origin[%d] = NULL\n", (t->orient + 1) % 3 + 3);
+    }
     else
         printf("    Origin[%d] = x%lx  (%.12g, %.12g)\n",
                (t->orient + 1) % 3 + 3, (unsigned long) printvertex,
                printvertex[0], printvertex[1]);
     dest(*t, printvertex);
     if (printvertex == (vertex) NULL)
+    {
         printf("    Dest  [%d] = NULL\n", (t->orient + 2) % 3 + 3);
+    }
     else
         printf("    Dest  [%d] = x%lx  (%.12g, %.12g)\n",
                (t->orient + 2) % 3 + 3, (unsigned long) printvertex,
                printvertex[0], printvertex[1]);
     apex(*t, printvertex);
     if (printvertex == (vertex) NULL)
+    {
         printf("    Apex  [%d] = NULL\n", t->orient + 3);
+    }
     else
         printf("    Apex  [%d] = x%lx  (%.12g, %.12g)\n",
                t->orient + 3, (unsigned long) printvertex,
@@ -3862,12 +3868,12 @@ struct otri *t;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void printsubseg(struct mesh *m, struct behavior *b, struct osub *s)
+void printsubseg(struct mesh* m, struct behavior* b, struct osub* s)
 #else /* not ANSI_DECLARATORS */
 void printsubseg(m, b, s)
-struct mesh *m;
-struct behavior *b;
-struct osub *s;
+struct mesh* m;
+struct behavior* b;
+struct osub* s;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -3900,14 +3906,18 @@ struct osub *s;
 
     sorg(*s, printvertex);
     if (printvertex == (vertex) NULL)
+    {
         printf("    Origin[%d] = NULL\n", 2 + s->ssorient);
+    }
     else
         printf("    Origin[%d] = x%lx  (%.12g, %.12g)\n",
                2 + s->ssorient, (unsigned long) printvertex,
                printvertex[0], printvertex[1]);
     sdest(*s, printvertex);
     if (printvertex == (vertex) NULL)
+    {
         printf("    Dest  [%d] = NULL\n", 3 - s->ssorient);
+    }
     else
         printf("    Dest  [%d] = x%lx  (%.12g, %.12g)\n",
                3 - s->ssorient, (unsigned long) printvertex,
@@ -3936,14 +3946,18 @@ struct osub *s;
 
     segorg(*s, printvertex);
     if (printvertex == (vertex) NULL)
+    {
         printf("    Segment origin[%d] = NULL\n", 4 + s->ssorient);
+    }
     else
         printf("    Segment origin[%d] = x%lx  (%.12g, %.12g)\n",
                4 + s->ssorient, (unsigned long) printvertex,
                printvertex[0], printvertex[1]);
     segdest(*s, printvertex);
     if (printvertex == (vertex) NULL)
+    {
         printf("    Segment dest  [%d] = NULL\n", 5 - s->ssorient);
+    }
     else
         printf("    Segment dest  [%d] = x%lx  (%.12g, %.12g)\n",
                5 - s->ssorient, (unsigned long) printvertex,
@@ -3968,19 +3982,19 @@ struct osub *s;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void poolzero(struct memorypool *pool)
+void poolzero(struct memorypool* pool)
 #else /* not ANSI_DECLARATORS */
 void poolzero(pool)
-struct memorypool *pool;
+struct memorypool* pool;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    pool->firstblock = (VOID **) NULL;
-    pool->nowblock = (VOID **) NULL;
-    pool->nextitem = (VOID *) NULL;
-    pool->deaditemstack = (VOID *) NULL;
-    pool->pathblock = (VOID **) NULL;
-    pool->pathitem = (VOID *) NULL;
+    pool->firstblock = (VOID**) NULL;
+    pool->nowblock = (VOID**) NULL;
+    pool->nextitem = (VOID*) NULL;
+    pool->deaditemstack = (VOID*) NULL;
+    pool->pathblock = (VOID**) NULL;
+    pool->pathitem = (VOID*) NULL;
     pool->alignbytes = 0;
     pool->itembytes = 0;
     pool->itemsperblock = 0;
@@ -4002,10 +4016,10 @@ struct memorypool *pool;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void poolrestart(struct memorypool *pool)
+void poolrestart(struct memorypool* pool)
 #else /* not ANSI_DECLARATORS */
 void poolrestart(pool)
-struct memorypool *pool;
+struct memorypool* pool;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -4019,13 +4033,13 @@ struct memorypool *pool;
     /* Find the first item in the pool.  Increment by the size of (VOID *). */
     alignptr = (unsigned long) (pool->nowblock + 1);
     /* Align the item on an `alignbytes'-byte boundary. */
-    pool->nextitem = (VOID *)
+    pool->nextitem = (VOID*)
                      (alignptr + (unsigned long) pool->alignbytes -
                       (alignptr % (unsigned long) pool->alignbytes));
     /* There are lots of unallocated items left in this block. */
     pool->unallocateditems = pool->itemsfirstblock;
     /* The stack of deallocated items is empty. */
-    pool->deaditemstack = (VOID *) NULL;
+    pool->deaditemstack = (VOID*) NULL;
 }
 
 /*****************************************************************************/
@@ -4048,11 +4062,11 @@ struct memorypool *pool;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void poolinit(struct memorypool *pool, int bytecount, int itemcount,
+void poolinit(struct memorypool* pool, int bytecount, int itemcount,
               int firstitemcount, int alignment)
 #else /* not ANSI_DECLARATORS */
 void poolinit(pool, bytecount, itemcount, firstitemcount, alignment)
-struct memorypool *pool;
+struct memorypool* pool;
 int bytecount;
 int itemcount;
 int firstitemcount;
@@ -4064,13 +4078,13 @@ int alignment;
     /*   - The parameter `alignment'.                                   */
     /*   - sizeof(VOID *), so the stack of dead items can be maintained */
     /*       without unaligned accesses.                                */
-    if (alignment > sizeof(VOID *))
+    if (alignment > sizeof(VOID*))
     {
         pool->alignbytes = alignment;
     }
     else
     {
-        pool->alignbytes = sizeof(VOID *);
+        pool->alignbytes = sizeof(VOID*);
     }
     pool->itembytes = ((bytecount - 1) / pool->alignbytes + 1) *
                       pool->alignbytes;
@@ -4087,11 +4101,11 @@ int alignment;
     /* Allocate a block of items.  Space for `itemsfirstblock' items and one  */
     /*   pointer (to point to the next block) are allocated, as well as space */
     /*   to ensure alignment of the items.                                    */
-    pool->firstblock = (VOID **)
-                       trimalloc(pool->itemsfirstblock * pool->itembytes + (int) sizeof(VOID *) +
+    pool->firstblock = (VOID**)
+                       trimalloc(pool->itemsfirstblock * pool->itembytes + (int) sizeof(VOID*) +
                                  pool->alignbytes);
     /* Set the next block pointer to NULL. */
-    *(pool->firstblock) = (VOID *) NULL;
+    *(pool->firstblock) = (VOID*) NULL;
     poolrestart(pool);
 }
 
@@ -4102,17 +4116,17 @@ int alignment;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void pooldeinit(struct memorypool *pool)
+void pooldeinit(struct memorypool* pool)
 #else /* not ANSI_DECLARATORS */
 void pooldeinit(pool)
-struct memorypool *pool;
+struct memorypool* pool;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    while (pool->firstblock != (VOID **) NULL)
+    while (pool->firstblock != (VOID**) NULL)
     {
-        pool->nowblock = (VOID **) *(pool->firstblock);
-        trifree((VOID *) pool->firstblock);
+        pool->nowblock = (VOID**) * (pool->firstblock);
+        trifree((VOID*) pool->firstblock);
         pool->firstblock = pool->nowblock;
     }
 }
@@ -4124,23 +4138,23 @@ struct memorypool *pool;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-VOID *poolalloc(struct memorypool *pool)
+VOID* poolalloc(struct memorypool* pool)
 #else /* not ANSI_DECLARATORS */
-VOID *poolalloc(pool)
-struct memorypool *pool;
+VOID* poolalloc(pool)
+struct memorypool* pool;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    VOID *newitem;
-    VOID **newblock;
+    VOID* newitem;
+    VOID** newblock;
     unsigned long alignptr;
 
     /* First check the linked list of dead items.  If the list is not   */
     /*   empty, allocate an item from the list rather than a fresh one. */
-    if (pool->deaditemstack != (VOID *) NULL)
+    if (pool->deaditemstack != (VOID*) NULL)
     {
         newitem = pool->deaditemstack;               /* Take first item in list. */
-        pool->deaditemstack = * (VOID **) pool->deaditemstack;
+        pool->deaditemstack = * (VOID**) pool->deaditemstack;
     }
     else
     {
@@ -4148,24 +4162,24 @@ struct memorypool *pool;
         if (pool->unallocateditems == 0)
         {
             /* Check if another block must be allocated. */
-            if (*(pool->nowblock) == (VOID *) NULL)
+            if (*(pool->nowblock) == (VOID*) NULL)
             {
                 /* Allocate a new block of items, pointed to by the previous block. */
-                newblock = (VOID **) trimalloc(pool->itemsperblock * pool->itembytes +
-                                               (int) sizeof(VOID *) +
-                                               pool->alignbytes);
-                *(pool->nowblock) = (VOID *) newblock;
+                newblock = (VOID**) trimalloc(pool->itemsperblock * pool->itembytes +
+                                              (int) sizeof(VOID*) +
+                                              pool->alignbytes);
+                *(pool->nowblock) = (VOID*) newblock;
                 /* The next block pointer is NULL. */
-                *newblock = (VOID *) NULL;
+                *newblock = (VOID*) NULL;
             }
 
             /* Move to the new block. */
-            pool->nowblock = (VOID **) *(pool->nowblock);
+            pool->nowblock = (VOID**) * (pool->nowblock);
             /* Find the first item in the block.    */
             /*   Increment by the size of (VOID *). */
             alignptr = (unsigned long) (pool->nowblock + 1);
             /* Align the item on an `alignbytes'-byte boundary. */
-            pool->nextitem = (VOID *)
+            pool->nextitem = (VOID*)
                              (alignptr + (unsigned long) pool->alignbytes -
                               (alignptr % (unsigned long) pool->alignbytes));
             /* There are lots of unallocated items left in this block. */
@@ -4175,7 +4189,7 @@ struct memorypool *pool;
         /* Allocate a new item. */
         newitem = pool->nextitem;
         /* Advance `nextitem' pointer to next free item in block. */
-        pool->nextitem = (VOID *) ((char *) pool->nextitem + pool->itembytes);
+        pool->nextitem = (VOID*) ((char*) pool->nextitem + pool->itembytes);
         pool->unallocateditems--;
         pool->maxitems++;
     }
@@ -4192,16 +4206,16 @@ struct memorypool *pool;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void pooldealloc(struct memorypool *pool, VOID *dyingitem)
+void pooldealloc(struct memorypool* pool, VOID* dyingitem)
 #else /* not ANSI_DECLARATORS */
 void pooldealloc(pool, dyingitem)
-struct memorypool *pool;
-VOID *dyingitem;
+struct memorypool* pool;
+VOID* dyingitem;
 #endif /* not ANSI_DECLARATORS */
 
 {
     /* Push freshly killed item onto stack. */
-    *((VOID **) dyingitem) = pool->deaditemstack;
+    *((VOID**) dyingitem) = pool->deaditemstack;
     pool->deaditemstack = dyingitem;
     pool->items--;
 }
@@ -4215,10 +4229,10 @@ VOID *dyingitem;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void traversalinit(struct memorypool *pool)
+void traversalinit(struct memorypool* pool)
 #else /* not ANSI_DECLARATORS */
 void traversalinit(pool)
-struct memorypool *pool;
+struct memorypool* pool;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -4229,7 +4243,7 @@ struct memorypool *pool;
     /* Find the first item in the block.  Increment by the size of (VOID *). */
     alignptr = (unsigned long) (pool->pathblock + 1);
     /* Align with item on an `alignbytes'-byte boundary. */
-    pool->pathitem = (VOID *)
+    pool->pathitem = (VOID*)
                      (alignptr + (unsigned long) pool->alignbytes -
                       (alignptr % (unsigned long) pool->alignbytes));
     /* Set the number of items left in the current block. */
@@ -4251,31 +4265,31 @@ struct memorypool *pool;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-VOID *traverse(struct memorypool *pool)
+VOID* traverse(struct memorypool* pool)
 #else /* not ANSI_DECLARATORS */
-VOID *traverse(pool)
-struct memorypool *pool;
+VOID* traverse(pool)
+struct memorypool* pool;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    VOID *newitem;
+    VOID* newitem;
     unsigned long alignptr;
 
     /* Stop upon exhausting the list of items. */
     if (pool->pathitem == pool->nextitem)
     {
-        return (VOID *) NULL;
+        return (VOID*) NULL;
     }
 
     /* Check whether any untraversed items remain in the current block. */
     if (pool->pathitemsleft == 0)
     {
         /* Find the next block. */
-        pool->pathblock = (VOID **) *(pool->pathblock);
+        pool->pathblock = (VOID**) * (pool->pathblock);
         /* Find the first item in the block.  Increment by the size of (VOID *). */
         alignptr = (unsigned long) (pool->pathblock + 1);
         /* Align with item on an `alignbytes'-byte boundary. */
-        pool->pathitem = (VOID *)
+        pool->pathitem = (VOID*)
                          (alignptr + (unsigned long) pool->alignbytes -
                           (alignptr % (unsigned long) pool->alignbytes));
         /* Set the number of items left in the current block. */
@@ -4284,7 +4298,7 @@ struct memorypool *pool;
 
     newitem = pool->pathitem;
     /* Find the next item in the block. */
-    pool->pathitem = (VOID *) ((char *) pool->pathitem + pool->itembytes);
+    pool->pathitem = (VOID*) ((char*) pool->pathitem + pool->itembytes);
     pool->pathitemsleft--;
     return newitem;
 }
@@ -4318,12 +4332,12 @@ struct memorypool *pool;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void dummyinit(struct mesh *m, struct behavior *b, int trianglebytes,
+void dummyinit(struct mesh* m, struct behavior* b, int trianglebytes,
                int subsegbytes)
 #else /* not ANSI_DECLARATORS */
 void dummyinit(m, b, trianglebytes, subsegbytes)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 int trianglebytes;
 int subsegbytes;
 #endif /* not ANSI_DECLARATORS */
@@ -4332,11 +4346,11 @@ int subsegbytes;
     unsigned long alignptr;
 
     /* Set up `dummytri', the `triangle' that occupies "outer space." */
-    m->dummytribase = (triangle *) trimalloc(trianglebytes +
-                      m->triangles.alignbytes);
+    m->dummytribase = (triangle*) trimalloc(trianglebytes +
+                                            m->triangles.alignbytes);
     /* Align `dummytri' on a `triangles.alignbytes'-byte boundary. */
     alignptr = (unsigned long) m->dummytribase;
-    m->dummytri = (triangle *)
+    m->dummytri = (triangle*)
                   (alignptr + (unsigned long) m->triangles.alignbytes -
                    (alignptr % (unsigned long) m->triangles.alignbytes));
     /* Initialize the three adjoining triangles to be "outer space."  These  */
@@ -4356,11 +4370,11 @@ int subsegbytes;
         /* Set up `dummysub', the omnipresent subsegment pointed to by any */
         /*   triangle side or subsegment end that isn't attached to a real */
         /*   subsegment.                                                   */
-        m->dummysubbase = (subseg *) trimalloc(subsegbytes +
-                                               m->subsegs.alignbytes);
+        m->dummysubbase = (subseg*) trimalloc(subsegbytes +
+                                              m->subsegs.alignbytes);
         /* Align `dummysub' on a `subsegs.alignbytes'-byte boundary. */
         alignptr = (unsigned long) m->dummysubbase;
-        m->dummysub = (subseg *)
+        m->dummysub = (subseg*)
                       (alignptr + (unsigned long) m->subsegs.alignbytes -
                        (alignptr % (unsigned long) m->subsegs.alignbytes));
         /* Initialize the two adjoining subsegments to be the omnipresent      */
@@ -4378,7 +4392,7 @@ int subsegbytes;
         m->dummysub[6] = (subseg) m->dummytri;
         m->dummysub[7] = (subseg) m->dummytri;
         /* Set the boundary marker to zero. */
-        * (int *) (m->dummysub + 8) = 0;
+        * (int*) (m->dummysub + 8) = 0;
 
         /* Initialize the three adjoining subsegments of `dummytri' to be */
         /*   the omnipresent subsegment.                                  */
@@ -4399,11 +4413,11 @@ int subsegbytes;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void initializevertexpool(struct mesh *m, struct behavior *b)
+void initializevertexpool(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void initializevertexpool(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -4443,11 +4457,11 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void initializetrisubpools(struct mesh *m, struct behavior *b)
+void initializetrisubpools(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void initializetrisubpools(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -4517,18 +4531,18 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void triangledealloc(struct mesh *m, triangle *dyingtriangle)
+void triangledealloc(struct mesh* m, triangle* dyingtriangle)
 #else /* not ANSI_DECLARATORS */
 void triangledealloc(m, dyingtriangle)
-struct mesh *m;
-triangle *dyingtriangle;
+struct mesh* m;
+triangle* dyingtriangle;
 #endif /* not ANSI_DECLARATORS */
 
 {
     /* Mark the triangle as dead.  This makes it possible to detect dead */
     /*   triangles when traversing the list of all triangles.            */
     killtri(dyingtriangle);
-    pooldealloc(&m->triangles, (VOID *) dyingtriangle);
+    pooldealloc(&m->triangles, (VOID*) dyingtriangle);
 }
 
 /*****************************************************************************/
@@ -4538,21 +4552,21 @@ triangle *dyingtriangle;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-triangle *triangletraverse(struct mesh *m)
+triangle* triangletraverse(struct mesh* m)
 #else /* not ANSI_DECLARATORS */
-triangle *triangletraverse(m)
-struct mesh *m;
+triangle* triangletraverse(m)
+struct mesh* m;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    triangle *newtriangle;
+    triangle* newtriangle;
 
     do
     {
-        newtriangle = (triangle *) traverse(&m->triangles);
-        if (newtriangle == (triangle *) NULL)
+        newtriangle = (triangle*) traverse(&m->triangles);
+        if (newtriangle == (triangle*) NULL)
         {
-            return (triangle *) NULL;
+            return (triangle*) NULL;
         }
     }
     while (deadtri(newtriangle));                           /* Skip dead ones. */
@@ -4566,18 +4580,18 @@ struct mesh *m;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void subsegdealloc(struct mesh *m, subseg *dyingsubseg)
+void subsegdealloc(struct mesh* m, subseg* dyingsubseg)
 #else /* not ANSI_DECLARATORS */
 void subsegdealloc(m, dyingsubseg)
-struct mesh *m;
-subseg *dyingsubseg;
+struct mesh* m;
+subseg* dyingsubseg;
 #endif /* not ANSI_DECLARATORS */
 
 {
     /* Mark the subsegment as dead.  This makes it possible to detect dead */
     /*   subsegments when traversing the list of all subsegments.          */
     killsubseg(dyingsubseg);
-    pooldealloc(&m->subsegs, (VOID *) dyingsubseg);
+    pooldealloc(&m->subsegs, (VOID*) dyingsubseg);
 }
 
 /*****************************************************************************/
@@ -4587,21 +4601,21 @@ subseg *dyingsubseg;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-subseg *subsegtraverse(struct mesh *m)
+subseg* subsegtraverse(struct mesh* m)
 #else /* not ANSI_DECLARATORS */
-subseg *subsegtraverse(m)
-struct mesh *m;
+subseg* subsegtraverse(m)
+struct mesh* m;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    subseg *newsubseg;
+    subseg* newsubseg;
 
     do
     {
-        newsubseg = (subseg *) traverse(&m->subsegs);
-        if (newsubseg == (subseg *) NULL)
+        newsubseg = (subseg*) traverse(&m->subsegs);
+        if (newsubseg == (subseg*) NULL)
         {
-            return (subseg *) NULL;
+            return (subseg*) NULL;
         }
     }
     while (deadsubseg(newsubseg));                          /* Skip dead ones. */
@@ -4615,10 +4629,10 @@ struct mesh *m;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void vertexdealloc(struct mesh *m, vertex dyingvertex)
+void vertexdealloc(struct mesh* m, vertex dyingvertex)
 #else /* not ANSI_DECLARATORS */
 void vertexdealloc(m, dyingvertex)
-struct mesh *m;
+struct mesh* m;
 vertex dyingvertex;
 #endif /* not ANSI_DECLARATORS */
 
@@ -4626,7 +4640,7 @@ vertex dyingvertex;
     /* Mark the vertex as dead.  This makes it possible to detect dead */
     /*   vertices when traversing the list of all vertices.            */
     setvertextype(dyingvertex, DEADVERTEX);
-    pooldealloc(&m->vertices, (VOID *) dyingvertex);
+    pooldealloc(&m->vertices, (VOID*) dyingvertex);
 }
 
 /*****************************************************************************/
@@ -4636,10 +4650,10 @@ vertex dyingvertex;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-vertex vertextraverse(struct mesh *m)
+vertex vertextraverse(struct mesh* m)
 #else /* not ANSI_DECLARATORS */
 vertex vertextraverse(m)
-struct mesh *m;
+struct mesh* m;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -4667,18 +4681,18 @@ struct mesh *m;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void badsubsegdealloc(struct mesh *m, struct badsubseg *dyingseg)
+void badsubsegdealloc(struct mesh* m, struct badsubseg* dyingseg)
 #else /* not ANSI_DECLARATORS */
 void badsubsegdealloc(m, dyingseg)
-struct mesh *m;
-struct badsubseg *dyingseg;
+struct mesh* m;
+struct badsubseg* dyingseg;
 #endif /* not ANSI_DECLARATORS */
 
 {
     /* Set subsegment's origin to NULL.  This makes it possible to detect dead */
     /*   badsubsegs when traversing the list of all badsubsegs             .   */
     dyingseg->subsegorg = (vertex) NULL;
-    pooldealloc(&m->badsubsegs, (VOID *) dyingseg);
+    pooldealloc(&m->badsubsegs, (VOID*) dyingseg);
 }
 
 #endif /* not CDT_ONLY */
@@ -4692,21 +4706,21 @@ struct badsubseg *dyingseg;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-struct badsubseg *badsubsegtraverse(struct mesh *m)
+struct badsubseg* badsubsegtraverse(struct mesh* m)
 #else /* not ANSI_DECLARATORS */
-struct badsubseg *badsubsegtraverse(m)
-struct mesh *m;
+struct badsubseg* badsubsegtraverse(m)
+struct mesh* m;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct badsubseg *newseg;
+    struct badsubseg* newseg;
 
     do
     {
-        newseg = (struct badsubseg *) traverse(&m->badsubsegs);
-        if (newseg == (struct badsubseg *) NULL)
+        newseg = (struct badsubseg*) traverse(&m->badsubsegs);
+        if (newseg == (struct badsubseg*) NULL)
         {
-            return (struct badsubseg *) NULL;
+            return (struct badsubseg*) NULL;
         }
     }
     while (newseg->subsegorg == (vertex) NULL);             /* Skip dead ones. */
@@ -4728,17 +4742,17 @@ struct mesh *m;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-vertex getvertex(struct mesh *m, struct behavior *b, int number)
+vertex getvertex(struct mesh* m, struct behavior* b, int number)
 #else /* not ANSI_DECLARATORS */
 vertex getvertex(m, b, number)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 int number;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    VOID **getblock;
-    char *foundvertex;
+    VOID** getblock;
+    char* foundvertex;
     unsigned long alignptr;
     int current;
 
@@ -4748,19 +4762,19 @@ int number;
     /* Find the right block. */
     if (current + m->vertices.itemsfirstblock <= number)
     {
-        getblock = (VOID **) *getblock;
+        getblock = (VOID**) *getblock;
         current += m->vertices.itemsfirstblock;
         while (current + m->vertices.itemsperblock <= number)
         {
-            getblock = (VOID **) *getblock;
+            getblock = (VOID**) *getblock;
             current += m->vertices.itemsperblock;
         }
     }
 
     /* Now find the right vertex. */
     alignptr = (unsigned long) (getblock + 1);
-    foundvertex = (char *) (alignptr + (unsigned long) m->vertices.alignbytes -
-                            (alignptr % (unsigned long) m->vertices.alignbytes));
+    foundvertex = (char*) (alignptr + (unsigned long) m->vertices.alignbytes -
+                           (alignptr % (unsigned long) m->vertices.alignbytes));
     return (vertex) (foundvertex + m->vertices.itembytes * (number - current));
 }
 
@@ -4771,20 +4785,20 @@ int number;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void triangledeinit(struct mesh *m, struct behavior *b)
+void triangledeinit(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void triangledeinit(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
     pooldeinit(&m->triangles);
-    trifree((VOID *) m->dummytribase);
+    trifree((VOID*) m->dummytribase);
     if (b->usesegments)
     {
         pooldeinit(&m->subsegs);
-        trifree((VOID *) m->dummysubbase);
+        trifree((VOID*) m->dummysubbase);
     }
     pooldeinit(&m->vertices);
 #ifndef CDT_ONLY
@@ -4815,18 +4829,18 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void maketriangle(struct mesh *m, struct behavior *b, struct otri *newotri)
+void maketriangle(struct mesh* m, struct behavior* b, struct otri* newotri)
 #else /* not ANSI_DECLARATORS */
 void maketriangle(m, b, newotri)
-struct mesh *m;
-struct behavior *b;
-struct otri *newotri;
+struct mesh* m;
+struct behavior* b;
+struct otri* newotri;
 #endif /* not ANSI_DECLARATORS */
 
 {
     int i;
 
-    newotri->tri = (triangle *) poolalloc(&m->triangles);
+    newotri->tri = (triangle*) poolalloc(&m->triangles);
     /* Initialize the three adjoining triangles to be "outer space". */
     newotri->tri[0] = (triangle) m->dummytri;
     newotri->tri[1] = (triangle) m->dummytri;
@@ -4862,15 +4876,15 @@ struct otri *newotri;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void makesubseg(struct mesh *m, struct osub *newsubseg)
+void makesubseg(struct mesh* m, struct osub* newsubseg)
 #else /* not ANSI_DECLARATORS */
 void makesubseg(m, newsubseg)
-struct mesh *m;
-struct osub *newsubseg;
+struct mesh* m;
+struct osub* newsubseg;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    newsubseg->ss = (subseg *) poolalloc(&m->subsegs);
+    newsubseg->ss = (subseg*) poolalloc(&m->subsegs);
     /* Initialize the two adjoining subsegments to be the omnipresent */
     /*   subsegment.                                                  */
     newsubseg->ss[0] = (subseg) m->dummysub;
@@ -4927,103 +4941,103 @@ struct osub *newsubseg;
 /*   also be declared `INEXACT'.                                             */
 
 #define Fast_Two_Sum_Tail(a, b, x, y) \
-  bvirt = x - a; \
-  y = b - bvirt
+    bvirt = x - a; \
+    y = b - bvirt
 
 #define Fast_Two_Sum(a, b, x, y) \
-  x = (REAL) (a + b); \
-  Fast_Two_Sum_Tail(a, b, x, y)
+    x = (REAL) (a + b); \
+    Fast_Two_Sum_Tail(a, b, x, y)
 
 #define Two_Sum_Tail(a, b, x, y) \
-  bvirt = (REAL) (x - a); \
-  avirt = x - bvirt; \
-  bround = b - bvirt; \
-  around = a - avirt; \
-  y = around + bround
+    bvirt = (REAL) (x - a); \
+    avirt = x - bvirt; \
+    bround = b - bvirt; \
+    around = a - avirt; \
+    y = around + bround
 
 #define Two_Sum(a, b, x, y) \
-  x = (REAL) (a + b); \
-  Two_Sum_Tail(a, b, x, y)
+    x = (REAL) (a + b); \
+    Two_Sum_Tail(a, b, x, y)
 
 #define Two_Diff_Tail(a, b, x, y) \
-  bvirt = (REAL) (a - x); \
-  avirt = x + bvirt; \
-  bround = bvirt - b; \
-  around = a - avirt; \
-  y = around + bround
+    bvirt = (REAL) (a - x); \
+    avirt = x + bvirt; \
+    bround = bvirt - b; \
+    around = a - avirt; \
+    y = around + bround
 
 #define Two_Diff(a, b, x, y) \
-  x = (REAL) (a - b); \
-  Two_Diff_Tail(a, b, x, y)
+    x = (REAL) (a - b); \
+    Two_Diff_Tail(a, b, x, y)
 
 #define Split(a, ahi, alo) \
-  c = (REAL) (splitter * a); \
-  abig = (REAL) (c - a); \
-  ahi = c - abig; \
-  alo = a - ahi
+    c = (REAL) (splitter * a); \
+    abig = (REAL) (c - a); \
+    ahi = c - abig; \
+    alo = a - ahi
 
 #define Two_Product_Tail(a, b, x, y) \
-  Split(a, ahi, alo); \
-  Split(b, bhi, blo); \
-  err1 = x - (ahi * bhi); \
-  err2 = err1 - (alo * bhi); \
-  err3 = err2 - (ahi * blo); \
-  y = (alo * blo) - err3
+    Split(a, ahi, alo); \
+    Split(b, bhi, blo); \
+    err1 = x - (ahi * bhi); \
+    err2 = err1 - (alo * bhi); \
+    err3 = err2 - (ahi * blo); \
+    y = (alo * blo) - err3
 
 #define Two_Product(a, b, x, y) \
-  x = (REAL) (a * b); \
-  Two_Product_Tail(a, b, x, y)
+    x = (REAL) (a * b); \
+    Two_Product_Tail(a, b, x, y)
 
 /* Two_Product_Presplit() is Two_Product() where one of the inputs has       */
 /*   already been split.  Avoids redundant splitting.                        */
 
 #define Two_Product_Presplit(a, b, bhi, blo, x, y) \
-  x = (REAL) (a * b); \
-  Split(a, ahi, alo); \
-  err1 = x - (ahi * bhi); \
-  err2 = err1 - (alo * bhi); \
-  err3 = err2 - (ahi * blo); \
-  y = (alo * blo) - err3
+    x = (REAL) (a * b); \
+    Split(a, ahi, alo); \
+    err1 = x - (ahi * bhi); \
+    err2 = err1 - (alo * bhi); \
+    err3 = err2 - (ahi * blo); \
+    y = (alo * blo) - err3
 
 /* Square() can be done more quickly than Two_Product().                     */
 
 #define Square_Tail(a, x, y) \
-  Split(a, ahi, alo); \
-  err1 = x - (ahi * ahi); \
-  err3 = err1 - ((ahi + ahi) * alo); \
-  y = (alo * alo) - err3
+    Split(a, ahi, alo); \
+    err1 = x - (ahi * ahi); \
+    err3 = err1 - ((ahi + ahi) * alo); \
+    y = (alo * alo) - err3
 
 #define Square(a, x, y) \
-  x = (REAL) (a * a); \
-  Square_Tail(a, x, y)
+    x = (REAL) (a * a); \
+    Square_Tail(a, x, y)
 
 /* Macros for summing expansions of various fixed lengths.  These are all    */
 /*   unrolled versions of Expansion_Sum().                                   */
 
 #define Two_One_Sum(a1, a0, b, x2, x1, x0) \
-  Two_Sum(a0, b , _i, x0); \
-  Two_Sum(a1, _i, x2, x1)
+    Two_Sum(a0, b , _i, x0); \
+    Two_Sum(a1, _i, x2, x1)
 
 #define Two_One_Diff(a1, a0, b, x2, x1, x0) \
-  Two_Diff(a0, b , _i, x0); \
-  Two_Sum( a1, _i, x2, x1)
+    Two_Diff(a0, b , _i, x0); \
+    Two_Sum( a1, _i, x2, x1)
 
 #define Two_Two_Sum(a1, a0, b1, b0, x3, x2, x1, x0) \
-  Two_One_Sum(a1, a0, b0, _j, _0, x0); \
-  Two_One_Sum(_j, _0, b1, x3, x2, x1)
+    Two_One_Sum(a1, a0, b0, _j, _0, x0); \
+    Two_One_Sum(_j, _0, b1, x3, x2, x1)
 
 #define Two_Two_Diff(a1, a0, b1, b0, x3, x2, x1, x0) \
-  Two_One_Diff(a1, a0, b0, _j, _0, x0); \
-  Two_One_Diff(_j, _0, b1, x3, x2, x1)
+    Two_One_Diff(a1, a0, b0, _j, _0, x0); \
+    Two_One_Diff(_j, _0, b1, x3, x2, x1)
 
 /* Macro for multiplying a two-component expansion by a single component.    */
 
 #define Two_One_Product(a1, a0, b, x3, x2, x1, x0) \
-  Split(b, bhi, blo); \
-  Two_Product_Presplit(a0, b, bhi, blo, _i, x0); \
-  Two_Product_Presplit(a1, b, bhi, blo, _j, _0); \
-  Two_Sum(_i, _0, _k, x1); \
-  Fast_Two_Sum(_j, _k, x3, x2)
+    Split(b, bhi, blo); \
+    Two_Product_Presplit(a0, b, bhi, blo, _i, x0); \
+    Two_Product_Presplit(a1, b, bhi, blo, _j, _0); \
+    Two_Sum(_i, _0, _k, x1); \
+    Fast_Two_Sum(_j, _k, x3, x2)
 
 /*****************************************************************************/
 /*                                                                           */
@@ -5121,14 +5135,14 @@ void exactinit()
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-int fast_expansion_sum_zeroelim(int elen, REAL *e, int flen, REAL *f, REAL *h)
+int fast_expansion_sum_zeroelim(int elen, REAL* e, int flen, REAL* f, REAL* h)
 #else /* not ANSI_DECLARATORS */
 int fast_expansion_sum_zeroelim(elen, e, flen, f, h)  /* h cannot be e or f. */
 int elen;
-REAL *e;
+REAL* e;
 int flen;
-REAL *f;
-REAL *h;
+REAL* f;
+REAL* h;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -5233,13 +5247,13 @@ REAL *h;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-int scale_expansion_zeroelim(int elen, REAL *e, REAL b, REAL *h)
+int scale_expansion_zeroelim(int elen, REAL* e, REAL b, REAL* h)
 #else /* not ANSI_DECLARATORS */
 int scale_expansion_zeroelim(elen, e, b, h)   /* e and h cannot be the same. */
 int elen;
-REAL *e;
+REAL* e;
 REAL b;
-REAL *h;
+REAL* h;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -5294,11 +5308,11 @@ REAL *h;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-REAL estimate(int elen, REAL *e)
+REAL estimate(int elen, REAL* e)
 #else /* not ANSI_DECLARATORS */
 REAL estimate(elen, e)
 int elen;
-REAL *e;
+REAL* e;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -5422,16 +5436,16 @@ REAL detsum;
     u[3] = u3;
     Dlength = fast_expansion_sum_zeroelim(C2length, C2, 4, u, D);
 
-    return(D[Dlength - 1]);
+    return (D[Dlength - 1]);
 }
 
 #ifdef ANSI_DECLARATORS
-REAL counterclockwise(struct mesh *m, struct behavior *b,
+REAL counterclockwise(struct mesh* m, struct behavior* b,
                       vertex pa, vertex pb, vertex pc)
 #else /* not ANSI_DECLARATORS */
 REAL counterclockwise(m, b, pa, pb, pc)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex pa;
 vertex pb;
 vertex pc;
@@ -5535,7 +5549,7 @@ REAL permanent;
     REAL abdet[64];
     int ablen;
     REAL fin1[1152], fin2[1152];
-    REAL *finnow, *finother, *finswap;
+    REAL* finnow, *finother, *finswap;
     int finlength;
 
     REAL adxtail, bdxtail, cdxtail, adytail, bdytail, cdytail;
@@ -6171,12 +6185,12 @@ REAL permanent;
 }
 
 #ifdef ANSI_DECLARATORS
-REAL incircle(struct mesh *m, struct behavior *b,
+REAL incircle(struct mesh* m, struct behavior* b,
               vertex pa, vertex pb, vertex pc, vertex pd)
 #else /* not ANSI_DECLARATORS */
 REAL incircle(m, b, pa, pb, pc, pd)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex pa;
 vertex pb;
 vertex pc;
@@ -6284,7 +6298,7 @@ REAL permanent;
     int alen, blen, clen;
     REAL abdet[16];
     int ablen;
-    REAL *finnow, *finother, *finswap;
+    REAL* finnow, *finother, *finswap;
     REAL fin1[192], fin2[192];
     int finlength;
 
@@ -6773,13 +6787,13 @@ REAL permanent;
 }
 
 #ifdef ANSI_DECLARATORS
-REAL orient3d(struct mesh *m, struct behavior *b,
+REAL orient3d(struct mesh* m, struct behavior* b,
               vertex pa, vertex pb, vertex pc, vertex pd,
               REAL aheight, REAL bheight, REAL cheight, REAL dheight)
 #else /* not ANSI_DECLARATORS */
 REAL orient3d(m, b, pa, pb, pc, pd, aheight, bheight, cheight, dheight)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex pa;
 vertex pb;
 vertex pc;
@@ -6858,12 +6872,12 @@ REAL dheight;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-REAL nonregular(struct mesh *m, struct behavior *b,
+REAL nonregular(struct mesh* m, struct behavior* b,
                 vertex pa, vertex pb, vertex pc, vertex pd)
 #else /* not ANSI_DECLARATORS */
 REAL nonregular(m, b, pa, pb, pc, pd)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex pa;
 vertex pb;
 vertex pc;
@@ -6904,20 +6918,20 @@ vertex pd;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void findcircumcenter(struct mesh *m, struct behavior *b,
+void findcircumcenter(struct mesh* m, struct behavior* b,
                       vertex torg, vertex tdest, vertex tapex,
-                      vertex circumcenter, REAL *xi, REAL *eta, int offcenter)
+                      vertex circumcenter, REAL* xi, REAL* eta, int offcenter)
 #else /* not ANSI_DECLARATORS */
 void findcircumcenter(m, b, torg, tdest, tapex, circumcenter, xi, eta,
                       offcenter)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex torg;
 vertex tdest;
 vertex tapex;
 vertex circumcenter;
-REAL *xi;
-REAL *eta;
+REAL* xi;
+REAL* eta;
 int offcenter;
 #endif /* not ANSI_DECLARATORS */
 
@@ -7032,10 +7046,10 @@ int offcenter;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void triangleinit(struct mesh *m)
+void triangleinit(struct mesh* m)
 #else /* not ANSI_DECLARATORS */
 void triangleinit(m)
-struct mesh *m;
+struct mesh* m;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -7048,7 +7062,7 @@ struct mesh *m;
     poolzero(&m->flipstackers);
     poolzero(&m->splaynodes);
 
-    m->recenttri.tri = (triangle *) NULL; /* No triangle has been visited yet. */
+    m->recenttri.tri = (triangle*) NULL;  /* No triangle has been visited yet. */
     m->undeads = 0;                       /* No eliminated input vertices yet. */
     m->samples = 1;         /* Point location should take at least one sample. */
     m->checksegments = 0;   /* There are no segments in the triangulation yet. */
@@ -7095,11 +7109,11 @@ unsigned int choices;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void checkmesh(struct mesh *m, struct behavior *b)
+void checkmesh(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void checkmesh(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -7122,7 +7136,7 @@ struct behavior *b;
     /* Run through the list of triangles, checking each one. */
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         /* Check all three edges of the triangle. */
         for (triangleloop.orient = 0; triangleloop.orient < 3;
@@ -7209,11 +7223,11 @@ struct behavior *b;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void checkdelaunay(struct mesh *m, struct behavior *b)
+void checkdelaunay(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void checkdelaunay(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -7239,7 +7253,7 @@ struct behavior *b;
     /* Run through the list of triangles, checking each one. */
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         /* Check all three edges of the triangle. */
         for (triangleloop.orient = 0; triangleloop.orient < 3;
@@ -7335,13 +7349,13 @@ struct behavior *b;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void enqueuebadtriang(struct mesh *m, struct behavior *b,
-                      struct badtriang *badtri)
+void enqueuebadtriang(struct mesh* m, struct behavior* b,
+                      struct badtriang* badtri)
 #else /* not ANSI_DECLARATORS */
 void enqueuebadtriang(m, b, badtri)
-struct mesh *m;
-struct behavior *b;
-struct badtriang *badtri;
+struct mesh* m;
+struct behavior* b;
+struct badtriang* badtri;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -7406,7 +7420,7 @@ struct badtriang *badtri;
     }
 
     /* Are we inserting into an empty queue? */
-    if (m->queuefront[queuenumber] == (struct badtriang *) NULL)
+    if (m->queuefront[queuenumber] == (struct badtriang*) NULL)
     {
         /* Yes, we are inserting into an empty queue.     */
         /*   Will this become the highest-priority queue? */
@@ -7421,7 +7435,7 @@ struct badtriang *badtri;
             /* No, this is not the highest-priority queue. */
             /*   Find the queue with next higher priority. */
             i = queuenumber + 1;
-            while (m->queuefront[i] == (struct badtriang *) NULL)
+            while (m->queuefront[i] == (struct badtriang*) NULL)
             {
                 i++;
             }
@@ -7440,7 +7454,7 @@ struct badtriang *badtri;
     /* Maintain a pointer to the last triangle of the queue. */
     m->queuetail[queuenumber] = badtri;
     /* Newly enqueued bad triangle has no successor in the queue. */
-    badtri->nexttriang = (struct badtriang *) NULL;
+    badtri->nexttriang = (struct badtriang*) NULL;
 }
 
 #endif /* not CDT_ONLY */
@@ -7457,13 +7471,13 @@ struct badtriang *badtri;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void enqueuebadtri(struct mesh *m, struct behavior *b, struct otri *enqtri,
+void enqueuebadtri(struct mesh* m, struct behavior* b, struct otri* enqtri,
                    REAL minedge, vertex enqapex, vertex enqorg, vertex enqdest)
 #else /* not ANSI_DECLARATORS */
 void enqueuebadtri(m, b, enqtri, minedge, enqapex, enqorg, enqdest)
-struct mesh *m;
-struct behavior *b;
-struct otri *enqtri;
+struct mesh* m;
+struct behavior* b;
+struct otri* enqtri;
 REAL minedge;
 vertex enqapex;
 vertex enqorg;
@@ -7471,10 +7485,10 @@ vertex enqdest;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct badtriang *newbad;
+    struct badtriang* newbad;
 
     /* Allocate space for the bad triangle. */
-    newbad = (struct badtriang *) poolalloc(&m->badtriangles);
+    newbad = (struct badtriang*) poolalloc(&m->badtriangles);
     newbad->poortri = encode(*enqtri);
     newbad->key = minedge;
     newbad->triangapex = enqapex;
@@ -7494,19 +7508,19 @@ vertex enqdest;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-struct badtriang *dequeuebadtriang(struct mesh *m)
+struct badtriang* dequeuebadtriang(struct mesh* m)
 #else /* not ANSI_DECLARATORS */
-struct badtriang *dequeuebadtriang(m)
-struct mesh *m;
+struct badtriang* dequeuebadtriang(m)
+struct mesh* m;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct badtriang *result;
+    struct badtriang* result;
 
     /* If no queues are nonempty, return NULL. */
     if (m->firstnonemptyq < 0)
     {
-        return (struct badtriang *) NULL;
+        return (struct badtriang*) NULL;
     }
     /* Find the first triangle of the highest-priority queue. */
     result = m->queuefront[m->firstnonemptyq];
@@ -7549,19 +7563,19 @@ struct mesh *m;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-int checkseg4encroach(struct mesh *m, struct behavior *b,
-                      struct osub *testsubseg)
+int checkseg4encroach(struct mesh* m, struct behavior* b,
+                      struct osub* testsubseg)
 #else /* not ANSI_DECLARATORS */
 int checkseg4encroach(m, b, testsubseg)
-struct mesh *m;
-struct behavior *b;
-struct osub *testsubseg;
+struct mesh* m;
+struct behavior* b;
+struct osub* testsubseg;
 #endif /* not ANSI_DECLARATORS */
 
 {
     struct otri neighbortri;
     struct osub testsym;
-    struct badsubseg *encroachedseg;
+    struct badsubseg* encroachedseg;
     REAL dotproduct;
     int encroached;
     int sides;
@@ -7640,7 +7654,7 @@ struct osub *testsubseg;
         }
         /* Add the subsegment to the list of encroached subsegments. */
         /*   Be sure to get the orientation right.                   */
-        encroachedseg = (struct badsubseg *) poolalloc(&m->badsubsegs);
+        encroachedseg = (struct badsubseg*) poolalloc(&m->badsubsegs);
         if (encroached == 1)
         {
             encroachedseg->encsubseg = sencode(*testsubseg);
@@ -7673,12 +7687,12 @@ struct osub *testsubseg;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void testtriangle(struct mesh *m, struct behavior *b, struct otri *testtri)
+void testtriangle(struct mesh* m, struct behavior* b, struct otri* testtri)
 #else /* not ANSI_DECLARATORS */
 void testtriangle(m, b, testtri)
-struct mesh *m;
-struct behavior *b;
-struct otri *testtri;
+struct mesh* m;
+struct behavior* b;
+struct otri* testtri;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -7881,11 +7895,11 @@ struct otri *testtri;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void makevertexmap(struct mesh *m, struct behavior *b)
+void makevertexmap(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void makevertexmap(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -7898,7 +7912,7 @@ struct behavior *b;
     }
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         /* Check all three vertices of the triangle. */
         for (triangleloop.orient = 0; triangleloop.orient < 3;
@@ -7979,15 +7993,15 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-enum locateresult preciselocate(struct mesh *m, struct behavior *b,
-                                vertex searchpoint, struct otri *searchtri,
+enum locateresult preciselocate(struct mesh* m, struct behavior* b,
+                                vertex searchpoint, struct otri* searchtri,
                                 int stopatsubsegment)
 #else /* not ANSI_DECLARATORS */
 enum locateresult preciselocate(m, b, searchpoint, searchtri, stopatsubsegment)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex searchpoint;
-struct otri *searchtri;
+struct otri* searchtri;
 int stopatsubsegment;
 #endif /* not ANSI_DECLARATORS */
 
@@ -8144,19 +8158,19 @@ int stopatsubsegment;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-enum locateresult locate(struct mesh *m, struct behavior *b,
-                         vertex searchpoint, struct otri *searchtri)
+enum locateresult locate(struct mesh* m, struct behavior* b,
+                         vertex searchpoint, struct otri* searchtri)
 #else /* not ANSI_DECLARATORS */
 enum locateresult locate(m, b, searchpoint, searchtri)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex searchpoint;
-struct otri *searchtri;
+struct otri* searchtri;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    VOID **sampleblock;
-    char *firsttri;
+    VOID** sampleblock;
+    char* firsttri;
     struct otri sampletri;
     vertex torg, tdest;
     unsigned long alignptr;
@@ -8184,7 +8198,7 @@ struct otri *searchtri;
 
     /* If a recently encountered triangle has been recorded and has not been */
     /*   deallocated, test it as a good starting point.                      */
-    if (m->recenttri.tri != (triangle *) NULL)
+    if (m->recenttri.tri != (triangle*) NULL)
     {
         if (!deadtri(m->recenttri.tri))
         {
@@ -8242,17 +8256,17 @@ struct otri *searchtri;
         }
         /* Find a pointer to the first triangle in the block. */
         alignptr = (unsigned long) (sampleblock + 1);
-        firsttri = (char *) (alignptr +
-                             (unsigned long) m->triangles.alignbytes -
-                             (alignptr %
-                              (unsigned long) m->triangles.alignbytes));
+        firsttri = (char*) (alignptr +
+                            (unsigned long) m->triangles.alignbytes -
+                            (alignptr %
+                             (unsigned long) m->triangles.alignbytes));
 
         /* Choose `samplesleft' randomly sampled triangles in this block. */
         do
         {
-            sampletri.tri = (triangle *) (firsttri +
-                                          (randomnation((unsigned int) population) *
-                                           m->triangles.itembytes));
+            sampletri.tri = (triangle*) (firsttri +
+                                         (randomnation((unsigned int) population) *
+                                          m->triangles.itembytes));
             if (!deadtri(sampletri.tri))
             {
                 org(sampletri, torg);
@@ -8277,7 +8291,7 @@ struct otri *searchtri;
 
         if (totalsamplesleft > 0)
         {
-            sampleblock = (VOID **) *sampleblock;
+            sampleblock = (VOID**) *sampleblock;
             samplesleft = samplesperblock;
             totalpopulation -= population;
             population = TRIPERBLOCK;
@@ -8337,13 +8351,13 @@ struct otri *searchtri;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void insertsubseg(struct mesh *m, struct behavior *b, struct otri *tri,
+void insertsubseg(struct mesh* m, struct behavior* b, struct otri* tri,
                   int subsegmark)
 #else /* not ANSI_DECLARATORS */
 void insertsubseg(m, b, tri, subsegmark)
-struct mesh *m;
-struct behavior *b;
-struct otri *tri;             /* Edge at which to insert the new subsegment. */
+struct mesh* m;
+struct behavior* b;
+struct otri* tri;             /* Edge at which to insert the new subsegment. */
 int subsegmark;                            /* Marker for the new subsegment. */
 #endif /* not ANSI_DECLARATORS */
 
@@ -8448,12 +8462,12 @@ int subsegmark;                            /* Marker for the new subsegment. */
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void flip(struct mesh *m, struct behavior *b, struct otri *flipedge)
+void flip(struct mesh* m, struct behavior* b, struct otri* flipedge)
 #else /* not ANSI_DECLARATORS */
 void flip(m, b, flipedge)
-struct mesh *m;
-struct behavior *b;
-struct otri *flipedge;                    /* Handle for the triangle abc. */
+struct mesh* m;
+struct behavior* b;
+struct otri* flipedge;                    /* Handle for the triangle abc. */
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -8600,12 +8614,12 @@ struct otri *flipedge;                    /* Handle for the triangle abc. */
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void unflip(struct mesh *m, struct behavior *b, struct otri *flipedge)
+void unflip(struct mesh* m, struct behavior* b, struct otri* flipedge)
 #else /* not ANSI_DECLARATORS */
 void unflip(m, b, flipedge)
-struct mesh *m;
-struct behavior *b;
-struct otri *flipedge;                    /* Handle for the triangle abc. */
+struct mesh* m;
+struct behavior* b;
+struct otri* flipedge;                    /* Handle for the triangle abc. */
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -8766,18 +8780,18 @@ struct otri *flipedge;                    /* Handle for the triangle abc. */
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-enum insertvertexresult insertvertex(struct mesh *m, struct behavior *b,
-                                     vertex newvertex, struct otri *searchtri,
-                                     struct osub *splitseg,
+enum insertvertexresult insertvertex(struct mesh* m, struct behavior* b,
+                                     vertex newvertex, struct otri* searchtri,
+                                     struct osub* splitseg,
                                      int segmentflaws, int triflaws)
 #else /* not ANSI_DECLARATORS */
 enum insertvertexresult insertvertex(m, b, newvertex, searchtri, splitseg,
                                      segmentflaws, triflaws)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex newvertex;
-struct otri *searchtri;
-struct osub *splitseg;
+struct otri* searchtri;
+struct osub* splitseg;
 int segmentflaws;
 int triflaws;
 #endif /* not ANSI_DECLARATORS */
@@ -8798,8 +8812,8 @@ int triflaws;
     struct osub checksubseg;
     struct osub rightsubseg;
     struct osub newsubseg;
-    struct badsubseg *encroached;
-    struct flipstacker *newflip;
+    struct badsubseg* encroached;
+    struct flipstacker* newflip;
     vertex first;
     vertex leftvertex, rightvertex, botvertex, topvertex, farvertex;
     vertex segmentorg, segmentdest;
@@ -8819,7 +8833,7 @@ int triflaws;
         printf("  Inserting (%.12g, %.12g).\n", newvertex[0], newvertex[1]);
     }
 
-    if (splitseg == (struct osub *) NULL)
+    if (splitseg == (struct osub*) NULL)
     {
         /* Find the location of the vertex to be inserted.  Check if a good */
         /*   starting triangle has already been provided by the caller.     */
@@ -8858,7 +8872,7 @@ int triflaws;
     if ((intersect == ONEDGE) || (intersect == OUTSIDE))
     {
         /* The vertex falls on an edge or boundary. */
-        if (m->checksegments && (splitseg == (struct osub *) NULL))
+        if (m->checksegments && (splitseg == (struct osub*) NULL))
         {
             /* Check whether the vertex falls on a subsegment. */
             tspivot(horiz, brokensubseg);
@@ -8878,7 +8892,7 @@ int triflaws;
                     if (enq)
                     {
                         /* Add the subsegment to the list of encroached subsegments. */
-                        encroached = (struct badsubseg *) poolalloc(&m->badsubsegs);
+                        encroached = (struct badsubseg*) poolalloc(&m->badsubsegs);
                         encroached->encsubseg = sencode(brokensubseg);
                         sorg(brokensubseg, encroached->subsegorg);
                         sdest(brokensubseg, encroached->subsegdest);
@@ -8991,7 +9005,7 @@ int triflaws;
             bond(newtopright, newbotright);
         }
 
-        if (splitseg != (struct osub *) NULL)
+        if (splitseg != (struct osub*) NULL)
         {
             /* Split the subsegment into two. */
             setsdest(*splitseg, newvertex);
@@ -9018,9 +9032,9 @@ int triflaws;
         if (m->checkquality)
         {
             poolrestart(&m->flipstackers);
-            m->lastflip = (struct flipstacker *) poolalloc(&m->flipstackers);
+            m->lastflip = (struct flipstacker*) poolalloc(&m->flipstackers);
             m->lastflip->flippedtri = encode(horiz);
-            m->lastflip->prevflip = (struct flipstacker *) &insertvertex;
+            m->lastflip->prevflip = (struct flipstacker*) &insertvertex;
         }
 
 #ifdef SELF_CHECK
@@ -9150,9 +9164,9 @@ int triflaws;
         if (m->checkquality)
         {
             poolrestart(&m->flipstackers);
-            m->lastflip = (struct flipstacker *) poolalloc(&m->flipstackers);
+            m->lastflip = (struct flipstacker*) poolalloc(&m->flipstackers);
             m->lastflip->flippedtri = encode(horiz);
-            m->lastflip->prevflip = (struct flipstacker *) NULL;
+            m->lastflip->prevflip = (struct flipstacker*) NULL;
         }
 
 #ifdef SELF_CHECK
@@ -9369,7 +9383,7 @@ int triflaws;
 
                     if (m->checkquality)
                     {
-                        newflip = (struct flipstacker *) poolalloc(&m->flipstackers);
+                        newflip = (struct flipstacker*) poolalloc(&m->flipstackers);
                         newflip->flippedtri = encode(horiz);
                         newflip->prevflip = m->lastflip;
                         m->lastflip = newflip;
@@ -9520,15 +9534,15 @@ int triflaws;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void triangulatepolygon(struct mesh *m, struct behavior *b,
-                        struct otri *firstedge, struct otri *lastedge,
+void triangulatepolygon(struct mesh* m, struct behavior* b,
+                        struct otri* firstedge, struct otri* lastedge,
                         int edgecount, int doflip, int triflaws)
 #else /* not ANSI_DECLARATORS */
 void triangulatepolygon(m, b, firstedge, lastedge, edgecount, doflip, triflaws)
-struct mesh *m;
-struct behavior *b;
-struct otri *firstedge;
-struct otri *lastedge;
+struct mesh* m;
+struct behavior* b;
+struct otri* firstedge;
+struct otri* lastedge;
 int edgecount;
 int doflip;
 int triflaws;
@@ -9627,12 +9641,12 @@ int triflaws;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void deletevertex(struct mesh *m, struct behavior *b, struct otri *deltri)
+void deletevertex(struct mesh* m, struct behavior* b, struct otri* deltri)
 #else /* not ANSI_DECLARATORS */
 void deletevertex(m, b, deltri)
-struct mesh *m;
-struct behavior *b;
-struct otri *deltri;
+struct mesh* m;
+struct behavior* b;
+struct otri* deltri;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -9738,11 +9752,11 @@ struct otri *deltri;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void undovertex(struct mesh *m, struct behavior *b)
+void undovertex(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void undovertex(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -9757,7 +9771,7 @@ struct behavior *b;
 
     /* Walk through the list of transformations (flips and a vertex insertion) */
     /*   in the reverse of the order in which they were done, and undo them.   */
-    while (m->lastflip != (struct flipstacker *) NULL)
+    while (m->lastflip != (struct flipstacker*) NULL)
     {
         /* Find a triangle involved in the last unreversed transformation. */
         decode(m->lastflip->flippedtri, fliptri);
@@ -9766,7 +9780,7 @@ struct behavior *b;
         /*   triangle into three (by inserting a vertex in the triangle), a    */
         /*   bisection of two triangles into four (by inserting a vertex in an */
         /*   edge), or an edge flip.                                           */
-        if (m->lastflip->prevflip == (struct flipstacker *) NULL)
+        if (m->lastflip->prevflip == (struct flipstacker*) NULL)
         {
             /* Restore a triangle that was split into three triangles, */
             /*   so it is again one triangle.                          */
@@ -9792,7 +9806,7 @@ struct behavior *b;
             triangledealloc(m, botleft.tri);
             triangledealloc(m, botright.tri);
         }
-        else if (m->lastflip->prevflip == (struct flipstacker *) &insertvertex)
+        else if (m->lastflip->prevflip == (struct flipstacker*) &insertvertex)
         {
             /* Restore two triangles that were split into four triangles, */
             /*   so they are again two triangles.                         */
@@ -9827,7 +9841,7 @@ struct behavior *b;
             }
 
             /* This is the end of the list, sneakily encoded. */
-            m->lastflip->prevflip = (struct flipstacker *) NULL;
+            m->lastflip->prevflip = (struct flipstacker*) NULL;
         }
         else
         {
@@ -9892,10 +9906,10 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void vertexsort(vertex *sortarray, int arraysize)
+void vertexsort(vertex* sortarray, int arraysize)
 #else /* not ANSI_DECLARATORS */
 void vertexsort(sortarray, arraysize)
-vertex *sortarray;
+vertex* sortarray;
 int arraysize;
 #endif /* not ANSI_DECLARATORS */
 
@@ -9976,10 +9990,10 @@ int arraysize;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void vertexmedian(vertex *sortarray, int arraysize, int median, int axis)
+void vertexmedian(vertex* sortarray, int arraysize, int median, int axis)
 #else /* not ANSI_DECLARATORS */
 void vertexmedian(sortarray, arraysize, median, axis)
-vertex *sortarray;
+vertex* sortarray;
 int arraysize;
 int median;
 int axis;
@@ -10064,10 +10078,10 @@ int axis;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void alternateaxes(vertex *sortarray, int arraysize, int axis)
+void alternateaxes(vertex* sortarray, int arraysize, int axis)
 #else /* not ANSI_DECLARATORS */
 void alternateaxes(sortarray, arraysize, axis)
-vertex *sortarray;
+vertex* sortarray;
 int arraysize;
 int axis;
 #endif /* not ANSI_DECLARATORS */
@@ -10131,17 +10145,17 @@ int axis;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void mergehulls(struct mesh *m, struct behavior *b, struct otri *farleft,
-                struct otri *innerleft, struct otri *innerright,
-                struct otri *farright, int axis)
+void mergehulls(struct mesh* m, struct behavior* b, struct otri* farleft,
+                struct otri* innerleft, struct otri* innerright,
+                struct otri* farright, int axis)
 #else /* not ANSI_DECLARATORS */
 void mergehulls(m, b, farleft, innerleft, innerright, farright, axis)
-struct mesh *m;
-struct behavior *b;
-struct otri *farleft;
-struct otri *innerleft;
-struct otri *innerright;
-struct otri *farright;
+struct mesh* m;
+struct behavior* b;
+struct otri* farleft;
+struct otri* innerleft;
+struct otri* innerright;
+struct otri* farright;
 int axis;
 #endif /* not ANSI_DECLARATORS */
 
@@ -10492,18 +10506,18 @@ int axis;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void divconqrecurse(struct mesh *m, struct behavior *b, vertex *sortarray,
+void divconqrecurse(struct mesh* m, struct behavior* b, vertex* sortarray,
                     int vertices, int axis,
-                    struct otri *farleft, struct otri *farright)
+                    struct otri* farleft, struct otri* farright)
 #else /* not ANSI_DECLARATORS */
 void divconqrecurse(m, b, sortarray, vertices, axis, farleft, farright)
-struct mesh *m;
-struct behavior *b;
-vertex *sortarray;
+struct mesh* m;
+struct behavior* b;
+vertex* sortarray;
 int vertices;
 int axis;
-struct otri *farleft;
-struct otri *farright;
+struct otri* farleft;
+struct otri* farright;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -10674,12 +10688,12 @@ struct otri *farright;
 }
 
 #ifdef ANSI_DECLARATORS
-long removeghosts(struct mesh *m, struct behavior *b, struct otri *startghost)
+long removeghosts(struct mesh* m, struct behavior* b, struct otri* startghost)
 #else /* not ANSI_DECLARATORS */
 long removeghosts(m, b, startghost)
-struct mesh *m;
-struct behavior *b;
-struct otri *startghost;
+struct mesh* m;
+struct behavior* b;
+struct otri* startghost;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -10743,15 +10757,15 @@ struct otri *startghost;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-long divconqdelaunay(struct mesh *m, struct behavior *b)
+long divconqdelaunay(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 long divconqdelaunay(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    vertex *sortarray;
+    vertex* sortarray;
     struct otri hullleft, hullright;
     int divider;
     int i, j;
@@ -10762,7 +10776,7 @@ struct behavior *b;
     }
 
     /* Allocate an array of pointers to vertices for sorting. */
-    sortarray = (vertex *) trimalloc(m->invertices * (int) sizeof(vertex));
+    sortarray = (vertex*) trimalloc(m->invertices * (int) sizeof(vertex));
     traversalinit(&m->vertices);
     for (i = 0; i < m->invertices; i++)
     {
@@ -10814,7 +10828,7 @@ struct behavior *b;
 
     /* Form the Delaunay triangulation. */
     divconqrecurse(m, b, sortarray, i, 0, &hullleft, &hullright);
-    trifree((VOID *) sortarray);
+    trifree((VOID*) sortarray);
 
     return removeghosts(m, b, &hullleft);
 }
@@ -10841,11 +10855,11 @@ struct behavior *b;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void boundingbox(struct mesh *m, struct behavior *b)
+void boundingbox(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void boundingbox(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -10911,11 +10925,11 @@ struct behavior *b;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-long removebox(struct mesh *m, struct behavior *b)
+long removebox(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 long removebox(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -10996,9 +11010,9 @@ struct behavior *b;
     }
     triangledealloc(m, finaledge.tri);
 
-    trifree((VOID *) m->infvertex1);  /* Deallocate the bounding box vertices. */
-    trifree((VOID *) m->infvertex2);
-    trifree((VOID *) m->infvertex3);
+    trifree((VOID*) m->infvertex1);   /* Deallocate the bounding box vertices. */
+    trifree((VOID*) m->infvertex2);
+    trifree((VOID*) m->infvertex3);
 
     return hullsize;
 }
@@ -11017,11 +11031,11 @@ struct behavior *b;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-long incrementaldelaunay(struct mesh *m, struct behavior *b)
+long incrementaldelaunay(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 long incrementaldelaunay(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -11039,7 +11053,7 @@ struct behavior *b;
     while (vertexloop != (vertex) NULL)
     {
         starttri.tri = m->dummytri;
-        if (insertvertex(m, b, vertexloop, &starttri, (struct osub *) NULL, 0, 0)
+        if (insertvertex(m, b, vertexloop, &starttri, (struct osub*) NULL, 0, 0)
                 == DUPLICATEVERTEX)
         {
             if (!b->quiet)
@@ -11070,12 +11084,12 @@ struct behavior *b;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void eventheapinsert(struct event **heap, int heapsize, struct event *newevent)
+void eventheapinsert(struct event** heap, int heapsize, struct event* newevent)
 #else /* not ANSI_DECLARATORS */
 void eventheapinsert(heap, heapsize, newevent)
-struct event **heap;
+struct event** heap;
 int heapsize;
-struct event *newevent;
+struct event* newevent;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -11115,16 +11129,16 @@ struct event *newevent;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void eventheapify(struct event **heap, int heapsize, int eventnum)
+void eventheapify(struct event** heap, int heapsize, int eventnum)
 #else /* not ANSI_DECLARATORS */
 void eventheapify(heap, heapsize, eventnum)
-struct event **heap;
+struct event** heap;
 int heapsize;
 int eventnum;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct event *thisevent;
+    struct event* thisevent;
     REAL eventx, eventy;
     int leftchild, rightchild;
     int smallest;
@@ -11180,16 +11194,16 @@ int eventnum;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void eventheapdelete(struct event **heap, int heapsize, int eventnum)
+void eventheapdelete(struct event** heap, int heapsize, int eventnum)
 #else /* not ANSI_DECLARATORS */
 void eventheapdelete(heap, heapsize, eventnum)
-struct event **heap;
+struct event** heap;
 int heapsize;
 int eventnum;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct event *moveevent;
+    struct event* moveevent;
     REAL eventx, eventy;
     int parent;
     int notdone;
@@ -11229,14 +11243,14 @@ int eventnum;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void createeventheap(struct mesh *m, struct event ***eventheap,
-                     struct event **events, struct event **freeevents)
+void createeventheap(struct mesh* m, struct event** *eventheap,
+                     struct event** events, struct event** freeevents)
 #else /* not ANSI_DECLARATORS */
 void createeventheap(m, eventheap, events, freeevents)
-struct mesh *m;
-struct event ***eventheap;
-struct event **events;
-struct event **freeevents;
+struct mesh* m;
+struct event*** eventheap;
+struct event** events;
+struct event** freeevents;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -11245,22 +11259,22 @@ struct event **freeevents;
     int i;
 
     maxevents = (3 * m->invertices) / 2;
-    *eventheap = (struct event **) trimalloc(maxevents *
-                 (int) sizeof(struct event *));
-    *events = (struct event *) trimalloc(maxevents * (int) sizeof(struct event));
+    *eventheap = (struct event**) trimalloc(maxevents *
+                                            (int) sizeof(struct event*));
+    *events = (struct event*) trimalloc(maxevents * (int) sizeof(struct event));
     traversalinit(&m->vertices);
     for (i = 0; i < m->invertices; i++)
     {
         thisvertex = vertextraverse(m);
-        (*events)[i].eventptr = (VOID *) thisvertex;
+        (*events)[i].eventptr = (VOID*) thisvertex;
         (*events)[i].xkey = thisvertex[0];
         (*events)[i].ykey = thisvertex[1];
         eventheapinsert(*eventheap, i, *events + i);
     }
-    *freeevents = (struct event *) NULL;
+    *freeevents = (struct event*) NULL;
     for (i = maxevents - 1; i >= m->invertices; i--)
     {
-        (*events)[i].eventptr = (VOID *) *freeevents;
+        (*events)[i].eventptr = (VOID*) *freeevents;
         *freeevents = *events + i;
     }
 }
@@ -11270,11 +11284,11 @@ struct event **freeevents;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-int rightofhyperbola(struct mesh *m, struct otri *fronttri, vertex newsite)
+int rightofhyperbola(struct mesh* m, struct otri* fronttri, vertex newsite)
 #else /* not ANSI_DECLARATORS */
 int rightofhyperbola(m, fronttri, newsite)
-struct mesh *m;
-struct otri *fronttri;
+struct mesh* m;
+struct otri* fronttri;
 vertex newsite;
 #endif /* not ANSI_DECLARATORS */
 
@@ -11314,10 +11328,10 @@ vertex newsite;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-REAL circletop(struct mesh *m, vertex pa, vertex pb, vertex pc, REAL ccwabc)
+REAL circletop(struct mesh* m, vertex pa, vertex pb, vertex pc, REAL ccwabc)
 #else /* not ANSI_DECLARATORS */
 REAL circletop(m, pa, pb, pc, ccwabc)
-struct mesh *m;
+struct mesh* m;
 vertex pa;
 vertex pb;
 vertex pc;
@@ -11348,27 +11362,27 @@ REAL ccwabc;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-void check4deadevent(struct otri *checktri, struct event **freeevents,
-                     struct event **eventheap, int *heapsize)
+void check4deadevent(struct otri* checktri, struct event** freeevents,
+                     struct event** eventheap, int* heapsize)
 #else /* not ANSI_DECLARATORS */
 void check4deadevent(checktri, freeevents, eventheap, heapsize)
-struct otri *checktri;
-struct event **freeevents;
-struct event **eventheap;
-int *heapsize;
+struct otri* checktri;
+struct event** freeevents;
+struct event** eventheap;
+int* heapsize;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct event *deadevent;
+    struct event* deadevent;
     vertex eventvertex;
     int eventnum;
 
     org(*checktri, eventvertex);
     if (eventvertex != (vertex) NULL)
     {
-        deadevent = (struct event *) eventvertex;
+        deadevent = (struct event*) eventvertex;
         eventnum = deadevent->heapposition;
-        deadevent->eventptr = (VOID *) *freeevents;
+        deadevent->eventptr = (VOID*) *freeevents;
         *freeevents = deadevent;
         eventheapdelete(eventheap, *heapsize, eventnum);
         (*heapsize)--;
@@ -11381,26 +11395,26 @@ int *heapsize;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-struct splaynode *splay(struct mesh *m, struct splaynode *splaytree,
-                        vertex searchpoint, struct otri *searchtri)
+struct splaynode* splay(struct mesh* m, struct splaynode* splaytree,
+                        vertex searchpoint, struct otri* searchtri)
 #else /* not ANSI_DECLARATORS */
-struct splaynode *splay(m, splaytree, searchpoint, searchtri)
-struct mesh *m;
-struct splaynode *splaytree;
+struct splaynode* splay(m, splaytree, searchpoint, searchtri)
+struct mesh* m;
+struct splaynode* splaytree;
 vertex searchpoint;
-struct otri *searchtri;
+struct otri* searchtri;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct splaynode *child, *grandchild;
-    struct splaynode *lefttree, *righttree;
-    struct splaynode *leftright;
+    struct splaynode* child, *grandchild;
+    struct splaynode* lefttree, *righttree;
+    struct splaynode* leftright;
     vertex checkvertex;
     int rightofroot, rightofchild;
 
-    if (splaytree == (struct splaynode *) NULL)
+    if (splaytree == (struct splaynode*) NULL)
     {
-        return (struct splaynode *) NULL;
+        return (struct splaynode*) NULL;
     }
     dest(splaytree->keyedge, checkvertex);
     if (checkvertex == splaytree->keydest)
@@ -11415,7 +11429,7 @@ struct otri *searchtri;
         {
             child = splaytree->lchild;
         }
-        if (child == (struct splaynode *) NULL)
+        if (child == (struct splaynode*) NULL)
         {
             return splaytree;
         }
@@ -11423,15 +11437,15 @@ struct otri *searchtri;
         if (checkvertex != child->keydest)
         {
             child = splay(m, child, searchpoint, searchtri);
-            if (child == (struct splaynode *) NULL)
+            if (child == (struct splaynode*) NULL)
             {
                 if (rightofroot)
                 {
-                    splaytree->rchild = (struct splaynode *) NULL;
+                    splaytree->rchild = (struct splaynode*) NULL;
                 }
                 else
                 {
-                    splaytree->lchild = (struct splaynode *) NULL;
+                    splaytree->lchild = (struct splaynode*) NULL;
                 }
                 return splaytree;
             }
@@ -11448,7 +11462,7 @@ struct otri *searchtri;
             grandchild = splay(m, child->lchild, searchpoint, searchtri);
             child->lchild = grandchild;
         }
-        if (grandchild == (struct splaynode *) NULL)
+        if (grandchild == (struct splaynode*) NULL)
         {
             if (rightofroot)
             {
@@ -11499,22 +11513,22 @@ struct otri *searchtri;
         lefttree = splay(m, splaytree->lchild, searchpoint, searchtri);
         righttree = splay(m, splaytree->rchild, searchpoint, searchtri);
 
-        pooldealloc(&m->splaynodes, (VOID *) splaytree);
-        if (lefttree == (struct splaynode *) NULL)
+        pooldealloc(&m->splaynodes, (VOID*) splaytree);
+        if (lefttree == (struct splaynode*) NULL)
         {
             return righttree;
         }
-        else if (righttree == (struct splaynode *) NULL)
+        else if (righttree == (struct splaynode*) NULL)
         {
             return lefttree;
         }
-        else if (lefttree->rchild == (struct splaynode *) NULL)
+        else if (lefttree->rchild == (struct splaynode*) NULL)
         {
             lefttree->rchild = righttree->lchild;
             righttree->lchild = lefttree;
             return righttree;
         }
-        else if (righttree->lchild == (struct splaynode *) NULL)
+        else if (righttree->lchild == (struct splaynode*) NULL)
         {
             righttree->lchild = lefttree->rchild;
             lefttree->rchild = righttree;
@@ -11524,7 +11538,7 @@ struct otri *searchtri;
         {
             /*      printf("Holy Toledo!!!\n"); */
             leftright = lefttree->rchild;
-            while (leftright->rchild != (struct splaynode *) NULL)
+            while (leftright->rchild != (struct splaynode*) NULL)
             {
                 leftright = leftright->rchild;
             }
@@ -11539,38 +11553,38 @@ struct otri *searchtri;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-struct splaynode *splayinsert(struct mesh *m, struct splaynode *splayroot,
-                              struct otri *newkey, vertex searchpoint)
+struct splaynode* splayinsert(struct mesh* m, struct splaynode* splayroot,
+                              struct otri* newkey, vertex searchpoint)
 #else /* not ANSI_DECLARATORS */
-struct splaynode *splayinsert(m, splayroot, newkey, searchpoint)
-struct mesh *m;
-struct splaynode *splayroot;
-struct otri *newkey;
+struct splaynode* splayinsert(m, splayroot, newkey, searchpoint)
+struct mesh* m;
+struct splaynode* splayroot;
+struct otri* newkey;
 vertex searchpoint;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct splaynode *newsplaynode;
+    struct splaynode* newsplaynode;
 
-    newsplaynode = (struct splaynode *) poolalloc(&m->splaynodes);
+    newsplaynode = (struct splaynode*) poolalloc(&m->splaynodes);
     otricopy(*newkey, newsplaynode->keyedge);
     dest(*newkey, newsplaynode->keydest);
-    if (splayroot == (struct splaynode *) NULL)
+    if (splayroot == (struct splaynode*) NULL)
     {
-        newsplaynode->lchild = (struct splaynode *) NULL;
-        newsplaynode->rchild = (struct splaynode *) NULL;
+        newsplaynode->lchild = (struct splaynode*) NULL;
+        newsplaynode->rchild = (struct splaynode*) NULL;
     }
     else if (rightofhyperbola(m, &splayroot->keyedge, searchpoint))
     {
         newsplaynode->lchild = splayroot;
         newsplaynode->rchild = splayroot->rchild;
-        splayroot->rchild = (struct splaynode *) NULL;
+        splayroot->rchild = (struct splaynode*) NULL;
     }
     else
     {
         newsplaynode->lchild = splayroot->lchild;
         newsplaynode->rchild = splayroot;
-        splayroot->lchild = (struct splaynode *) NULL;
+        splayroot->lchild = (struct splaynode*) NULL;
     }
     return newsplaynode;
 }
@@ -11580,16 +11594,16 @@ vertex searchpoint;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-struct splaynode *circletopinsert(struct mesh *m, struct behavior *b,
-                                  struct splaynode *splayroot,
-                                  struct otri *newkey,
+struct splaynode* circletopinsert(struct mesh* m, struct behavior* b,
+                                  struct splaynode* splayroot,
+                                  struct otri* newkey,
                                   vertex pa, vertex pb, vertex pc, REAL topy)
 #else /* not ANSI_DECLARATORS */
-struct splaynode *circletopinsert(m, b, splayroot, newkey, pa, pb, pc, topy)
-struct mesh *m;
-struct behavior *b;
-struct splaynode *splayroot;
-struct otri *newkey;
+struct splaynode* circletopinsert(m, b, splayroot, newkey, pa, pb, pc, topy)
+struct mesh* m;
+struct behavior* b;
+struct splaynode* splayroot;
+struct otri* newkey;
 vertex pa;
 vertex pb;
 vertex pc;
@@ -11621,18 +11635,18 @@ REAL topy;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-struct splaynode *frontlocate(struct mesh *m, struct splaynode *splayroot,
-                              struct otri *bottommost, vertex searchvertex,
-                              struct otri *searchtri, int *farright)
+struct splaynode* frontlocate(struct mesh* m, struct splaynode* splayroot,
+                              struct otri* bottommost, vertex searchvertex,
+                              struct otri* searchtri, int* farright)
 #else /* not ANSI_DECLARATORS */
-struct splaynode *frontlocate(m, splayroot, bottommost, searchvertex,
+struct splaynode* frontlocate(m, splayroot, bottommost, searchvertex,
                               searchtri, farright)
-struct mesh *m;
-struct splaynode *splayroot;
-struct otri *bottommost;
+struct mesh* m;
+struct splaynode* splayroot;
+struct otri* bottommost;
 vertex searchvertex;
-struct otri *searchtri;
-int *farright;
+struct otri* searchtri;
+int* farright;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -11657,20 +11671,20 @@ int *farright;
 #ifndef REDUCED
 
 #ifdef ANSI_DECLARATORS
-long sweeplinedelaunay(struct mesh *m, struct behavior *b)
+long sweeplinedelaunay(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 long sweeplinedelaunay(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct event **eventheap;
-    struct event *events;
-    struct event *freeevents;
-    struct event *nextevent;
-    struct event *newevent;
-    struct splaynode *splayroot;
+    struct event** eventheap;
+    struct event* events;
+    struct event* freeevents;
+    struct event* nextevent;
+    struct event* newevent;
+    struct splaynode* splayroot;
     struct otri bottommost;
     struct otri searchtri;
     struct otri fliptri;
@@ -11687,7 +11701,7 @@ struct behavior *b;
 
     poolinit(&m->splaynodes, sizeof(struct splaynode), SPLAYNODEPERBLOCK,
              SPLAYNODEPERBLOCK, 0);
-    splayroot = (struct splaynode *) NULL;
+    splayroot = (struct splaynode*) NULL;
 
     if (b->verbose)
     {
@@ -11710,7 +11724,7 @@ struct behavior *b;
     lprevself(righttri);
     bond(lefttri, righttri);
     firstvertex = (vertex) eventheap[0]->eventptr;
-    eventheap[0]->eventptr = (VOID *) freeevents;
+    eventheap[0]->eventptr = (VOID*) freeevents;
     freeevents = eventheap[0];
     eventheapdelete(eventheap, heapsize, 0);
     heapsize--;
@@ -11722,7 +11736,7 @@ struct behavior *b;
             triexit(1);
         }
         secondvertex = (vertex) eventheap[0]->eventptr;
-        eventheap[0]->eventptr = (VOID *) freeevents;
+        eventheap[0]->eventptr = (VOID*) freeevents;
         freeevents = eventheap[0];
         eventheapdelete(eventheap, heapsize, 0);
         heapsize--;
@@ -11847,7 +11861,7 @@ struct behavior *b;
                 }
             }
         }
-        nextevent->eventptr = (VOID *) freeevents;
+        nextevent->eventptr = (VOID*) freeevents;
         freeevents = nextevent;
 
         if (check4events)
@@ -11859,11 +11873,11 @@ struct behavior *b;
             if (lefttest > 0.0)
             {
                 newevent = freeevents;
-                freeevents = (struct event *) freeevents->eventptr;
+                freeevents = (struct event*) freeevents->eventptr;
                 newevent->xkey = m->xminextreme;
                 newevent->ykey = circletop(m, leftvertex, midvertex, rightvertex,
                                            lefttest);
-                newevent->eventptr = (VOID *) encode(lefttri);
+                newevent->eventptr = (VOID*) encode(lefttri);
                 eventheapinsert(eventheap, heapsize, newevent);
                 heapsize++;
                 setorg(lefttri, newevent);
@@ -11875,11 +11889,11 @@ struct behavior *b;
             if (righttest > 0.0)
             {
                 newevent = freeevents;
-                freeevents = (struct event *) freeevents->eventptr;
+                freeevents = (struct event*) freeevents->eventptr;
                 newevent->xkey = m->xminextreme;
                 newevent->ykey = circletop(m, leftvertex, midvertex, rightvertex,
                                            righttest);
-                newevent->eventptr = (VOID *) encode(farrighttri);
+                newevent->eventptr = (VOID*) encode(farrighttri);
                 eventheapinsert(eventheap, heapsize, newevent);
                 heapsize++;
                 setorg(farrighttri, newevent);
@@ -11909,11 +11923,11 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-long delaunay(struct mesh *m, struct behavior *b)
+long delaunay(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 long delaunay(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -12001,40 +12015,40 @@ struct behavior *b;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-int reconstruct(struct mesh *m, struct behavior *b, int *trianglelist,
-                REAL *triangleattriblist, REAL *trianglearealist,
+int reconstruct(struct mesh* m, struct behavior* b, int* trianglelist,
+                REAL* triangleattriblist, REAL* trianglearealist,
                 int elements, int corners, int attribs,
-                int *segmentlist,int *segmentmarkerlist, int numberofsegments)
+                int* segmentlist, int* segmentmarkerlist, int numberofsegments)
 #else /* not ANSI_DECLARATORS */
 int reconstruct(m, b, trianglelist, triangleattriblist, trianglearealist,
                 elements, corners, attribs, segmentlist, segmentmarkerlist,
                 numberofsegments)
-struct mesh *m;
-struct behavior *b;
-int *trianglelist;
-REAL *triangleattriblist;
-REAL *trianglearealist;
+struct mesh* m;
+struct behavior* b;
+int* trianglelist;
+REAL* triangleattriblist;
+REAL* trianglearealist;
 int elements;
 int corners;
 int attribs;
-int *segmentlist;
-int *segmentmarkerlist;
+int* segmentlist;
+int* segmentmarkerlist;
 int numberofsegments;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-long reconstruct(struct mesh *m, struct behavior *b, char *elefilename,
-                 char *areafilename, char *polyfilename, FILE *polyfile)
+long reconstruct(struct mesh* m, struct behavior* b, char* elefilename,
+                 char* areafilename, char* polyfilename, FILE* polyfile)
 #else /* not ANSI_DECLARATORS */
 long reconstruct(m, b, elefilename, areafilename, polyfilename, polyfile)
-struct mesh *m;
-struct behavior *b;
-char *elefilename;
-char *areafilename;
-char *polyfilename;
-FILE *polyfile;
+struct mesh* m;
+struct behavior* b;
+char* elefilename;
+char* areafilename;
+char* polyfilename;
+FILE* polyfile;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
@@ -12044,10 +12058,10 @@ FILE *polyfile;
     int vertexindex;
     int attribindex;
 #else /* not TRILIBRARY */
-    FILE *elefile;
-    FILE *areafile;
+    FILE* elefile;
+    FILE* areafile;
     char inputline[INPUTLINESIZE];
-    char *stringptr;
+    char* stringptr;
     int areaelements;
 #endif /* not TRILIBRARY */
     struct otri triangleloop;
@@ -12056,8 +12070,8 @@ FILE *polyfile;
     struct otri checkleft;
     struct otri checkneighbor;
     struct osub subsegloop;
-    triangle *vertexarray;
-    triangle *prevlink;
+    triangle* vertexarray;
+    triangle* prevlink;
     triangle nexttri;
     vertex tdest, tapex;
     vertex checkdest, checkapex;
@@ -12094,7 +12108,7 @@ FILE *polyfile;
         printf("Opening %s.\n", elefilename);
     }
     elefile = fopen(elefilename, "r");
-    if (elefile == (FILE *) NULL)
+    if (elefile == (FILE*) NULL)
     {
         printf("  Error:  Cannot access file %s.\n", elefilename);
         triexit(1);
@@ -12144,7 +12158,7 @@ FILE *polyfile;
     {
 #ifdef TRILIBRARY
         m->insegments = numberofsegments;
-        segmentmarkers = segmentmarkerlist != (int *) NULL;
+        segmentmarkers = segmentmarkerlist != (int*) NULL;
 #else /* not TRILIBRARY */
         /* Read number of segments and number of segment */
         /*   boundary markers from .poly file.           */
@@ -12178,7 +12192,7 @@ FILE *polyfile;
             printf("Opening %s.\n", areafilename);
         }
         areafile = fopen(areafilename, "r");
-        if (areafile == (FILE *) NULL)
+        if (areafile == (FILE*) NULL)
         {
             printf("  Error:  Cannot access file %s.\n", areafilename);
             triexit(1);
@@ -12201,8 +12215,8 @@ FILE *polyfile;
     /* Allocate a temporary array that maps each vertex to some adjacent */
     /*   triangle.  I took care to allocate all the permanent memory for */
     /*   triangles and subsegments first.                                */
-    vertexarray = (triangle *) trimalloc(m->vertices.items *
-                                         (int) sizeof(triangle));
+    vertexarray = (triangle*) trimalloc(m->vertices.items *
+                                        (int) sizeof(triangle));
     /* Each vertex is initially unrepresented. */
     for (i = 0; i < m->vertices.items; i++)
     {
@@ -12218,7 +12232,7 @@ FILE *polyfile;
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
     elementnumber = b->firstnumber;
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
 #ifdef TRILIBRARY
         /* Copy the triangle's three corners. */
@@ -12397,7 +12411,7 @@ if (b->poly)
     traversalinit(&m->subsegs);
     subsegloop.ss = subsegtraverse(m);
     segmentnumber = b->firstnumber;
-    while (subsegloop.ss != (subseg *) NULL)
+    while (subsegloop.ss != (subseg*) NULL)
     {
 #ifdef TRILIBRARY
         end[0] = segmentlist[vertexindex++];
@@ -12540,7 +12554,7 @@ for (i = 0; i < m->vertices.items; i++)
     }
 }
 
-trifree((VOID *) vertexarray);
+trifree((VOID*) vertexarray);
 return hullsize;
 }
 
@@ -12572,14 +12586,14 @@ return hullsize;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-enum finddirectionresult finddirection(struct mesh *m, struct behavior *b,
-                                       struct otri *searchtri,
+enum finddirectionresult finddirection(struct mesh* m, struct behavior* b,
+                                       struct otri* searchtri,
                                        vertex searchpoint)
 #else /* not ANSI_DECLARATORS */
 enum finddirectionresult finddirection(m, b, searchtri, searchpoint)
-struct mesh *m;
-struct behavior *b;
-struct otri *searchtri;
+struct mesh* m;
+struct behavior* b;
+struct otri* searchtri;
 vertex searchpoint;
 #endif /* not ANSI_DECLARATORS */
 
@@ -12680,15 +12694,15 @@ vertex searchpoint;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void segmentintersection(struct mesh *m, struct behavior *b,
-                         struct otri *splittri, struct osub *splitsubseg,
+void segmentintersection(struct mesh* m, struct behavior* b,
+                         struct otri* splittri, struct osub* splitsubseg,
                          vertex endpoint2)
 #else /* not ANSI_DECLARATORS */
 void segmentintersection(m, b, splittri, splitsubseg, endpoint2)
-struct mesh *m;
-struct behavior *b;
-struct otri *splittri;
-struct osub *splitsubseg;
+struct mesh* m;
+struct behavior* b;
+struct otri* splittri;
+struct osub* splitsubseg;
 vertex endpoint2;
 #endif /* not ANSI_DECLARATORS */
 
@@ -12819,13 +12833,13 @@ vertex endpoint2;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-int scoutsegment(struct mesh *m, struct behavior *b, struct otri *searchtri,
+int scoutsegment(struct mesh* m, struct behavior* b, struct otri* searchtri,
                  vertex endpoint2, int newmark)
 #else /* not ANSI_DECLARATORS */
 int scoutsegment(m, b, searchtri, endpoint2, newmark)
-struct mesh *m;
-struct behavior *b;
-struct otri *searchtri;
+struct mesh* m;
+struct behavior* b;
+struct otri* searchtri;
 vertex endpoint2;
 int newmark;
 #endif /* not ANSI_DECLARATORS */
@@ -12914,12 +12928,12 @@ int newmark;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void conformingedge(struct mesh *m, struct behavior *b,
+void conformingedge(struct mesh* m, struct behavior* b,
                     vertex endpoint1, vertex endpoint2, int newmark)
 #else /* not ANSI_DECLARATORS */
 void conformingedge(m, b, endpoint1, endpoint2, newmark)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex endpoint1;
 vertex endpoint2;
 int newmark;
@@ -12952,7 +12966,7 @@ int newmark;
     /* No known triangle to search from. */
     searchtri1.tri = m->dummytri;
     /* Attempt to insert the new vertex. */
-    success = insertvertex(m, b, newvertex, &searchtri1, (struct osub *) NULL,
+    success = insertvertex(m, b, newvertex, &searchtri1, (struct osub*) NULL,
                            0, 0);
     if (success == DUPLICATEVERTEX)
     {
@@ -13056,13 +13070,13 @@ int newmark;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void delaunayfixup(struct mesh *m, struct behavior *b,
-                   struct otri *fixuptri, int leftside)
+void delaunayfixup(struct mesh* m, struct behavior* b,
+                   struct otri* fixuptri, int leftside)
 #else /* not ANSI_DECLARATORS */
 void delaunayfixup(m, b, fixuptri, leftside)
-struct mesh *m;
-struct behavior *b;
-struct otri *fixuptri;
+struct mesh* m;
+struct behavior* b;
+struct otri* fixuptri;
 int leftside;
 #endif /* not ANSI_DECLARATORS */
 
@@ -13185,13 +13199,13 @@ int leftside;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void constrainededge(struct mesh *m, struct behavior *b,
-                     struct otri *starttri, vertex endpoint2, int newmark)
+void constrainededge(struct mesh* m, struct behavior* b,
+                     struct otri* starttri, vertex endpoint2, int newmark)
 #else /* not ANSI_DECLARATORS */
 void constrainededge(m, b, starttri, endpoint2, newmark)
-struct mesh *m;
-struct behavior *b;
-struct otri *starttri;
+struct mesh* m;
+struct behavior* b;
+struct otri* starttri;
 vertex endpoint2;
 int newmark;
 #endif /* not ANSI_DECLARATORS */
@@ -13303,12 +13317,12 @@ int newmark;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void insertsegment(struct mesh *m, struct behavior *b,
+void insertsegment(struct mesh* m, struct behavior* b,
                    vertex endpoint1, vertex endpoint2, int newmark)
 #else /* not ANSI_DECLARATORS */
 void insertsegment(m, b, endpoint1, endpoint2, newmark)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 vertex endpoint1;
 vertex endpoint2;
 int newmark;
@@ -13427,11 +13441,11 @@ int newmark;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void markhull(struct mesh *m, struct behavior *b)
+void markhull(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void markhull(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -13476,28 +13490,28 @@ struct behavior *b;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void formskeleton(struct mesh *m, struct behavior *b, int *segmentlist,
-                  int *segmentmarkerlist, int numberofsegments)
+void formskeleton(struct mesh* m, struct behavior* b, int* segmentlist,
+                  int* segmentmarkerlist, int numberofsegments)
 #else /* not ANSI_DECLARATORS */
 void formskeleton(m, b, segmentlist, segmentmarkerlist, numberofsegments)
-struct mesh *m;
-struct behavior *b;
-int *segmentlist;
-int *segmentmarkerlist;
+struct mesh* m;
+struct behavior* b;
+int* segmentlist;
+int* segmentmarkerlist;
 int numberofsegments;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-void formskeleton(struct mesh *m, struct behavior *b,
-                  FILE *polyfile, char *polyfilename)
+void formskeleton(struct mesh* m, struct behavior* b,
+                  FILE* polyfile, char* polyfilename)
 #else /* not ANSI_DECLARATORS */
 void formskeleton(m, b, polyfile, polyfilename)
-struct mesh *m;
-struct behavior *b;
-FILE *polyfile;
-char *polyfilename;
+struct mesh* m;
+struct behavior* b;
+FILE* polyfile;
+char* polyfilename;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
@@ -13508,7 +13522,7 @@ char *polyfilename;
     int index;
 #else /* not TRILIBRARY */
     char inputline[INPUTLINESIZE];
-    char *stringptr;
+    char* stringptr;
 #endif /* not TRILIBRARY */
     vertex endpoint1, endpoint2;
     int segmentmarkers;
@@ -13525,7 +13539,7 @@ char *polyfilename;
 #ifdef TRILIBRARY
         strcpy(polyfilename, "input");
         m->insegments = numberofsegments;
-        segmentmarkers = segmentmarkerlist != (int *) NULL;
+        segmentmarkers = segmentmarkerlist != (int*) NULL;
         index = 0;
 #else /* not TRILIBRARY */
         /* Read the segments from a .poly file. */
@@ -13678,11 +13692,11 @@ char *polyfilename;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void infecthull(struct mesh *m, struct behavior *b)
+void infecthull(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void infecthull(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -13690,7 +13704,7 @@ struct behavior *b;
     struct otri nexttri;
     struct otri starttri;
     struct osub hullsubseg;
-    triangle **deadtriangle;
+    triangle** deadtriangle;
     vertex horg, hdest;
     triangle ptr;                         /* Temporary variable used by sym(). */
     subseg sptr;                      /* Temporary variable used by tspivot(). */
@@ -13719,7 +13733,7 @@ struct behavior *b;
                 if (!infected(hulltri))
                 {
                     infect(hulltri);
-                    deadtriangle = (triangle **) poolalloc(&m->viri);
+                    deadtriangle = (triangle**) poolalloc(&m->viri);
                     *deadtriangle = hulltri.tri;
                 }
             }
@@ -13772,18 +13786,18 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void plague(struct mesh *m, struct behavior *b)
+void plague(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void plague(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
     struct otri testtri;
     struct otri neighbor;
-    triangle **virusloop;
-    triangle **deadtriangle;
+    triangle** virusloop;
+    triangle** deadtriangle;
     struct osub neighborsubseg;
     vertex testvertex;
     vertex norg, ndest;
@@ -13799,8 +13813,8 @@ struct behavior *b;
     /* Loop through all the infected triangles, spreading the virus to */
     /*   their neighbors, then to their neighbors' neighbors.          */
     traversalinit(&m->viri);
-    virusloop = (triangle **) traverse(&m->viri);
-    while (virusloop != (triangle **) NULL)
+    virusloop = (triangle**) traverse(&m->viri);
+    while (virusloop != (triangle**) NULL)
     {
         testtri.tri = *virusloop;
         /* A triangle is marked as infected by messing with one of its pointers */
@@ -13864,7 +13878,7 @@ struct behavior *b;
                     }
                     infect(neighbor);
                     /* Ensure that the neighbor's neighbors will be infected. */
-                    deadtriangle = (triangle **) poolalloc(&m->viri);
+                    deadtriangle = (triangle**) poolalloc(&m->viri);
                     *deadtriangle = neighbor.tri;
                 }
                 else                   /* The neighbor is protected by a subsegment. */
@@ -13892,7 +13906,7 @@ struct behavior *b;
         /* Remark the triangle as infected, so it doesn't get added to the */
         /*   virus pool again.                                             */
         infect(testtri);
-        virusloop = (triangle **) traverse(&m->viri);
+        virusloop = (triangle**) traverse(&m->viri);
     }
 
     if (b->verbose)
@@ -13901,8 +13915,8 @@ struct behavior *b;
     }
 
     traversalinit(&m->viri);
-    virusloop = (triangle **) traverse(&m->viri);
-    while (virusloop != (triangle **) NULL)
+    virusloop = (triangle**) traverse(&m->viri);
+    while (virusloop != (triangle**) NULL)
     {
         testtri.tri = *virusloop;
 
@@ -13995,7 +14009,7 @@ struct behavior *b;
         }
         /* Return the dead triangle to the pool of triangles. */
         triangledealloc(m, testtri.tri);
-        virusloop = (triangle **) traverse(&m->viri);
+        virusloop = (triangle**) traverse(&m->viri);
     }
     /* Empty the virus pool. */
     poolrestart(&m->viri);
@@ -14017,12 +14031,12 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void regionplague(struct mesh *m, struct behavior *b,
+void regionplague(struct mesh* m, struct behavior* b,
                   REAL attribute, REAL area)
 #else /* not ANSI_DECLARATORS */
 void regionplague(m, b, attribute, area)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 REAL attribute;
 REAL area;
 #endif /* not ANSI_DECLARATORS */
@@ -14030,8 +14044,8 @@ REAL area;
 {
     struct otri testtri;
     struct otri neighbor;
-    triangle **virusloop;
-    triangle **regiontri;
+    triangle** virusloop;
+    triangle** regiontri;
     struct osub neighborsubseg;
     vertex regionorg, regiondest, regionapex;
     triangle ptr;             /* Temporary variable used by sym() and onext(). */
@@ -14045,8 +14059,8 @@ REAL area;
     /*   and/or area constraint to their neighbors, then to their neighbors' */
     /*   neighbors.                                                          */
     traversalinit(&m->viri);
-    virusloop = (triangle **) traverse(&m->viri);
-    while (virusloop != (triangle **) NULL)
+    virusloop = (triangle**) traverse(&m->viri);
+    while (virusloop != (triangle**) NULL)
     {
         testtri.tri = *virusloop;
         /* A triangle is marked as infected by messing with one of its pointers */
@@ -14100,14 +14114,14 @@ REAL area;
                 /* Infect the neighbor. */
                 infect(neighbor);
                 /* Ensure that the neighbor's neighbors will be infected. */
-                regiontri = (triangle **) poolalloc(&m->viri);
+                regiontri = (triangle**) poolalloc(&m->viri);
                 *regiontri = neighbor.tri;
             }
         }
         /* Remark the triangle as infected, so it doesn't get added to the */
         /*   virus pool again.                                             */
         infect(testtri);
-        virusloop = (triangle **) traverse(&m->viri);
+        virusloop = (triangle**) traverse(&m->viri);
     }
 
     /* Uninfect all triangles. */
@@ -14116,12 +14130,12 @@ REAL area;
         printf("  Unmarking marked triangles.\n");
     }
     traversalinit(&m->viri);
-    virusloop = (triangle **) traverse(&m->viri);
-    while (virusloop != (triangle **) NULL)
+    virusloop = (triangle**) traverse(&m->viri);
+    while (virusloop != (triangle**) NULL)
     {
         testtri.tri = *virusloop;
         uninfect(testtri);
-        virusloop = (triangle **) traverse(&m->viri);
+        virusloop = (triangle**) traverse(&m->viri);
     }
     /* Empty the virus pool. */
     poolrestart(&m->viri);
@@ -14140,24 +14154,24 @@ REAL area;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void carveholes(struct mesh *m, struct behavior *b, REAL *holelist, int holes,
-                REAL *regionlist, int regions)
+void carveholes(struct mesh* m, struct behavior* b, REAL* holelist, int holes,
+                REAL* regionlist, int regions)
 #else /* not ANSI_DECLARATORS */
 void carveholes(m, b, holelist, holes, regionlist, regions)
-struct mesh *m;
-struct behavior *b;
-REAL *holelist;
+struct mesh* m;
+struct behavior* b;
+REAL* holelist;
 int holes;
-REAL *regionlist;
+REAL* regionlist;
 int regions;
 #endif /* not ANSI_DECLARATORS */
 
 {
     struct otri searchtri;
     struct otri triangleloop;
-    struct otri *regiontris;
-    triangle **holetri;
-    triangle **regiontri;
+    struct otri* regiontris;
+    triangle** holetri;
+    triangle** regiontri;
     vertex searchorg, searchdest;
     enum locateresult intersect;
     int i;
@@ -14175,19 +14189,19 @@ int regions;
     if (regions > 0)
     {
         /* Allocate storage for the triangles in which region points fall. */
-        regiontris = (struct otri *) trimalloc(regions *
-                                               (int) sizeof(struct otri));
+        regiontris = (struct otri*) trimalloc(regions *
+                                              (int) sizeof(struct otri));
     }
     else
     {
-        regiontris = (struct otri *) NULL;
+        regiontris = (struct otri*) NULL;
     }
 
     if (((holes > 0) && !b->noholes) || !b->convex || (regions > 0))
     {
         /* Initialize a pool of viri to be used for holes, concavities, */
         /*   regional attributes, and/or regional area constraints.     */
-        poolinit(&m->viri, sizeof(triangle *), VIRUSPERBLOCK, VIRUSPERBLOCK, 0);
+        poolinit(&m->viri, sizeof(triangle*), VIRUSPERBLOCK, VIRUSPERBLOCK, 0);
     }
 
     if (!b->convex)
@@ -14225,7 +14239,7 @@ int regions;
                         /* Infect the triangle.  This is done by marking the triangle  */
                         /*   as infected and including the triangle in the virus pool. */
                         infect(searchtri);
-                        holetri = (triangle **) poolalloc(&m->viri);
+                        holetri = (triangle**) poolalloc(&m->viri);
                         *holetri = searchtri.tri;
                     }
                 }
@@ -14308,7 +14322,7 @@ int regions;
             traversalinit(&m->triangles);
             triangleloop.orient = 0;
             triangleloop.tri = triangletraverse(m);
-            while (triangleloop.tri != (triangle *) NULL)
+            while (triangleloop.tri != (triangle*) NULL)
             {
                 setelemattribute(triangleloop, m->eextras, 0.0);
                 triangleloop.tri = triangletraverse(m);
@@ -14324,7 +14338,7 @@ int regions;
                 {
                     /* Put one triangle in the virus pool. */
                     infect(regiontris[i]);
-                    regiontri = (triangle **) poolalloc(&m->viri);
+                    regiontri = (triangle**) poolalloc(&m->viri);
                     *regiontri = regiontris[i].tri;
                     /* Apply one region's attribute and/or area constraint. */
                     regionplague(m, b, regionlist[4 * i + 2], regionlist[4 * i + 3]);
@@ -14346,7 +14360,7 @@ int regions;
     }
     if (regions > 0)
     {
-        trifree((VOID *) regiontris);
+        trifree((VOID*) regiontris);
     }
 }
 
@@ -14368,11 +14382,11 @@ int regions;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void tallyencs(struct mesh *m, struct behavior *b)
+void tallyencs(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void tallyencs(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -14382,7 +14396,7 @@ struct behavior *b;
     traversalinit(&m->subsegs);
     subsegloop.ssorient = 0;
     subsegloop.ss = subsegtraverse(m);
-    while (subsegloop.ss != (subseg *) NULL)
+    while (subsegloop.ss != (subseg*) NULL)
     {
         /* If the segment is encroached, add it to the list. */
         dummy = checkseg4encroach(m, b, &subsegloop);
@@ -14430,11 +14444,11 @@ void precisionerror()
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void splitencsegs(struct mesh *m, struct behavior *b, int triflaws)
+void splitencsegs(struct mesh* m, struct behavior* b, int triflaws)
 #else /* not ANSI_DECLARATORS */
 void splitencsegs(m, b, triflaws)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 int triflaws;
 #endif /* not ANSI_DECLARATORS */
 
@@ -14443,7 +14457,7 @@ int triflaws;
     struct otri testtri;
     struct osub testsh;
     struct osub currentenc;
-    struct badsubseg *encloop;
+    struct badsubseg* encloop;
     vertex eorg, edest, eapex;
     vertex newvertex;
     enum insertvertexresult success;
@@ -14462,7 +14476,7 @@ int triflaws;
     {
         traversalinit(&m->badsubsegs);
         encloop = badsubsegtraverse(m);
-        while ((encloop != (struct badsubseg *) NULL) && (m->steinerleft != 0))
+        while ((encloop != (struct badsubseg*) NULL) && (m->steinerleft != 0))
         {
             sdecode(encloop->encsubseg, currentenc);
             sorg(currentenc, eorg);
@@ -14664,11 +14678,11 @@ int triflaws;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void tallyfaces(struct mesh *m, struct behavior *b)
+void tallyfaces(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void tallyfaces(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -14681,7 +14695,7 @@ struct behavior *b;
     traversalinit(&m->triangles);
     triangleloop.orient = 0;
     triangleloop.tri = triangletraverse(m);
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         /* If the triangle is bad, enqueue it. */
         testtriangle(m, b, &triangleloop);
@@ -14702,13 +14716,13 @@ struct behavior *b;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void splittriangle(struct mesh *m, struct behavior *b,
-                   struct badtriang *badtri)
+void splittriangle(struct mesh* m, struct behavior* b,
+                   struct badtriang* badtri)
 #else /* not ANSI_DECLARATORS */
 void splittriangle(m, b, badtri)
-struct mesh *m;
-struct behavior *b;
-struct badtriang *badtri;
+struct mesh* m;
+struct behavior* b;
+struct badtriang* badtri;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -14783,7 +14797,7 @@ struct badtriang *badtri;
 
             /* Insert the circumcenter, searching from the edge of the triangle, */
             /*   and maintain the Delaunay property of the triangulation.        */
-            success = insertvertex(m, b, newvertex, &badotri, (struct osub *) NULL,
+            success = insertvertex(m, b, newvertex, &badotri, (struct osub*) NULL,
                                    1, 1);
             if (success == SUCCESSFULVERTEX)
             {
@@ -14851,15 +14865,15 @@ struct badtriang *badtri;
 #ifndef CDT_ONLY
 
 #ifdef ANSI_DECLARATORS
-void enforcequality(struct mesh *m, struct behavior *b)
+void enforcequality(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void enforcequality(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    struct badtriang *badtri;
+    struct badtriang* badtri;
     int i;
 
     if (!b->quiet)
@@ -14893,7 +14907,7 @@ struct behavior *b;
         /* Initialize the queues of bad triangles. */
         for (i = 0; i < 4096; i++)
         {
-            m->queuefront[i] = (struct badtriang *) NULL;
+            m->queuefront[i] = (struct badtriang*) NULL;
         }
         m->firstnonemptyq = -1;
         /* Test all triangles to see if they're bad. */
@@ -14922,7 +14936,7 @@ struct behavior *b;
             else
             {
                 /* Return the bad triangle to the pool. */
-                pooldealloc(&m->badtriangles, (VOID *) badtri);
+                pooldealloc(&m->badtriangles, (VOID*) badtri);
             }
         }
     }
@@ -14964,11 +14978,11 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void highorder(struct mesh *m, struct behavior *b)
+void highorder(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void highorder(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -14989,7 +15003,7 @@ struct behavior *b;
     /*   order elements.  This ensures that the primary nodes (at the     */
     /*   corners of elements) will occur earlier in the output files, and */
     /*   have lower indices, than the extra nodes.                        */
-    m->vertices.deaditemstack = (VOID *) NULL;
+    m->vertices.deaditemstack = (VOID*) NULL;
 
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
@@ -14999,7 +15013,7 @@ struct behavior *b;
     /*   adjacent triangle, operate on the edge only if the current triangle */
     /*   has a smaller pointer than its neighbor.  This way, each edge is    */
     /*   considered only once.                                               */
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         for (triangleloop.orient = 0; triangleloop.orient < 3;
                 triangleloop.orient++)
@@ -15064,22 +15078,22 @@ struct behavior *b;
 #ifndef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-char *readline(char *string, FILE *infile, char *infilename)
+char* readline(char* string, FILE* infile, char* infilename)
 #else /* not ANSI_DECLARATORS */
-char *readline(string, infile, infilename)
-char *string;
-FILE *infile;
-char *infilename;
+char* readline(string, infile, infilename)
+char* string;
+FILE* infile;
+char* infilename;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    char *result;
+    char* result;
 
     /* Search for something that looks like a number. */
     do
     {
         result = fgets(string, INPUTLINESIZE, infile);
-        if (result == (char *) NULL)
+        if (result == (char*) NULL)
         {
             printf("  Error:  Unexpected end of file in %s.\n", infilename);
             triexit(1);
@@ -15112,14 +15126,14 @@ char *infilename;
 #ifndef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-char *findfield(char *string)
+char* findfield(char* string)
 #else /* not ANSI_DECLARATORS */
-char *findfield(string)
-char *string;
+char* findfield(string)
+char* string;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    char *result;
+    char* result;
 
     result = string;
     /* Skip the current field.  Stop upon reaching whitespace. */
@@ -15156,23 +15170,23 @@ char *string;
 #ifndef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void readnodes(struct mesh *m, struct behavior *b, char *nodefilename,
-               char *polyfilename, FILE **polyfile)
+void readnodes(struct mesh* m, struct behavior* b, char* nodefilename,
+               char* polyfilename, FILE** polyfile)
 #else /* not ANSI_DECLARATORS */
 void readnodes(m, b, nodefilename, polyfilename, polyfile)
-struct mesh *m;
-struct behavior *b;
-char *nodefilename;
-char *polyfilename;
-FILE **polyfile;
+struct mesh* m;
+struct behavior* b;
+char* nodefilename;
+char* polyfilename;
+FILE** polyfile;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    FILE *infile;
+    FILE* infile;
     vertex vertexloop;
     char inputline[INPUTLINESIZE];
-    char *stringptr;
-    char *infilename;
+    char* stringptr;
+    char* infilename;
     REAL x, y;
     int firstnode;
     int nodemarkers;
@@ -15187,7 +15201,7 @@ FILE **polyfile;
             printf("Opening %s.\n", polyfilename);
         }
         *polyfile = fopen(polyfilename, "r");
-        if (*polyfile == (FILE *) NULL)
+        if (*polyfile == (FILE*) NULL)
         {
             printf("  Error:  Cannot access file %s.\n", polyfilename);
             triexit(1);
@@ -15241,7 +15255,7 @@ FILE **polyfile;
     {
         m->readnodefile = 1;
         infilename = nodefilename;
-        *polyfile = (FILE *) NULL;
+        *polyfile = (FILE*) NULL;
     }
 
     if (m->readnodefile)
@@ -15252,7 +15266,7 @@ FILE **polyfile;
             printf("Opening %s.\n", nodefilename);
         }
         infile = fopen(nodefilename, "r");
-        if (infile == (FILE *) NULL)
+        if (infile == (FILE*) NULL)
         {
             printf("  Error:  Cannot access file %s.\n", nodefilename);
             triexit(1);
@@ -15404,17 +15418,17 @@ FILE **polyfile;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void transfernodes(struct mesh *m, struct behavior *b, REAL *pointlist,
-                   REAL *pointattriblist, int *pointmarkerlist,
+void transfernodes(struct mesh* m, struct behavior* b, REAL* pointlist,
+                   REAL* pointattriblist, int* pointmarkerlist,
                    int numberofpoints, int numberofpointattribs)
 #else /* not ANSI_DECLARATORS */
 void transfernodes(m, b, pointlist, pointattriblist, pointmarkerlist,
                    numberofpoints, numberofpointattribs)
-struct mesh *m;
-struct behavior *b;
-REAL *pointlist;
-REAL *pointattriblist;
-int *pointmarkerlist;
+struct mesh* m;
+struct behavior* b;
+REAL* pointlist;
+REAL* pointattriblist;
+int* pointmarkerlist;
 int numberofpoints;
 int numberofpointattribs;
 #endif /* not ANSI_DECLARATORS */
@@ -15456,7 +15470,7 @@ int numberofpointattribs;
         {
             vertexloop[2 + j] = pointattriblist[attribindex++];
         }
-        if (pointmarkerlist != (int *) NULL)
+        if (pointmarkerlist != (int*) NULL)
         {
             /* Read a vertex marker. */
             setvertexmark(vertexloop, pointmarkerlist[i]);
@@ -15499,26 +15513,26 @@ int numberofpointattribs;
 #ifndef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void readholes(struct mesh *m, struct behavior *b,
-               FILE *polyfile, char *polyfilename, REAL **hlist, int *holes,
-               REAL **rlist, int *regions)
+void readholes(struct mesh* m, struct behavior* b,
+               FILE* polyfile, char* polyfilename, REAL** hlist, int* holes,
+               REAL** rlist, int* regions)
 #else /* not ANSI_DECLARATORS */
 void readholes(m, b, polyfile, polyfilename, hlist, holes, rlist, regions)
-struct mesh *m;
-struct behavior *b;
-FILE *polyfile;
-char *polyfilename;
-REAL **hlist;
-int *holes;
-REAL **rlist;
-int *regions;
+struct mesh* m;
+struct behavior* b;
+FILE* polyfile;
+char* polyfilename;
+REAL** hlist;
+int* holes;
+REAL** rlist;
+int* regions;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    REAL *holelist;
-    REAL *regionlist;
+    REAL* holelist;
+    REAL* regionlist;
     char inputline[INPUTLINESIZE];
-    char *stringptr;
+    char* stringptr;
     int index;
     int i;
 
@@ -15527,7 +15541,7 @@ int *regions;
     *holes = (int) strtol(stringptr, &stringptr, 0);
     if (*holes > 0)
     {
-        holelist = (REAL *) trimalloc(2 * *holes * (int) sizeof(REAL));
+        holelist = (REAL*) trimalloc(2 * *holes * (int) sizeof(REAL));
         *hlist = holelist;
         for (i = 0; i < 2 * *holes; i += 2)
         {
@@ -15558,7 +15572,7 @@ int *regions;
     }
     else
     {
-        *hlist = (REAL *) NULL;
+        *hlist = (REAL*) NULL;
     }
 
 #ifndef CDT_ONLY
@@ -15569,7 +15583,7 @@ int *regions;
         *regions = (int) strtol(stringptr, &stringptr, 0);
         if (*regions > 0)
         {
-            regionlist = (REAL *) trimalloc(4 * *regions * (int) sizeof(REAL));
+            regionlist = (REAL*) trimalloc(4 * *regions * (int) sizeof(REAL));
             *rlist = regionlist;
             index = 0;
             for (i = 0; i < *regions; i++)
@@ -15626,7 +15640,7 @@ int *regions;
     {
         /* Set `*regions' to zero to avoid an accidental free() later. */
         *regions = 0;
-        *rlist = (REAL *) NULL;
+        *rlist = (REAL*) NULL;
     }
 #endif /* not CDT_ONLY */
 
@@ -15645,12 +15659,12 @@ int *regions;
 #ifndef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void finishfile(FILE *outfile, int argc, char **argv)
+void finishfile(FILE* outfile, int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void finishfile(outfile, argc, argv)
-FILE *outfile;
+FILE* outfile;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -15680,42 +15694,42 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writenodes(struct mesh *m, struct behavior *b, REAL **pointlist,
-                REAL **pointattriblist, int **pointmarkerlist)
+void writenodes(struct mesh* m, struct behavior* b, REAL** pointlist,
+                REAL** pointattriblist, int** pointmarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writenodes(m, b, pointlist, pointattriblist, pointmarkerlist)
-struct mesh *m;
-struct behavior *b;
-REAL **pointlist;
-REAL **pointattriblist;
-int **pointmarkerlist;
+struct mesh* m;
+struct behavior* b;
+REAL** pointlist;
+REAL** pointattriblist;
+int** pointmarkerlist;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-void writenodes(struct mesh *m, struct behavior *b, char *nodefilename,
-                int argc, char **argv)
+void writenodes(struct mesh* m, struct behavior* b, char* nodefilename,
+                int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void writenodes(m, b, nodefilename, argc, argv)
-struct mesh *m;
-struct behavior *b;
-char *nodefilename;
+struct mesh* m;
+struct behavior* b;
+char* nodefilename;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
 
 {
 #ifdef TRILIBRARY
-    REAL *plist;
-    REAL *palist;
-    int *pmlist;
+    REAL* plist;
+    REAL* palist;
+    int* pmlist;
     int coordindex;
     int attribindex;
 #else /* not TRILIBRARY */
-    FILE *outfile;
+    FILE* outfile;
 #endif /* not TRILIBRARY */
     vertex vertexloop;
     long outvertices;
@@ -15737,20 +15751,20 @@ char **argv;
         printf("Writing vertices.\n");
     }
     /* Allocate memory for output vertices if necessary. */
-    if (*pointlist == (REAL *) NULL)
+    if (*pointlist == (REAL*) NULL)
     {
-        *pointlist = (REAL *) trimalloc((int) (outvertices * 2 * sizeof(REAL)));
+        *pointlist = (REAL*) trimalloc((int) (outvertices * 2 * sizeof(REAL)));
     }
     /* Allocate memory for output vertex attributes if necessary. */
-    if ((m->nextras > 0) && (*pointattriblist == (REAL *) NULL))
+    if ((m->nextras > 0) && (*pointattriblist == (REAL*) NULL))
     {
-        *pointattriblist = (REAL *) trimalloc((int) (outvertices * m->nextras *
-                                              sizeof(REAL)));
+        *pointattriblist = (REAL*) trimalloc((int) (outvertices * m->nextras *
+                                             sizeof(REAL)));
     }
     /* Allocate memory for output vertex markers if necessary. */
-    if (!b->nobound && (*pointmarkerlist == (int *) NULL))
+    if (!b->nobound && (*pointmarkerlist == (int*) NULL))
     {
-        *pointmarkerlist = (int *) trimalloc((int) (outvertices * sizeof(int)));
+        *pointmarkerlist = (int*) trimalloc((int) (outvertices * sizeof(int)));
     }
     plist = *pointlist;
     palist = *pointattriblist;
@@ -15763,7 +15777,7 @@ char **argv;
         printf("Writing %s.\n", nodefilename);
     }
     outfile = fopen(nodefilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", nodefilename);
         triexit(1);
@@ -15837,11 +15851,11 @@ char **argv;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void numbernodes(struct mesh *m, struct behavior *b)
+void numbernodes(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void numbernodes(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -15871,40 +15885,40 @@ struct behavior *b;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writeelements(struct mesh *m, struct behavior *b,
-                   int **trianglelist, REAL **triangleattriblist)
+void writeelements(struct mesh* m, struct behavior* b,
+                   int** trianglelist, REAL** triangleattriblist)
 #else /* not ANSI_DECLARATORS */
 void writeelements(m, b, trianglelist, triangleattriblist)
-struct mesh *m;
-struct behavior *b;
-int **trianglelist;
-REAL **triangleattriblist;
+struct mesh* m;
+struct behavior* b;
+int** trianglelist;
+REAL** triangleattriblist;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-void writeelements(struct mesh *m, struct behavior *b, char *elefilename,
-                   int argc, char **argv)
+void writeelements(struct mesh* m, struct behavior* b, char* elefilename,
+                   int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void writeelements(m, b, elefilename, argc, argv)
-struct mesh *m;
-struct behavior *b;
-char *elefilename;
+struct mesh* m;
+struct behavior* b;
+char* elefilename;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
 
 {
 #ifdef TRILIBRARY
-    int *tlist;
-    REAL *talist;
+    int* tlist;
+    REAL* talist;
     int vertexindex;
     int attribindex;
 #else /* not TRILIBRARY */
-    FILE *outfile;
+    FILE* outfile;
 #endif /* not TRILIBRARY */
     struct otri triangleloop;
     vertex p1, p2, p3;
@@ -15918,18 +15932,18 @@ char **argv;
         printf("Writing triangles.\n");
     }
     /* Allocate memory for output triangles if necessary. */
-    if (*trianglelist == (int *) NULL)
+    if (*trianglelist == (int*) NULL)
     {
-        *trianglelist = (int *) trimalloc((int) (m->triangles.items *
-                                          ((b->order + 1) * (b->order + 2) /
-                                           2) * sizeof(int)));
+        *trianglelist = (int*) trimalloc((int) (m->triangles.items *
+                                                ((b->order + 1) * (b->order + 2) /
+                                                        2) * sizeof(int)));
     }
     /* Allocate memory for output triangle attributes if necessary. */
-    if ((m->eextras > 0) && (*triangleattriblist == (REAL *) NULL))
+    if ((m->eextras > 0) && (*triangleattriblist == (REAL*) NULL))
     {
-        *triangleattriblist = (REAL *) trimalloc((int) (m->triangles.items *
-                              m->eextras *
-                              sizeof(REAL)));
+        *triangleattriblist = (REAL*) trimalloc((int) (m->triangles.items *
+                                                m->eextras *
+                                                sizeof(REAL)));
     }
     tlist = *trianglelist;
     talist = *triangleattriblist;
@@ -15941,7 +15955,7 @@ char **argv;
         printf("Writing %s.\n", elefilename);
     }
     outfile = fopen(elefilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", elefilename);
         triexit(1);
@@ -15955,7 +15969,7 @@ char **argv;
     triangleloop.tri = triangletraverse(m);
     triangleloop.orient = 0;
     elementnumber = b->firstnumber;
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         org(triangleloop, p1);
         dest(triangleloop, p2);
@@ -16023,45 +16037,45 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writepoly(struct mesh *m, struct behavior *b,
-               int **segmentlist, int **segmentmarkerlist)
+void writepoly(struct mesh* m, struct behavior* b,
+               int** segmentlist, int** segmentmarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writepoly(m, b, segmentlist, segmentmarkerlist)
-struct mesh *m;
-struct behavior *b;
-int **segmentlist;
-int **segmentmarkerlist;
+struct mesh* m;
+struct behavior* b;
+int** segmentlist;
+int** segmentmarkerlist;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-void writepoly(struct mesh *m, struct behavior *b, char *polyfilename,
-               REAL *holelist, int holes, REAL *regionlist, int regions,
-               int argc, char **argv)
+void writepoly(struct mesh* m, struct behavior* b, char* polyfilename,
+               REAL* holelist, int holes, REAL* regionlist, int regions,
+               int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void writepoly(m, b, polyfilename, holelist, holes, regionlist, regions,
                argc, argv)
-struct mesh *m;
-struct behavior *b;
-char *polyfilename;
-REAL *holelist;
+struct mesh* m;
+struct behavior* b;
+char* polyfilename;
+REAL* holelist;
 int holes;
-REAL *regionlist;
+REAL* regionlist;
 int regions;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
 
 {
 #ifdef TRILIBRARY
-    int *slist;
-    int *smlist;
+    int* slist;
+    int* smlist;
     int index;
 #else /* not TRILIBRARY */
-    FILE *outfile;
+    FILE* outfile;
     long holenumber, regionnumber;
 #endif /* not TRILIBRARY */
     struct osub subsegloop;
@@ -16074,16 +16088,16 @@ char **argv;
         printf("Writing segments.\n");
     }
     /* Allocate memory for output segments if necessary. */
-    if (*segmentlist == (int *) NULL)
+    if (*segmentlist == (int*) NULL)
     {
-        *segmentlist = (int *) trimalloc((int) (m->subsegs.items * 2 *
-                                                sizeof(int)));
+        *segmentlist = (int*) trimalloc((int) (m->subsegs.items * 2 *
+                                               sizeof(int)));
     }
     /* Allocate memory for output segment markers if necessary. */
-    if (!b->nobound && (*segmentmarkerlist == (int *) NULL))
+    if (!b->nobound && (*segmentmarkerlist == (int*) NULL))
     {
-        *segmentmarkerlist = (int *) trimalloc((int) (m->subsegs.items *
-                                               sizeof(int)));
+        *segmentmarkerlist = (int*) trimalloc((int) (m->subsegs.items *
+                                              sizeof(int)));
     }
     slist = *segmentlist;
     smlist = *segmentmarkerlist;
@@ -16094,7 +16108,7 @@ char **argv;
         printf("Writing %s.\n", polyfilename);
     }
     outfile = fopen(polyfilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", polyfilename);
         triexit(1);
@@ -16112,7 +16126,7 @@ char **argv;
     subsegloop.ss = subsegtraverse(m);
     subsegloop.ssorient = 0;
     subsegnumber = b->firstnumber;
-    while (subsegloop.ss != (subseg *) NULL)
+    while (subsegloop.ss != (subseg*) NULL)
     {
         sorg(subsegloop, endpoint1);
         sdest(subsegloop, endpoint2);
@@ -16183,39 +16197,39 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writeedges(struct mesh *m, struct behavior *b,
-                int **edgelist, int **edgemarkerlist)
+void writeedges(struct mesh* m, struct behavior* b,
+                int** edgelist, int** edgemarkerlist)
 #else /* not ANSI_DECLARATORS */
 void writeedges(m, b, edgelist, edgemarkerlist)
-struct mesh *m;
-struct behavior *b;
-int **edgelist;
-int **edgemarkerlist;
+struct mesh* m;
+struct behavior* b;
+int** edgelist;
+int** edgemarkerlist;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-void writeedges(struct mesh *m, struct behavior *b, char *edgefilename,
-                int argc, char **argv)
+void writeedges(struct mesh* m, struct behavior* b, char* edgefilename,
+                int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void writeedges(m, b, edgefilename, argc, argv)
-struct mesh *m;
-struct behavior *b;
-char *edgefilename;
+struct mesh* m;
+struct behavior* b;
+char* edgefilename;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
 
 {
 #ifdef TRILIBRARY
-    int *elist;
-    int *emlist;
+    int* elist;
+    int* emlist;
     int index;
 #else /* not TRILIBRARY */
-    FILE *outfile;
+    FILE* outfile;
 #endif /* not TRILIBRARY */
     struct otri triangleloop, trisym;
     struct osub checkmark;
@@ -16230,14 +16244,14 @@ char **argv;
         printf("Writing edges.\n");
     }
     /* Allocate memory for edges if necessary. */
-    if (*edgelist == (int *) NULL)
+    if (*edgelist == (int*) NULL)
     {
-        *edgelist = (int *) trimalloc((int) (m->edges * 2 * sizeof(int)));
+        *edgelist = (int*) trimalloc((int) (m->edges * 2 * sizeof(int)));
     }
     /* Allocate memory for edge markers if necessary. */
-    if (!b->nobound && (*edgemarkerlist == (int *) NULL))
+    if (!b->nobound && (*edgemarkerlist == (int*) NULL))
     {
-        *edgemarkerlist = (int *) trimalloc((int) (m->edges * sizeof(int)));
+        *edgemarkerlist = (int*) trimalloc((int) (m->edges * sizeof(int)));
     }
     elist = *edgelist;
     emlist = *edgemarkerlist;
@@ -16248,7 +16262,7 @@ char **argv;
         printf("Writing %s.\n", edgefilename);
     }
     outfile = fopen(edgefilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", edgefilename);
         triexit(1);
@@ -16266,7 +16280,7 @@ char **argv;
     /*   adjacent triangle, operate on the edge only if the current triangle */
     /*   has a smaller pointer than its neighbor.  This way, each edge is    */
     /*   considered only once.                                               */
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         for (triangleloop.orient = 0; triangleloop.orient < 3;
                 triangleloop.orient++)
@@ -16354,49 +16368,49 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writevoronoi(struct mesh *m, struct behavior *b, REAL **vpointlist,
-                  REAL **vpointattriblist, int **vpointmarkerlist,
-                  int **vedgelist, int **vedgemarkerlist, REAL **vnormlist)
+void writevoronoi(struct mesh* m, struct behavior* b, REAL** vpointlist,
+                  REAL** vpointattriblist, int** vpointmarkerlist,
+                  int** vedgelist, int** vedgemarkerlist, REAL** vnormlist)
 #else /* not ANSI_DECLARATORS */
 void writevoronoi(m, b, vpointlist, vpointattriblist, vpointmarkerlist,
                   vedgelist, vedgemarkerlist, vnormlist)
-struct mesh *m;
-struct behavior *b;
-REAL **vpointlist;
-REAL **vpointattriblist;
-int **vpointmarkerlist;
-int **vedgelist;
-int **vedgemarkerlist;
-REAL **vnormlist;
+struct mesh* m;
+struct behavior* b;
+REAL** vpointlist;
+REAL** vpointattriblist;
+int** vpointmarkerlist;
+int** vedgelist;
+int** vedgemarkerlist;
+REAL** vnormlist;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-void writevoronoi(struct mesh *m, struct behavior *b, char *vnodefilename,
-                  char *vedgefilename, int argc, char **argv)
+void writevoronoi(struct mesh* m, struct behavior* b, char* vnodefilename,
+                  char* vedgefilename, int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void writevoronoi(m, b, vnodefilename, vedgefilename, argc, argv)
-struct mesh *m;
-struct behavior *b;
-char *vnodefilename;
-char *vedgefilename;
+struct mesh* m;
+struct behavior* b;
+char* vnodefilename;
+char* vedgefilename;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
 
 {
 #ifdef TRILIBRARY
-    REAL *plist;
-    REAL *palist;
-    int *elist;
-    REAL *normlist;
+    REAL* plist;
+    REAL* palist;
+    int* elist;
+    REAL* normlist;
     int coordindex;
     int attribindex;
 #else /* not TRILIBRARY */
-    FILE *outfile;
+    FILE* outfile;
 #endif /* not TRILIBRARY */
     struct otri triangleloop, trisym;
     vertex torg, tdest, tapex;
@@ -16413,18 +16427,18 @@ char **argv;
         printf("Writing Voronoi vertices.\n");
     }
     /* Allocate memory for Voronoi vertices if necessary. */
-    if (*vpointlist == (REAL *) NULL)
+    if (*vpointlist == (REAL*) NULL)
     {
-        *vpointlist = (REAL *) trimalloc((int) (m->triangles.items * 2 *
-                                                sizeof(REAL)));
+        *vpointlist = (REAL*) trimalloc((int) (m->triangles.items * 2 *
+                                               sizeof(REAL)));
     }
     /* Allocate memory for Voronoi vertex attributes if necessary. */
-    if (*vpointattriblist == (REAL *) NULL)
+    if (*vpointattriblist == (REAL*) NULL)
     {
-        *vpointattriblist = (REAL *) trimalloc((int) (m->triangles.items *
-                                               m->nextras * sizeof(REAL)));
+        *vpointattriblist = (REAL*) trimalloc((int) (m->triangles.items *
+                                              m->nextras * sizeof(REAL)));
     }
-    *vpointmarkerlist = (int *) NULL;
+    *vpointmarkerlist = (int*) NULL;
     plist = *vpointlist;
     palist = *vpointattriblist;
     coordindex = 0;
@@ -16435,7 +16449,7 @@ char **argv;
         printf("Writing %s.\n", vnodefilename);
     }
     outfile = fopen(vnodefilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", vnodefilename);
         triexit(1);
@@ -16449,7 +16463,7 @@ char **argv;
     triangleloop.tri = triangletraverse(m);
     triangleloop.orient = 0;
     vnodenumber = b->firstnumber;
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         org(triangleloop, torg);
         dest(triangleloop, tdest);
@@ -16478,7 +16492,7 @@ char **argv;
         fprintf(outfile, "\n");
 #endif /* not TRILIBRARY */
 
-        * (int *) (triangleloop.tri + 6) = (int) vnodenumber;
+        * (int*) (triangleloop.tri + 6) = (int) vnodenumber;
         triangleloop.tri = triangletraverse(m);
         vnodenumber++;
     }
@@ -16493,15 +16507,15 @@ char **argv;
         printf("Writing Voronoi edges.\n");
     }
     /* Allocate memory for output Voronoi edges if necessary. */
-    if (*vedgelist == (int *) NULL)
+    if (*vedgelist == (int*) NULL)
     {
-        *vedgelist = (int *) trimalloc((int) (m->edges * 2 * sizeof(int)));
+        *vedgelist = (int*) trimalloc((int) (m->edges * 2 * sizeof(int)));
     }
-    *vedgemarkerlist = (int *) NULL;
+    *vedgemarkerlist = (int*) NULL;
     /* Allocate memory for output Voronoi norms if necessary. */
-    if (*vnormlist == (REAL *) NULL)
+    if (*vnormlist == (REAL*) NULL)
     {
-        *vnormlist = (REAL *) trimalloc((int) (m->edges * 2 * sizeof(REAL)));
+        *vnormlist = (REAL*) trimalloc((int) (m->edges * 2 * sizeof(REAL)));
     }
     elist = *vedgelist;
     normlist = *vnormlist;
@@ -16512,7 +16526,7 @@ char **argv;
         printf("Writing %s.\n", vedgefilename);
     }
     outfile = fopen(vedgefilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", vedgefilename);
         triexit(1);
@@ -16530,7 +16544,7 @@ char **argv;
     /*   adjacent triangle, operate on the edge only if the current triangle */
     /*   has a smaller pointer than its neighbor.  This way, each edge is    */
     /*   considered only once.                                               */
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         for (triangleloop.orient = 0; triangleloop.orient < 3;
                 triangleloop.orient++)
@@ -16539,7 +16553,7 @@ char **argv;
             if ((triangleloop.tri < trisym.tri) || (trisym.tri == m->dummytri))
             {
                 /* Find the number of this triangle (and Voronoi vertex). */
-                p1 = * (int *) (triangleloop.tri + 6);
+                p1 = * (int*) (triangleloop.tri + 6);
                 if (trisym.tri == m->dummytri)
                 {
                     org(triangleloop, torg);
@@ -16561,7 +16575,7 @@ char **argv;
                 else
                 {
                     /* Find the number of the adjacent triangle (and Voronoi vertex). */
-                    p2 = * (int *) (trisym.tri + 6);
+                    p2 = * (int*) (trisym.tri + 6);
                     /* Finite edge.  Write indices of two endpoints. */
 #ifdef TRILIBRARY
                     elist[coordindex] = p1;
@@ -16586,36 +16600,36 @@ char **argv;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writeneighbors(struct mesh *m, struct behavior *b, int **neighborlist)
+void writeneighbors(struct mesh* m, struct behavior* b, int** neighborlist)
 #else /* not ANSI_DECLARATORS */
 void writeneighbors(m, b, neighborlist)
-struct mesh *m;
-struct behavior *b;
-int **neighborlist;
+struct mesh* m;
+struct behavior* b;
+int** neighborlist;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-void writeneighbors(struct mesh *m, struct behavior *b, char *neighborfilename,
-                    int argc, char **argv)
+void writeneighbors(struct mesh* m, struct behavior* b, char* neighborfilename,
+                    int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void writeneighbors(m, b, neighborfilename, argc, argv)
-struct mesh *m;
-struct behavior *b;
-char *neighborfilename;
+struct mesh* m;
+struct behavior* b;
+char* neighborfilename;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
 
 {
 #ifdef TRILIBRARY
-    int *nlist;
+    int* nlist;
     int index;
 #else /* not TRILIBRARY */
-    FILE *outfile;
+    FILE* outfile;
 #endif /* not TRILIBRARY */
     struct otri triangleloop, trisym;
     long elementnumber;
@@ -16628,10 +16642,10 @@ char **argv;
         printf("Writing neighbors.\n");
     }
     /* Allocate memory for neighbors if necessary. */
-    if (*neighborlist == (int *) NULL)
+    if (*neighborlist == (int*) NULL)
     {
-        *neighborlist = (int *) trimalloc((int) (m->triangles.items * 3 *
-                                          sizeof(int)));
+        *neighborlist = (int*) trimalloc((int) (m->triangles.items * 3 *
+                                                sizeof(int)));
     }
     nlist = *neighborlist;
     index = 0;
@@ -16641,7 +16655,7 @@ char **argv;
         printf("Writing %s.\n", neighborfilename);
     }
     outfile = fopen(neighborfilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", neighborfilename);
         triexit(1);
@@ -16654,28 +16668,28 @@ char **argv;
     triangleloop.tri = triangletraverse(m);
     triangleloop.orient = 0;
     elementnumber = b->firstnumber;
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
-        * (int *) (triangleloop.tri + 6) = (int) elementnumber;
+        * (int*) (triangleloop.tri + 6) = (int) elementnumber;
         triangleloop.tri = triangletraverse(m);
         elementnumber++;
     }
-    * (int *) (m->dummytri + 6) = -1;
+    * (int*) (m->dummytri + 6) = -1;
 
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
     elementnumber = b->firstnumber;
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         triangleloop.orient = 1;
         sym(triangleloop, trisym);
-        neighbor1 = * (int *) (trisym.tri + 6);
+        neighbor1 = * (int*) (trisym.tri + 6);
         triangleloop.orient = 2;
         sym(triangleloop, trisym);
-        neighbor2 = * (int *) (trisym.tri + 6);
+        neighbor2 = * (int*) (trisym.tri + 6);
         triangleloop.orient = 0;
         sym(triangleloop, trisym);
-        neighbor3 = * (int *) (trisym.tri + 6);
+        neighbor3 = * (int*) (trisym.tri + 6);
 #ifdef TRILIBRARY
         nlist[index++] = neighbor1;
         nlist[index++] = neighbor2;
@@ -16707,19 +16721,19 @@ char **argv;
 #ifndef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void writeoff(struct mesh *m, struct behavior *b, char *offfilename,
-              int argc, char **argv)
+void writeoff(struct mesh* m, struct behavior* b, char* offfilename,
+              int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 void writeoff(m, b, offfilename, argc, argv)
-struct mesh *m;
-struct behavior *b;
-char *offfilename;
+struct mesh* m;
+struct behavior* b;
+char* offfilename;
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 {
-    FILE *outfile;
+    FILE* outfile;
     struct otri triangleloop;
     vertex vertexloop;
     vertex p1, p2, p3;
@@ -16740,7 +16754,7 @@ char **argv;
     }
 
     outfile = fopen(offfilename, "w");
-    if (outfile == (FILE *) NULL)
+    if (outfile == (FILE*) NULL)
     {
         printf("  Error:  Cannot create file %s.\n", offfilename);
         triexit(1);
@@ -16767,7 +16781,7 @@ char **argv;
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
     triangleloop.orient = 0;
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         org(triangleloop, p1);
         dest(triangleloop, p2);
@@ -16793,11 +16807,11 @@ char **argv;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void quality_statistics(struct mesh *m, struct behavior *b)
+void quality_statistics(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void quality_statistics(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -16875,7 +16889,7 @@ struct behavior *b;
     traversalinit(&m->triangles);
     triangleloop.tri = triangletraverse(m);
     triangleloop.orient = 0;
-    while (triangleloop.tri != (triangle *) NULL)
+    while (triangleloop.tri != (triangle*) NULL)
     {
         org(triangleloop, p[0]);
         dest(triangleloop, p[1]);
@@ -17041,11 +17055,11 @@ struct behavior *b;
 /*****************************************************************************/
 
 #ifdef ANSI_DECLARATORS
-void statistics(struct mesh *m, struct behavior *b)
+void statistics(struct mesh* m, struct behavior* b)
 #else /* not ANSI_DECLARATORS */
 void statistics(m, b)
-struct mesh *m;
-struct behavior *b;
+struct mesh* m;
+struct behavior* b;
 #endif /* not ANSI_DECLARATORS */
 
 {
@@ -17178,24 +17192,24 @@ struct behavior *b;
 #ifdef TRILIBRARY
 
 #ifdef ANSI_DECLARATORS
-void triangulate(char *triswitches, struct triangulateio *in,
-                 struct triangulateio *out, struct triangulateio *vorout)
+void triangulate(char* triswitches, struct triangulateio* in,
+                 struct triangulateio* out, struct triangulateio* vorout)
 #else /* not ANSI_DECLARATORS */
 void triangulate(triswitches, in, out, vorout)
-char *triswitches;
-struct triangulateio *in;
-struct triangulateio *out;
-struct triangulateio *vorout;
+char* triswitches;
+struct triangulateio* in;
+struct triangulateio* out;
+struct triangulateio* vorout;
 #endif /* not ANSI_DECLARATORS */
 
 #else /* not TRILIBRARY */
 
 #ifdef ANSI_DECLARATORS
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 #else /* not ANSI_DECLARATORS */
 int main(argc, argv)
 int argc;
-char **argv;
+char** argv;
 #endif /* not ANSI_DECLARATORS */
 
 #endif /* not TRILIBRARY */
@@ -17203,10 +17217,10 @@ char **argv;
 {
     struct mesh m;
     struct behavior b;
-    REAL *holearray;                                        /* Array of holes. */
-    REAL *regionarray;   /* Array of regional attributes and area constraints. */
+    REAL* holearray;                                        /* Array of holes. */
+    REAL* regionarray;   /* Array of regional attributes and area constraints. */
 #ifndef TRILIBRARY
-    FILE *polyfile;
+    FILE* polyfile;
 #endif /* not TRILIBRARY */
 #ifndef NO_TIMER
     /* Variables for timing the performance of Triangle.  The types are */
@@ -17411,7 +17425,7 @@ char **argv;
     {
         out->numberofsegments = m.hullsize;
     }
-    if (vorout != (struct triangulateio *) NULL)
+    if (vorout != (struct triangulateio*) NULL)
     {
         vorout->numberofpoints = m.triangles.items;
         vorout->numberofpointattributes = m.nextras;
@@ -17490,8 +17504,8 @@ char **argv;
             }
             else
             {
-                out->holelist = (REAL *) NULL;
-                out->regionlist = (REAL *) NULL;
+                out->holelist = (REAL*) NULL;
+                out->regionlist = (REAL*) NULL;
             }
 #else /* not TRILIBRARY */
             writepoly(&m, &b, b.outpolyfilename, holearray, m.holes, regionarray,
@@ -17503,12 +17517,12 @@ char **argv;
 #ifndef CDT_ONLY
     if (m.regions > 0)
     {
-        trifree((VOID *) regionarray);
+        trifree((VOID*) regionarray);
     }
 #endif /* not CDT_ONLY */
     if (m.holes > 0)
     {
-        trifree((VOID *) holearray);
+        trifree((VOID*) holearray);
     }
     if (b.geomview)
     {

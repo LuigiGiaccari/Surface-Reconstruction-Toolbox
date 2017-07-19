@@ -1,5 +1,5 @@
 #define SWAP(x,y)\
-		 temp = x; x = y; y = temp;
+    temp = x; x = y; y = temp;
 
 
 
@@ -40,7 +40,7 @@
  |  Method:	Optimized insertion-sort (ala Jon Bentley)
  */
 
-void  insort (double*a,int len)
+void  insort (double* a, int len)
 
 {
     int	i, j;
@@ -54,9 +54,9 @@ void  insort (double*a,int len)
         /* customization bug: SWAP is not used here */
         temp = a[j];
 
-        while (j > 0 && GT(a[j-1], temp))
+        while (j > 0 && GT(a[j - 1], temp))
         {
-            a[j] = a[j-1];
+            a[j] = a[j - 1];
             j--;
         }
         a[j] = temp;
@@ -93,7 +93,7 @@ void  insort (double*a,int len)
  |	with a cutoff value of CUTOFF.
  */
 
-void  partial_quickersort (double*a,int lower,int upper)
+void  partial_quickersort (double* a, int lower, int upper)
 
 {
     int	i, j;
@@ -102,7 +102,7 @@ void  partial_quickersort (double*a,int lower,int upper)
 
     if (upper - lower > CUTOFF)
     {
-        SWAP(a[lower], a[(upper+lower)/2]);
+        SWAP(a[lower], a[(upper + lower) / 2]);
         i = lower;
         j = upper + 1;
         pivot = a[lower];
@@ -113,12 +113,21 @@ void  partial_quickersort (double*a,int lower,int upper)
              * ignoring BIG NOTE above may lead to an infinite loop here
              * ---------------------------------------------------------
              */
-            do i++;
+            do
+            {
+                i++;
+            }
             while (LT(a[i], pivot));
-            do j--;
+            do
+            {
+                j--;
+            }
             while (GT(a[j], pivot));
-            if (j < i) break;
-            SWAP(a[i],a[j]);
+            if (j < i)
+            {
+                break;
+            }
+            SWAP(a[i], a[j]);
         }
         SWAP(a[lower], a[j]);
         partial_quickersort (a, lower, j - 1);
@@ -150,7 +159,7 @@ void  partial_quickersort (double*a,int lower,int upper)
  | 	len+1 elements [0..len], and assign MAXINT or some such
  |	to the last location before starting the sort (see sorttest.c)
  */
-void  sedgesort (double*a,int len)
+void  sedgesort (double* a, int len)
 
 {
     /*
