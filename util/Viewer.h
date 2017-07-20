@@ -52,8 +52,8 @@ GLdouble  BarX,  BarY,  BarZ;
 double FactScale;
 double Diam;
 float g_xRotation, g_yRotation;
-float lmodel_ambient[4]= {0.1f,0.1f,0.1f,0.1f};
-GLfloat * buffer;
+float lmodel_ambient[4] = {0.1f, 0.1f, 0.1f, 0.1f};
+GLfloat* buffer;
 int Nfacets;
 
 
@@ -67,43 +67,43 @@ void keyboard (unsigned char key, int x, int y);
 void ChangeSize(int w, int h);
 void glutSetupRC();
 void DrawClickedPoint();
-void GetClickedPoint(int x,int y,GLdouble *CRotX, GLdouble *CRotY, GLdouble *CRotZ);
-void sistema_di_riferimento(double X,double Y,double Z);
-void DrawText(string* Text,void * font,int x,int y, float r,float g, float b);
+void GetClickedPoint(int x, int y, GLdouble* CRotX, GLdouble* CRotY, GLdouble* CRotZ);
+void sistema_di_riferimento(double X, double Y, double Z);
+void DrawText(string* Text, void* font, int x, int y, float r, float g, float b);
 void PrintMouseState();
 void DrawTriangles();
 void RenderScene();
 void DrawHelpLines();
-void GetModelData(double* p,int N);
-void Tnorm(double* p1,double* p2,double* p3,float* tnorm);
-void FillBuffer(double* p,int N,int *t,int nt);
+void GetModelData(double* p, int N);
+void Tnorm(double* p1, double* p2, double* p3, float* tnorm);
+void FillBuffer(double* p, int N, int* t, int nt);
 //"Public"
 
-void StartViewer(double* p,int N,int *t,int nt);
+void StartViewer(double* p, int N, int* t, int nt);
 
 
 
 
 
 
-void StartViewer(double* p,int N,int *t,int nt)
+void StartViewer(double* p, int N, int* t, int nt)
 {
 
 
-    Nfacets=nt;
-    GetModelData(p,N);//gets model dimensions
+    Nfacets = nt;
+    GetModelData(p, N); //gets model dimensions
 
-    FillBuffer(p,N,t,nt);
+    FillBuffer(p, N, t, nt);
 
 
-    int argc=1;
-    char *argv[] = {"mydemo",NULL};
+    int argc = 1;
+    char* argv[] = {"mydemo", NULL};
 
 
     // creo la finestra
-    glutInit(&argc,argv);
+    glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(800,600);
+    glutInitWindowSize(800, 600);
     glutCreateWindow("Viewer");
     glutReshapeFunc(ChangeSize);
     glutMouseFunc(HandleMouseState);
@@ -121,32 +121,41 @@ void StartViewer(double* p,int N,int *t,int nt)
 
 
 
-void FillBuffer(double* p,int N,int *t,int nt)
+void FillBuffer(double* p, int N, int* t, int nt)
 {
-    int i,j,idt,idb,P1,P2,P3;
+    int i, j, idt, idb, P1, P2, P3;
 
 
 
-    Allocate(&buffer,nt*3*4);//allocate buffer memory
+    Allocate(&buffer, nt * 3 * 4); //allocate buffer memory
 
     //loop trough tirangles and fill buffer
 
-    for(i=0; i<nt; i=i++)
+    for (i = 0; i < nt; i = i++)
     {
 
-        idt=i*3;
-        idb=i*12;
-        P1=t[idt]*3;
-        P2=t[idt+1]*3;
-        P3=t[idt+2]*3;
+        idt = i * 3;
+        idb = i * 12;
+        P1 = t[idt] * 3;
+        P2 = t[idt + 1] * 3;
+        P3 = t[idt + 2] * 3;
 
-        Tnorm(&p[P1],&p[P2], &p[P3],&buffer[idb]);
+        Tnorm(&p[P1], &p[P2], &p[P3], &buffer[idb]);
 
-        for(j=0; j<3; j++)buffer[idb+j+3]=p[P1+j];
+        for (j = 0; j < 3; j++)
+        {
+            buffer[idb + j + 3] = p[P1 + j];
+        }
 
-        for(j=0; j<3; j++)buffer[idb+j+6]=p[P2+j];
+        for (j = 0; j < 3; j++)
+        {
+            buffer[idb + j + 6] = p[P2 + j];
+        }
 
-        for(j=0; j<3; j++)buffer[idb+j+9]=p[P3+j];
+        for (j = 0; j < 3; j++)
+        {
+            buffer[idb + j + 9] = p[P3 + j];
+        }
 
     }
 
@@ -157,7 +166,7 @@ void FillBuffer(double* p,int N,int *t,int nt)
  our display function, draws a box with proper rotation and
  translation according to our mouse interaction.
 */
-void Tnorm(double* p1,double* p2,double* p3,GLfloat* tnorm)
+void Tnorm(double* p1, double* p2, double* p3, GLfloat* tnorm)
 {
 
     int i;
@@ -165,25 +174,25 @@ void Tnorm(double* p1,double* p2,double* p3,GLfloat* tnorm)
     double v31[3];
     double leng;
 
-    for(i=0; i<3; i++)
+    for (i = 0; i < 3; i++)
     {
-        v21[i]=p2[i]-p1[i];
+        v21[i] = p2[i] - p1[i];
     }
-    for(i=0; i<3; i++)
+    for (i = 0; i < 3; i++)
     {
-        v31[i]=p3[i]-p1[i];
+        v31[i] = p3[i] - p1[i];
     }
 
 
-    tnorm[0]=v21[1]*v31[2]-v21[2]*v31[1];
-    tnorm[1]=v21[2]*v31[0]-v21[0]*v31[2];
-    tnorm[2]=v21[0]*v31[1]-v21[1]*v31[0];
+    tnorm[0] = v21[1] * v31[2] - v21[2] * v31[1];
+    tnorm[1] = v21[2] * v31[0] - v21[0] * v31[2];
+    tnorm[2] = v21[0] * v31[1] - v21[1] * v31[0];
 
-    leng=sqrt((p1[0]* p1[0])+(p1[1] * p1[1])+(p1[2] * p1[2])) ;
+    leng = sqrt((p1[0] * p1[0]) + (p1[1] * p1[1]) + (p1[2] * p1[2])) ;
 
-    for(i=0; i<3; i++)
+    for (i = 0; i < 3; i++)
     {
-        tnorm[i]=tnorm[i]/leng;
+        tnorm[i] = tnorm[i] / leng;
     }
 }
 //funzione di esempio che disegna un cubo
@@ -194,11 +203,11 @@ void DrawCube()
     glPushMatrix();
 
     // move our eye to the most recent place
-    gluLookAt(eyex, eyey, eyez, focusx, focusy, focusz, 0,1,0);
+    gluLookAt(eyex, eyey, eyez, focusx, focusy, focusz, 0, 1, 0);
 
     // rotate our box in the x and y directions
-    glRotatef(g_xRotation, 0,1,0);
-    glRotatef(g_yRotation, 1,0,0);
+    glRotatef(g_xRotation, 0, 1, 0);
+    glRotatef(g_yRotation, 1, 0, 0);
 
     // set our color to something
     glColor3f(.5f, .5f, .5f);
@@ -251,7 +260,7 @@ void InitRenderer()
 {
 
 
-    FactScale=10/Diam;
+    FactScale = 10 / Diam;
 
 
     glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
@@ -272,13 +281,13 @@ void InitRenderer()
     // init our eye location
     eyex = BarX;
     eyey = BarY;
-    eyez = BarZ+Diam*3;
-    focusx =BarX;
-    focusy =BarY;
+    eyez = BarZ + Diam * 3;
+    focusx = BarX;
+    focusy = BarY;
     focusz = BarZ;//focus
-    CRotX=BarX;
-    CRotY=BarY;
-    CRotZ=BarZ;//center of rotation
+    CRotX = BarX;
+    CRotY = BarY;
+    CRotZ = BarZ; //center of rotation
 
     // create some lighting
     InitializeLight();
@@ -287,8 +296,8 @@ void InitRenderer()
 void PrintMouseState()
 {
     printf("mouse x: %d, y:%d left: %s, right:%s, middle:%s\n", MouseState.x,
-           MouseState.y, MouseState.leftButton ? "down":"up",
-           MouseState.rightButton ? "down":"up", MouseState.middleButton ? "down":"up");
+           MouseState.y, MouseState.leftButton ? "down" : "up",
+           MouseState.rightButton ? "down" : "up", MouseState.middleButton ? "down" : "up");
 }
 
 /*
@@ -297,26 +306,38 @@ void PrintMouseState()
 void HandleMouseState(int button, int state, int x, int y)
 {
     // update our button state
-    if(button == GLUT_LEFT_BUTTON)
+    if (button == GLUT_LEFT_BUTTON)
     {
-        if(state == GLUT_DOWN)
+        if (state == GLUT_DOWN)
+        {
             MouseState.leftButton = true;
+        }
         else
+        {
             MouseState.leftButton = false;
+        }
     }
-    if(button == GLUT_RIGHT_BUTTON)
+    if (button == GLUT_RIGHT_BUTTON)
     {
-        if(state == GLUT_DOWN)
+        if (state == GLUT_DOWN)
+        {
             MouseState.rightButton = true;
+        }
         else
+        {
             MouseState.rightButton = false;
+        }
     }
-    if(button == GLUT_MIDDLE_BUTTON)
+    if (button == GLUT_MIDDLE_BUTTON)
     {
-        if(state == GLUT_DOWN)
+        if (state == GLUT_DOWN)
+        {
             MouseState.middleButton = true;
+        }
         else
+        {
             MouseState.middleButton = false;
+        }
     }
 
 
@@ -330,7 +351,7 @@ void HandleMouseState(int button, int state, int x, int y)
 
 void HandleMouseMove(int x, int y)
 {
-//   double dist;
+    //   double dist;
     //double ClickedX,ClickedY,ClickedZ;
     // calculate a delta in movement
     int yDelta = MouseState.y - y;
@@ -340,7 +361,7 @@ void HandleMouseMove(int x, int y)
     MouseState.y = y;
 
     // when we need to rotate (only the left button is down)
-    if(MouseState.leftButton && !MouseState.rightButton && !MouseState.middleButton)
+    if (MouseState.leftButton && !MouseState.rightButton && !MouseState.middleButton)
         //ROTATION
     {
 
@@ -351,37 +372,37 @@ void HandleMouseMove(int x, int y)
         g_xRotation -= xDelta * DEGREES_PER_PIXEL;
         g_yRotation -= yDelta * DEGREES_PER_PIXEL;
 
-// translate the eye with a value equals to to focus vector (we put the focus on (0,0,0))
+        // translate the eye with a value equals to to focus vector (we put the focus on (0,0,0))
 
 
     }
     //PAN
     // if we need to move translate (left and right buttons are down
-    else if(MouseState.leftButton && MouseState.rightButton && !MouseState.middleButton)
+    else if (MouseState.leftButton && MouseState.rightButton && !MouseState.middleButton)
     {
 
         //  Il Pan avviene nella funzione glulookat che non sembra risentire dell'effetto della scala
         //Dobbiamo considerare la dimensione dell'oggetto (Diam)
 
         // move our eye
-        eyex += xDelta * UNITS_PER_PIXEL*Diam;
-        eyey -= yDelta * UNITS_PER_PIXEL*Diam;
+        eyex += xDelta * UNITS_PER_PIXEL * Diam;
+        eyey -= yDelta * UNITS_PER_PIXEL * Diam;
 
         // move our focus point
-        focusx += xDelta * UNITS_PER_PIXEL*Diam;
-        focusy -= yDelta * UNITS_PER_PIXEL*Diam;
+        focusx += xDelta * UNITS_PER_PIXEL * Diam;
+        focusy -= yDelta * UNITS_PER_PIXEL * Diam;
 
         //Trova il punto cliccato
 
     }
 
     //ROTATION CENTER
-    else if(!MouseState.leftButton && !MouseState.rightButton && MouseState.middleButton)
+    else if (!MouseState.leftButton && !MouseState.rightButton && MouseState.middleButton)
     {
         //Trova il punto cliccato
 
     }
-    else if(!MouseState.leftButton && MouseState.rightButton && !MouseState.middleButton)
+    else if (!MouseState.leftButton && MouseState.rightButton && !MouseState.middleButton)
 
         //ZOOM
     {
@@ -389,7 +410,7 @@ void HandleMouseMove(int x, int y)
         //  and the focus point.
 
         //zoom in
-        if(yDelta>0)
+        if (yDelta > 0)
         {
             eyex = (1 - ZOOM_FACTOR) * eyex + focusx * ZOOM_FACTOR;
             eyey = (1 - ZOOM_FACTOR) * eyey + focusy * ZOOM_FACTOR;
@@ -451,7 +472,7 @@ void keyboard (unsigned char key, int x, int y)
 
 
     double dist;
-    double ClickedX,ClickedY,ClickedZ;
+    double ClickedX, ClickedY, ClickedZ;
 
 
 
@@ -461,57 +482,57 @@ void keyboard (unsigned char key, int x, int y)
 
     switch (key)
     {
-    //  User hits A key
-    case 'a':
+        //  User hits A key
+        case 'a':
 
 
-        // zooming.  we move our eye along the vector between the eye
-        //  and the focus point.
-        eyex = (1 - ZOOM_FACTOR) * eyex + focusx * ZOOM_FACTOR;
-        eyey = (1 - ZOOM_FACTOR) * eyey + focusy * ZOOM_FACTOR;
-        eyez = (1 - ZOOM_FACTOR) * eyez + focusz * ZOOM_FACTOR;
-        //glutPostRedisplay();
+            // zooming.  we move our eye along the vector between the eye
+            //  and the focus point.
+            eyex = (1 - ZOOM_FACTOR) * eyex + focusx * ZOOM_FACTOR;
+            eyey = (1 - ZOOM_FACTOR) * eyey + focusy * ZOOM_FACTOR;
+            eyez = (1 - ZOOM_FACTOR) * eyez + focusz * ZOOM_FACTOR;
+            //glutPostRedisplay();
 
-        break;
+            break;
 
-    //  User hits Shift + A key
-    case 'z':
-
-
-        eyex = (1 + ZOOM_FACTOR) * eyex - focusx * ZOOM_FACTOR;
-        eyey = (1 + ZOOM_FACTOR) * eyey - focusy * ZOOM_FACTOR;
-        eyez = (1 + ZOOM_FACTOR) * eyez - focusz * ZOOM_FACTOR;
-        //glutPostRedisplay();
-
-        break;
-    case 'f':
-        //Trova il punto cliccato
-        GetClickedPoint(x,y,&ClickedX,&ClickedY,&ClickedZ);
+        //  User hits Shift + A key
+        case 'z':
 
 
+            eyex = (1 + ZOOM_FACTOR) * eyex - focusx * ZOOM_FACTOR;
+            eyey = (1 + ZOOM_FACTOR) * eyey - focusy * ZOOM_FACTOR;
+            eyez = (1 + ZOOM_FACTOR) * eyez - focusz * ZOOM_FACTOR;
+            //glutPostRedisplay();
 
-        // metti a fuoco il centro di rotazione
-        dist=(CRotX-ClickedX)*(CRotX-ClickedX)+(CRotY-ClickedY)*(CRotY-ClickedY)+(CRotZ-ClickedZ)*(CRotZ-       ClickedZ);
-        if (dist<(Diam*Diam*2))//resetta il fuoco solo se non troppo lontano da quelllo corente
+            break;
+        case 'f':
+            //Trova il punto cliccato
+            GetClickedPoint(x, y, &ClickedX, &ClickedY, &ClickedZ);
+
+
+
+            // metti a fuoco il centro di rotazione
+            dist = (CRotX - ClickedX) * (CRotX - ClickedX) + (CRotY - ClickedY) * (CRotY - ClickedY) + (CRotZ - ClickedZ) * (CRotZ -       ClickedZ);
+            if (dist < (Diam * Diam * 2)) //resetta il fuoco solo se non troppo lontano da quelllo corente
+            {
+                CRotX = ClickedX;
+                CRotY = ClickedY;
+                CRotZ = ClickedZ;
+                focusx = CRotX;
+                focusy = CRotY;
+                focusz = CRotZ;
+            }
+            break;
+        case 'r': //Reset view to centroid
         {
-            CRotX=ClickedX;
-            CRotY=ClickedY;
-            CRotZ=ClickedZ;
-            focusx=CRotX;
-            focusy=CRotY;
-            focusz=CRotZ;
+            CRotX = BarX;
+            CRotY = BarY;
+            CRotZ = BarZ;
+            focusx = BarX;
+            focusy = BarY;
+            focusz = BarZ;
         }
         break;
-    case 'r': //Reset view to centroid
-    {
-        CRotX=BarX;
-        CRotY=BarY;
-        CRotZ=BarZ;
-        focusx=BarX;
-        focusy=BarY;
-        focusz=BarZ;
-    }
-    break;
 
     }
 
@@ -528,9 +549,14 @@ void ChangeSize(int w, int h)
     // (you cant make a window of zero width).
 
 
-    if(h == 0)
+    if (h == 0)
+    {
         h = 1;
-    if (w==0) w=1;
+    }
+    if (w == 0)
+    {
+        w = 1;
+    }
 
     glViewport(0, 0, w, h);
 
@@ -556,7 +582,7 @@ void DrawClickedPoint()
 
 
     glBegin(GL_POINTS);
-    glColor3f(1,0,0);
+    glColor3f(1, 0, 0);
     glVertex3f( CRotX, CRotY, CRotZ);
     glEnd();//end drawing of points
 
@@ -564,9 +590,9 @@ void DrawClickedPoint()
 
 
 //Trova la coordinata del punto cliccato (note le coordiante trovate sono le originali non scalate)
-void GetClickedPoint(int x,int y,GLdouble *CRotX, GLdouble *CRotY, GLdouble *CRotZ)
+void GetClickedPoint(int x, int y, GLdouble* CRotX, GLdouble* CRotY, GLdouble* CRotZ)
 {
-//Variabili per calcolare la proiezione
+    //Variabili per calcolare la proiezione
     int viewport[4];
     double modelview[16];
     double projection[16];
@@ -588,7 +614,7 @@ void GetClickedPoint(int x,int y,GLdouble *CRotX, GLdouble *CRotY, GLdouble *CRo
 }
 
 
-void sistema_di_riferimento(double X,double Y,double Z)
+void sistema_di_riferimento(double X, double Y, double Z)
 {
     char* p;
 
@@ -598,14 +624,14 @@ void sistema_di_riferimento(double X,double Y,double Z)
     Coord3D origin;
 
 
-    origin.x=X;
-    origin.y=Y;
-    origin.z=Z;
+    origin.x = X;
+    origin.y = Y;
+    origin.z = Z;
 
 
 
     //quadric to draw cylinder
-    GLUquadricObj *pObj;    // Temporary, used for quadrics
+    GLUquadricObj* pObj;    // Temporary, used for quadrics
     pObj = gluNewQuadric();
     gluQuadricDrawStyle(pObj, GLU_FILL);
     gluQuadricNormals(pObj, GLU_SMOOTH);
@@ -617,7 +643,7 @@ void sistema_di_riferimento(double X,double Y,double Z)
     glColor3f(0.0f, 0.0f, 0.0f);
     glPushMatrix();
     glTranslatef(origin.x, origin.y, origin.z);
-    glutSolidSphere(0.02,25, 25);
+    glutSolidSphere(0.02, 25, 25);
     glPopMatrix();
 
 
@@ -625,16 +651,16 @@ void sistema_di_riferimento(double X,double Y,double Z)
     glColor3f(1.0f, 1.0f, 0.0f);
 
     //Axes' label
-    p="X";
-    glRasterPos3d(origin.x+ZOOM_FACTOR*30, 0, origin.z);
+    p = "X";
+    glRasterPos3d(origin.x + ZOOM_FACTOR * 30, 0, origin.z);
     glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *p);
 
-    p="Y";
-    glRasterPos3d(origin.x, origin.y+30*ZOOM_FACTOR, 0);
+    p = "Y";
+    glRasterPos3d(origin.x, origin.y + 30 * ZOOM_FACTOR, 0);
     glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *p);
 
-    p="Z";
-    glRasterPos3d(origin.x, 0, origin.z+30*ZOOM_FACTOR);
+    p = "Z";
+    glRasterPos3d(origin.x, 0, origin.z + 30 * ZOOM_FACTOR);
     glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *p);
 
 
@@ -643,38 +669,38 @@ void sistema_di_riferimento(double X,double Y,double Z)
     glColor3f(1.0f, 0.00f, 0.00f);
     glPushMatrix();
     glTranslatef(origin.x, 0.0f, 0.0f);
-    glRotatef(90.0f,0.0f,1.0f,0.0f);
-    gluCylinder(pObj, 0.01, 0.01, ZOOM_FACTOR*20, 10, 1);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    gluCylinder(pObj, 0.01, 0.01, ZOOM_FACTOR * 20, 10, 1);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(origin.x+ZOOM_FACTOR*20, 0.0f, 0.0f);
-    glRotatef(90.0f,0.0f,1.0f,0.0f);
-    glutSolidCone(2.7*0.025,9*0.025,10,10);
+    glTranslatef(origin.x + ZOOM_FACTOR * 20, 0.0f, 0.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    glutSolidCone(2.7 * 0.025, 9 * 0.025, 10, 10);
     glPopMatrix();
 
     //Y Axis
     glColor3f(0.0f, 1.00f, 0.00f);
     glPushMatrix();
     glTranslatef(origin.x, origin.y, 0.0f);
-    glRotatef(-90.0f,1.0f,0.0f,0.0f);
-    gluCylinder(pObj, 0.01, 0.01, ZOOM_FACTOR*20, 10, 1);
+    glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+    gluCylinder(pObj, 0.01, 0.01, ZOOM_FACTOR * 20, 10, 1);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(origin.x, ZOOM_FACTOR*20, 0.0f);
-    glRotatef(-90.0f,1.0f,0.0f,0.0f);
-    glutSolidCone(2.7*ZOOM_FACTOR,9*ZOOM_FACTOR,10,10);
+    glTranslatef(origin.x, ZOOM_FACTOR * 20, 0.0f);
+    glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+    glutSolidCone(2.7 * ZOOM_FACTOR, 9 * ZOOM_FACTOR, 10, 10);
     glPopMatrix();
 
     //Z Axis
     glColor3f(0.0f, 0.00f, 1.00f);
     glPushMatrix();
     glTranslatef(origin.x, 0.0f, origin.z);
-    gluCylinder(pObj, 0.01, 0.01, ZOOM_FACTOR*20, 10, 1);
+    gluCylinder(pObj, 0.01, 0.01, ZOOM_FACTOR * 20, 10, 1);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(origin.x, 0.0f, ZOOM_FACTOR*20);
-    glutSolidCone(2.7*ZOOM_FACTOR,9*ZOOM_FACTOR,10,10);
+    glTranslatef(origin.x, 0.0f, ZOOM_FACTOR * 20);
+    glutSolidCone(2.7 * ZOOM_FACTOR, 9 * ZOOM_FACTOR, 10, 10);
     glPopMatrix();
 
     glDisable(GL_DEPTH_TEST);
@@ -682,7 +708,7 @@ void sistema_di_riferimento(double X,double Y,double Z)
 }
 
 
-void DrawText(string* Text,void*font,int x,int y, float r,float g, float b)
+void DrawText(string* Text, void* font, int x, int y, float r, float g, float b)
 {
 
     int viewport[4];
@@ -691,9 +717,9 @@ void DrawText(string* Text,void*font,int x,int y, float r,float g, float b)
     glPushMatrix();
     glLoadIdentity();
 
-//dimensioni window
+    //dimensioni window
     glGetIntegerv(GL_VIEWPORT, viewport);
-    gluOrtho2D(0.0,viewport[2], 0.0, viewport[3]);
+    gluOrtho2D(0.0, viewport[2], 0.0, viewport[3]);
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -743,14 +769,14 @@ void DrawTriangles()
     glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
     glLightfv(GL_LIGHT0, GL_POSITION, position);*/
 
-//GLfloat global_ambient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
-//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
+    //GLfloat global_ambient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
+    //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
 
-//GLfloat specular[] = {1.0, 1.0, 1.0, 1.0};
-//glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+    //GLfloat specular[] = {1.0, 1.0, 1.0, 1.0};
+    //glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
 
 
-// glEnable(GL_AUTO_NORMAL);
+    // glEnable(GL_AUTO_NORMAL);
     glEnable(GL_NORMALIZE);//annulla l'effeto della trasformazione di scala
     //glEnable(GL_RESCALE_NORMAL);//from opengl 1.2
 
@@ -763,13 +789,13 @@ void DrawTriangles()
     glColor3f(0.5f, 1.0f, 0.0f);
 
 
-    for(i=0; i<Nfacets*12; i=i+12)
+    for (i = 0; i < Nfacets * 12; i = i + 12)
     {
         glBegin(GL_TRIANGLES);
-        glNormal3f(buffer[i],buffer[i+1],buffer[i+2]);
-        glVertex3f(buffer[i+3],buffer[i+4],buffer[i+5]);
-        glVertex3f(buffer[i+6],buffer[i+7],buffer[i+8]);
-        glVertex3f(buffer[i+9],buffer[i+10],buffer[i+11]);
+        glNormal3f(buffer[i], buffer[i + 1], buffer[i + 2]);
+        glVertex3f(buffer[i + 3], buffer[i + 4], buffer[i + 5]);
+        glVertex3f(buffer[i + 6], buffer[i + 7], buffer[i + 8]);
+        glVertex3f(buffer[i + 9], buffer[i + 10], buffer[i + 11]);
         glEnd();
 
 
@@ -812,19 +838,19 @@ void RenderScene()
     glLightfv(GL_LIGHT0, GL_POSITION, lightSourcePosition);
 
     // move our eye to the most recent place
-//	gluLookAt(0, 0, -5, 0,0,0, 0,1,0);
-//gluLookAt(eyex, eyey, eyez, 0, 0, 0, 0,1,0);
-    glScalef(FactScale,FactScale,FactScale);
-    gluLookAt(eyex, eyey, eyez, focusx, focusy, focusz, 0,1,0);
+    //	gluLookAt(0, 0, -5, 0,0,0, 0,1,0);
+    //gluLookAt(eyex, eyey, eyez, 0, 0, 0, 0,1,0);
+    glScalef(FactScale, FactScale, FactScale);
+    gluLookAt(eyex, eyey, eyez, focusx, focusy, focusz, 0, 1, 0);
 
     // Rotate the camera
     // rotate our box in the x and y directions
 
-//Rotation around rotation center
+    //Rotation around rotation center
 
     glTranslatef(CRotX, CRotY, CRotZ);
-    glRotatef(g_xRotation, 0,1,0);
-    glRotatef(g_yRotation, 1,0,0);
+    glRotatef(g_xRotation, 0, 1, 0);
+    glRotatef(g_yRotation, 1, 0, 0);
     glTranslatef(-CRotX, -CRotY, -CRotZ);
 
 
@@ -856,36 +882,36 @@ void RenderScene()
 }
 
 
-void GetModelData(double* p,int N)
+void GetModelData(double* p, int N)
 {
     //For graphical purpose
 
-    double Mx,My,Mz,mx,my,mz;
+    double Mx, My, Mz, mx, my, mz;
 
 
 
-    Mx=-HUGE_VAL;
-    My=-HUGE_VAL;
-    Mz=-HUGE_VAL;
-    mx=HUGE_VAL;
-    my=HUGE_VAL;
-    mz=HUGE_VAL;
+    Mx = -HUGE_VAL;
+    My = -HUGE_VAL;
+    Mz = -HUGE_VAL;
+    mx = HUGE_VAL;
+    my = HUGE_VAL;
+    mz = HUGE_VAL;
 
 
     double dist;
 
 
 
-    BarX=Mean(p,N,3);
-    BarY=Mean(&p[1],N,3);
-    BarZ=Mean(&p[2],N,3);
-    MinMax(p,N,&Mx,&mx,3);
-    MinMax(&p[1],N,&My,&my,3);
-    MinMax(&p[2],N,&Mz,&mz,3);
+    BarX = Mean(p, N, 3);
+    BarY = Mean(&p[1], N, 3);
+    BarZ = Mean(&p[2], N, 3);
+    MinMax(p, N, &Mx, &mx, 3);
+    MinMax(&p[1], N, &My, &my, 3);
+    MinMax(&p[2], N, &Mz, &mz, 3);
 
     //Calcolo la diagonale del modello
 
-    Diam=sqrt((Mx-mx)*(Mx-mx)+(My-my)*(My-my)+(Mz-mz)*(Mz-mz));
+    Diam = sqrt((Mx - mx) * (Mx - mx) + (My - my) * (My - my) + (Mz - mz) * (Mz - mz));
 }
 
 
@@ -902,33 +928,33 @@ void DrawHelpLines()
     # GLUT_BITMAP_HELVETICA_18
     */
 
-    void * font = GLUT_BITMAP_HELVETICA_12;
+    void* font = GLUT_BITMAP_HELVETICA_12;
 
 
 
-    int y=70;//inizio tabella in y
-    int h=15;//spazio fra un riga e l'altra
-    int x=10;//sapzio con il margine sinistro
+    int y = 70; //inizio tabella in y
+    int h = 15; //spazio fra un riga e l'altra
+    int x = 10; //sapzio con il margine sinistro
 
-    float r=0;//colorazione testo
-    float g=1;
-    float b=0;
+    float r = 0; //colorazione testo
+    float g = 1;
+    float b = 0;
     string Text;
 
     Text = "ZOOM: mouse R";
-    DrawText(&Text,font,x,y, r,g,b);
+    DrawText(&Text, font, x, y, r, g, b);
     Text = "PAN: mouse R&L";
-    y=y-h;
-    DrawText(&Text,font,x,y, r,g,b);
+    y = y - h;
+    DrawText(&Text, font, x, y, r, g, b);
     Text = "ROTATE: mouse L";
-    y=y-h;
-    DrawText(&Text,font,x,y, r,g,b);
+    y = y - h;
+    DrawText(&Text, font, x, y, r, g, b);
     Text = "FOCUS: f";
-    y=y-h;
-    DrawText(&Text,font,x,y, r,g,b);
+    y = y - h;
+    DrawText(&Text, font, x, y, r, g, b);
     Text = "RESET: r";
-    y=y-h;
-    DrawText(&Text,font,x,y, r,g,b);
+    y = y - h;
+    DrawText(&Text, font, x, y, r, g, b);
 
 }
 

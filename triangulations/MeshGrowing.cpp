@@ -16,21 +16,21 @@
 //che si verifica nellegenerazione di mesh per avanzamento di fronte quando
 //si va a cancellare un triangolo. L'edge solo deve essere un edge al fronte
 #define Reset_e2t(ide)\
-            if (e[ide].t2!=idt)\
-            {e[ide].t1=e[ide].t2;}\
-                    e[ide].t2=-1;\
-                    if(e[ide].t1>=0)\
-                    {T1=e[ide].t1;\
-                             if (t[T1].p1==e[ide].p2 && t[T1].p2==e[ide].p1){Swap(ide)}\
-                             else if (t[T1].p2==e[ide].p2 &&t[T1].p3==e[ide].p1){Swap(ide)}\
-                             else if (t[T1].p3==e[ide].p2 && t[T1].p1==e[ide].p1){Swap(ide)}\
-                    }
+    if (e[ide].t2!=idt)\
+    {e[ide].t1=e[ide].t2;}\
+    e[ide].t2=-1;\
+    if(e[ide].t1>=0)\
+    {T1=e[ide].t1;\
+        if (t[T1].p1==e[ide].p2 && t[T1].p2==e[ide].p1){Swap(ide)}\
+        else if (t[T1].p2==e[ide].p2 &&t[T1].p3==e[ide].p1){Swap(ide)}\
+        else if (t[T1].p3==e[ide].p2 && t[T1].p1==e[ide].p1){Swap(ide)}\
+    }
 
 //Swap the edge to preserve orientation
 #define Swap(ide)\
-                            temp=e[ide].p1;\
-                            e[ide].p1=e[ide].p2;\
-                                    e[ide].p2=temp;
+    temp=e[ide].p1;\
+    e[ide].p1=e[ide].p2;\
+    e[ide].p2=temp;
 
 
 
@@ -39,16 +39,16 @@
 
 //look for over boundary triagnles
 #define LookForNMV_OverBound_Triangle(e1)\
-  if (IsBound(e1))\
-   {    if(nbe[e[e1].p1]>2 || nbe[e[e1].p2]>2){PostP_Delete_NMV_OverBound_Triangle(e[e1].t1);}\
+    if (IsBound(e1))\
+    {    if(nbe[e[e1].p1]>2 || nbe[e[e1].p2]>2){PostP_Delete_NMV_OverBound_Triangle(e[e1].t1);}\
     }
 //looks for boundary triagnles belonging to the point idp
 #define LookForNMV_BoundTriangle_idp(e1)\
-if (IsBound(e1))\
-{T2=e[e1].t1;\
- if (t[T2].p1==idp || t[T2].p2==idp || t[T2].p3==idp)\
- {PostP_Delete_NMV_BoundTriangle_idp(T2, idp);}\
-}
+    if (IsBound(e1))\
+    {T2=e[e1].t1;\
+        if (t[T2].p1==idp || t[T2].p2==idp || t[T2].p3==idp)\
+        {PostP_Delete_NMV_BoundTriangle_idp(T2, idp);}\
+    }
 
 
 
@@ -57,31 +57,31 @@ if (IsBound(e1))\
 MESHGROWING::MESHGROWING()
 {
 
-    p=NULL;
-    N=0;
-    R=0;
-    Ndel=0;
-    Ntdel=0;
+    p = NULL;
+    N = 0;
+    R = 0;
+    Ndel = 0;
+    Ntdel = 0;
 
     //entities counters
-    countt=0;
-    counte=0;
+    countt = 0;
+    counte = 0;
 
 
     //entities
-    t=NULL;
-    e=NULL;
-    queue=NULL;
-    NE=NULL;
-    NT=NULL;
-    nbe=NULL;
-    FlatToll=NULL;
+    t = NULL;
+    e = NULL;
+    queue = NULL;
+    NE = NULL;
+    NT = NULL;
+    nbe = NULL;
+    FlatToll = NULL;
 
     //maximumnumbers of entities
 
-    MAXE=N*3.2;
-    MAXT=N*2.1;
-    Ntdel=0;
+    MAXE = N * 3.2;
+    MAXT = N * 2.1;
+    Ntdel = 0;
 
     InitParameters();
 }
@@ -95,8 +95,8 @@ MESHGROWING::~MESHGROWING()
 void MESHGROWING::MakePublic()
 //copy some private to public memebrs
 {
-    nt=countt;//passing to public member
-    ne=counte;
+    nt = countt; //passing to public member
+    ne = counte;
 }
 void MESHGROWING::InitParameters() //set default values for internalparameters
 {
@@ -107,26 +107,26 @@ void MESHGROWING::InitParameters() //set default values for internalparameters
 
 
     //BPA
-    P.BPA_TooSharp_Torus=-.5;
-    P.BPA_TooSharp_SR=0;
-    P.BPA_Max_BCAngle=1.1;//Maximum BC angle
-    P.BPA_FlatnessToll=-.7;
-    P.BPA_ReverseNormal=false;//false =default normal outside
+    P.BPA_TooSharp_Torus = -.5;
+    P.BPA_TooSharp_SR = 0;
+    P.BPA_Max_BCAngle = 1.1; //Maximum BC angle
+    P.BPA_FlatnessToll = -.7;
+    P.BPA_ReverseNormal = false; //false =default normal outside
 
 
     //SCB
-    P.SCB_TooSharp=-.5;//flatnnes test
-    P.SCB_SR_PriorityLevel=2;//Priority levels for search radius
-    P.SCB_Dotp_PriorityLevel=3;// 3 per il fltness test
+    P.SCB_TooSharp = -.5; //flatnnes test
+    P.SCB_SR_PriorityLevel = 2; //Priority levels for search radius
+    P.SCB_Dotp_PriorityLevel = 3; // 3 per il fltness test
     //Attenzione la modifica del parametro sopra comporta il cambiamento dell'array in Get_SCB_Triangle
 
 
     //ALL
 
-    P.NN_Filter_Cutdist=20;//maeandist/cutdist will be used in the filter. <=0 means disabled
-    P.Max_Edge_Length=HUGE_VAL;;//maximum allowed edge length
-    P.EnablePreProcessing=true;
-    P.EnablePostProcessing=true;
+    P.NN_Filter_Cutdist = 20; //maeandist/cutdist will be used in the filter. <=0 means disabled
+    P.Max_Edge_Length = HUGE_VAL;; //maximum allowed edge length
+    P.EnablePreProcessing = true;
+    P.EnablePostProcessing = true;
 
 }
 
@@ -136,20 +136,20 @@ void MESHGROWING::PrintParameters(int mode) //set default values for internalpar
     //mode==0 Prints BPA Parameters
     //mode==1 Prints SCB Parameters
 
-    cout<<"Algorithm started with the following parameters:"<<endl;
-    if (mode==0) //BPA Parameters
+    cout << "Algorithm started with the following parameters:" << endl;
+    if (mode == 0) //BPA Parameters
     {
-        cout<<"-TooSharp_Torus: "<<P.BPA_TooSharp_Torus<<endl;
-        cout<<"-TooSharp_SR: "<<P.BPA_TooSharp_SR<<endl;
-        cout<<"-Max_BCAngle: "<<P.BPA_Max_BCAngle<<endl;
-        cout<<"-FlatnessToll: "<<P.BPA_FlatnessToll<<endl;
+        cout << "-TooSharp_Torus: " << P.BPA_TooSharp_Torus << endl;
+        cout << "-TooSharp_SR: " << P.BPA_TooSharp_SR << endl;
+        cout << "-Max_BCAngle: " << P.BPA_Max_BCAngle << endl;
+        cout << "-FlatnessToll: " << P.BPA_FlatnessToll << endl;
 
     }
-    else if(mode==1) //SCB PARAMETERS
+    else if (mode == 1) //SCB PARAMETERS
     {
-        cout<<"-TooSharp: "<<P.SCB_TooSharp<<endl;
-        cout<<"-SR_PriorityLevel: "<<P.SCB_SR_PriorityLevel<<endl;
-        cout<<"-Dotp_PriorityLevel: "<<P.SCB_Dotp_PriorityLevel<<endl;
+        cout << "-TooSharp: " << P.SCB_TooSharp << endl;
+        cout << "-SR_PriorityLevel: " << P.SCB_SR_PriorityLevel << endl;
+        cout << "-Dotp_PriorityLevel: " << P.SCB_Dotp_PriorityLevel << endl;
     }
     else
     {
@@ -157,10 +157,10 @@ void MESHGROWING::PrintParameters(int mode) //set default values for internalpar
     }
 
     //ALL PARAMTERS
-    cout<<"-NN_Filter_Cutdist: "<<P.NN_Filter_Cutdist<<endl;
-    cout<<"-Max_Edge_Length: "<<P.Max_Edge_Length<<endl;
-    cout<<"-EnablePreProcessing: "<<P.EnablePreProcessing<<endl;
-    cout<<"-EnablePostProcessing: "<<P.EnablePostProcessing<<endl;
+    cout << "-NN_Filter_Cutdist: " << P.NN_Filter_Cutdist << endl;
+    cout << "-Max_Edge_Length: " << P.Max_Edge_Length << endl;
+    cout << "-EnablePreProcessing: " << P.EnablePreProcessing << endl;
+    cout << "-EnablePostProcessing: " << P.EnablePostProcessing << endl;
 
 
 
@@ -174,29 +174,29 @@ void MESHGROWING::Memory_Deallocate(DeallocateMode Mode)
 
     //Free Memory (no need of errors checks)
 
-    switch(Mode)
+    switch (Mode)
     {
-    case Mem_All:
+        case Mem_All:
 
-        Deallocate(&t);
-        Deallocate(&e);
+            Deallocate(&t);
+            Deallocate(&e);
 
-        break;
+            break;
 
-    case Mem_Save_t:
+        case Mem_Save_t:
 
-        Deallocate(&e);
+            Deallocate(&e);
 
-    case Mem_Save_t_e:
+        case Mem_Save_t_e:
 
-        break;
+            break;
 
-        //these are always deallocated
-        Deallocate(&NT);
-        Deallocate(&NE);
-        Deallocate(&queue);
-        SDS.Deallocate();
-        EPMap.Deallocate();
+            //these are always deallocated
+            Deallocate(&NT);
+            Deallocate(&NE);
+            Deallocate(&queue);
+            SDS.Deallocate();
+            EPMap.Deallocate();
 
     }
 
@@ -209,8 +209,8 @@ void MESHGROWING::Memory_Deallocate(DeallocateMode Mode)
 void MESHGROWING::Memory_Allocate()
 {
 
-    MAXE=N*3.2;
-    MAXT=N*2.1;
+    MAXE = N * 3.2;
+    MAXT = N * 2.1;
     //Oversize the triangles arrays and call the tesselletion routine
     Allocate(&t, MAXT);
     Allocate(&e, MAXE);
@@ -223,16 +223,16 @@ void MESHGROWING::Memory_Allocate()
 
     //inizilizza alcuni valori
     int i;
-    for (i=0; i<MAXE; i++)
+    for (i = 0; i < MAXE; i++)
     {
-        e[i].t2=-1;   //flag all edges as boundary
+        e[i].t2 = -1; //flag all edges as boundary
     }
 
 }
 
 
 
-void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check nel caso il fronte non parte
+void MESHGROWING::SeedTriangle(bool BPAtest = false) //aggiungere l'error check nel caso il fronte non parte
 {
 
     //Attenzione questa funzione funziona solo per il primo triangolo non per il front refresh
@@ -252,7 +252,7 @@ void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check 
 
     //MEMORY ALLOCATION
 
-    int i,j;
+    int i, j;
     double mindist;//minum distance
     Coord3D pm, cc, BC;//Punto medio
 
@@ -264,18 +264,18 @@ void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check 
 
     Coord3D tnorm;
 
-    cout<<"Seed Triangle...";
+    cout << "Seed Triangle...";
 
-    for (i=0; i<N; i++) //loop trough all points until a good start triangle has been found
+    for (i = 0; i < N; i++) //loop trough all points until a good start triangle has been found
     {
-        P1=i;
+        P1 = i;
         //Find the closet to i point
         SDS.SearchClosestExclusive( &p[P1], &P2, &mindist, P1);
 
 
         //Find all the points in k range of edge midpoint
         MidPoint(p[P1]., p[P2]., pm.)
-        SDS.SearchRadius( &pm, K*mindist);
+        SDS.SearchRadius( &pm, K * mindist);
 
 
         //Stampa i punti trovati
@@ -284,14 +284,14 @@ void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check 
          * cout<<j<<" "<< SDS.idStore[j]<< endl;
          * }*/
 
-        GoodTriangle=false;//inizializzo nel caso non ci siano punti nel range
+        GoodTriangle = false; //inizializzo nel caso non ci siano punti nel range
 
         //per ogni punto verifica se si può troavre un delaunay2_5D triangle
-        for (j=0; j<SDS.npts; j++)
+        for (j = 0; j < SDS.npts; j++)
         {
-            P4=SDS.idStore[j];
+            P4 = SDS.idStore[j];
 
-            if (P4==P1 || P4==P2)//non accettare il terzo punto uguale al aprimo o al secondo
+            if (P4 == P1 || P4 == P2) //non accettare il terzo punto uguale al aprimo o al secondo
             {
                 continue;
             }
@@ -302,16 +302,16 @@ void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check 
             //gli input della funzione sono P1 P2 P4 per calcolare cross(v(P4-P1),(v(P2-P1))
             // Il triangolo dovrà essere [P1 P4 P2]=[P1 idc id3]
             CircumCenter(&p[P1],  &p[P4], &p[P2], &tnorm, &r2, &cc);
-            dtest=SDS.EmptyBallTest( &cc, .9999999*r2);//run Dtest
+            dtest = SDS.EmptyBallTest( &cc, .9999999 * r2); //run Dtest
 
-            GoodTriangle=false;//Prima del Dtest il Triangolo è presunto cattivo
+            GoodTriangle = false; //Prima del Dtest il Triangolo è presunto cattivo
 
 
-            if(dtest==-1 && CylinderTest(cc, r2, tnorm, &up0)) //se supera il Dtest e il cylinder test
+            if (dtest == -1 && CylinderTest(cc, r2, tnorm, &up0)) //se supera il Dtest e il cylinder test
             {
                 if (BPAtest)  //in the ball pivoting we also need to test if the triagnle is ball empty
                 {
-                    if(up0)
+                    if (up0)
                     {
                         Reverse(tnorm.);
                     }
@@ -320,16 +320,16 @@ void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check 
                         continue;   //continuee if traignle is too big
                     }
                     //test if the traignle is BPA
-                    betest=SDS.EmptyBallTest(&BC, R*R*.999999);
-                    if (betest<0 )
+                    betest = SDS.EmptyBallTest(&BC, R * R * .999999);
+                    if (betest < 0 )
                     {
-                        GoodTriangle=true;
+                        GoodTriangle = true;
                         break;
                     }
                 }
                 else
                 {
-                    GoodTriangle=true;
+                    GoodTriangle = true;
                     break;
                 }
             }
@@ -337,18 +337,18 @@ void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check 
         }//loop trough all points in k-range
 
 
-        if(GoodTriangle)
+        if (GoodTriangle)
         {
             //aggiungi il nuovo triangolo
 
             if (P.BPA_ReverseNormal)
             {
-                cout<<"Reversing Normal: Inner Ball"<<endl;
-                up0=!up0;
+                cout << "Reversing Normal: Inner Ball" << endl;
+                up0 = !up0;
             }//reverse normal make the algorithm behave at the contrary
 
             //check wheter reverse normal
-            if(up0)//all points were over the triangle
+            if (up0) //all points were over the triangle
             {
                 // Reverse(t[0].tnorm.)//la normale punta verso l'alto
 
@@ -361,7 +361,7 @@ void MESHGROWING::SeedTriangle(bool BPAtest=false)   //aggiungere l'error check 
                 UpdateFront_Seed(P1, P2, P4);
             }
 
-            cout<<"Found: "<<t[0].p1<<" "<<t[0].p2<<" "<<t[0].p3<<endl;
+            cout << "Found: " << t[0].p1 << " " << t[0].p2 << " " << t[0].p3 << endl;
             return;//found a good triangle return
         }//good Triangle Found
 
@@ -381,7 +381,7 @@ bool MESHGROWING::CylinderTest(Coord3D cc, double r2, Coord3D tnorm, bool* up0) 
     //-calcolo la distanza del primo cateto come dot(v(p-cc),n), con n normale del triangolo
     //-calcolo la distanza con il teorema di pitagora  sqrt(ipotenusa^2-cateto1^2)
     int  q;
-    bool* inside=NULL;
+    bool* inside = NULL;
     double r, dist, leng;
     Coord3D v21;//vettori per il calcolo della normale
     bool up, GoodTriangle;
@@ -389,30 +389,30 @@ bool MESHGROWING::CylinderTest(Coord3D cc, double r2, Coord3D tnorm, bool* up0) 
 
 
     Allocate(&inside, N);//non lo inizializzo lo scrivo poi come vero e falso
-    GoodTriangle=false;
+    GoodTriangle = false;
 
-    r=sqrt(r2);//raggio SCB
-    for (q=0; q<N; q++)
+    r = sqrt(r2); //raggio SCB
+    for (q = 0; q < N; q++)
     {
 
         Distance(cc., p[q]., dist);//distanza punto circocentro (mindist)
         DiffPoints(p[q]., cc., v21.); //vettore (p-cc) salvato in v21.
         DotProduct(v21., tnorm., leng);//lunghezza cateto (leng)
-        leng=sqrt(dist*dist-leng*leng);//distanza dall'asse (leng)
+        leng = sqrt(dist * dist - leng * leng); //distanza dall'asse (leng)
 
-        if (leng<r)// il punto è nel cilindro?
+        if (leng < r) // il punto è nel cilindro?
         {
-            inside[q]=true;
+            inside[q] = true;
         }
         else
         {
-            inside[q]=false;
+            inside[q] = false;
         }
     }
     //i punti del triangolo giaciono sul piano ma per evitare errori numerici li consdiero fuori
-    inside[P1]=false;
-    inside[P2]=false;
-    inside[P4]=false;
+    inside[P1] = false;
+    inside[P2] = false;
+    inside[P4] = false;
 
     //ora dobbiamo verificare che i punti stiano tutti dalla stessa parte del triangolo,
     //se ciò è vero la direzione della normale sarà quella che non "guarda" neesuno punto
@@ -422,13 +422,13 @@ bool MESHGROWING::CylinderTest(Coord3D cc, double r2, Coord3D tnorm, bool* up0) 
 
     //ora vedo se il primo punto non inside si trova sotto o sopra
 
-    q=0;
-    while (q<N)  //faccio il loop fino ad N ma in realtà esco una volta trovato il primo
+    q = 0;
+    while (q < N) //faccio il loop fino ad N ma in realtà esco una volta trovato il primo
     {
         if (inside[q])
         {
             DotProduct(p[q]., tnorm., leng);// Dot(p,n)
-            *up0=(leng-d)>0; // up >0 punto sopra il piano
+            *up0 = (leng - d) > 0; // up >0 punto sopra il piano
             q++;
             break;//bail out
         }
@@ -437,20 +437,20 @@ bool MESHGROWING::CylinderTest(Coord3D cc, double r2, Coord3D tnorm, bool* up0) 
 
 
     //Se non ci sono punti nel cilindro dobbiamo passare al prossimo punto
-    if (q>=N)//no point in the cylinder
+    if (q >= N) //no point in the cylinder
     {
         return GoodTriangle;   //try next point
     }
 
     //ora tutti i punti devono avere la stessa orientazione
-    while (q<N)
+    while (q < N)
     {
         if (inside[q])
         {
             DotProduct(p[q]., tnorm., leng);// Dot(p,n)
-            up=(leng-d)>0; // up >0 punto sopra il piano
+            up = (leng - d) > 0; // up >0 punto sopra il piano
 
-            if (up!=*up0)//orientazione diversa
+            if (up != *up0) //orientazione diversa
             {
                 //GoodTriangle=false;
                 break;//bail out
@@ -460,12 +460,12 @@ bool MESHGROWING::CylinderTest(Coord3D cc, double r2, Coord3D tnorm, bool* up0) 
     }
 
 
-    if (q>=N)//We reached the end the triagnle is good
+    if (q >= N) //We reached the end the triagnle is good
     {
-        GoodTriangle=true;
+        GoodTriangle = true;
     }
 
-//deallocate
+    //deallocate
     Deallocate(&inside);
 
     return GoodTriangle;
@@ -476,29 +476,29 @@ void MESHGROWING::UpdateFront_Seed(int i, int idc, int id3)
     //Update the data structure with the first triangle
 
 
-    t[0].p1=i;
-    t[0].p2=idc;
-    t[0].p3=id3;
+    t[0].p1 = i;
+    t[0].p2 = idc;
+    t[0].p3 = id3;
 
     //New edges (preserving orientation)
-    e[0].p1=t[0].p1;
-    e[0].p2=t[0].p2;
+    e[0].p1 = t[0].p1;
+    e[0].p2 = t[0].p2;
     EPMap.AddEdge(t[0].p1, t[0].p2, 0);//add edge to the map
 
-    e[1].p1=t[0].p2;
-    e[1].p2=t[0].p3;
+    e[1].p1 = t[0].p2;
+    e[1].p2 = t[0].p3;
     EPMap.AddEdge(t[0].p3, t[0].p2, 1);//add edge to the map
 
 
-    e[2].p1=t[0].p3;
-    e[2].p2=t[0].p1;
+    e[2].p1 = t[0].p3;
+    e[2].p2 = t[0].p1;
     EPMap.AddEdge(t[0].p3, t[0].p1, 2);//add edge to the map
 
 
     //new triangles edges connectivity
-    e[0].t1=0;
-    e[1].t1=0;
-    e[2].t1=0;
+    e[0].t1 = 0;
+    e[1].t1 = 0;
+    e[2].t1 = 0;
 
     //add edges to queue
     Pqueue.PushHigh(0);
@@ -511,13 +511,13 @@ void MESHGROWING::UpdateFront_Seed(int i, int idc, int id3)
     //t[0].e3=2;
 
     //counters
-    countt=1;
-    counte=3;
+    countt = 1;
+    counte = 3;
 
 
     //for not manifold topology
-    NE[i]=NE[idc]=NE[id3]=2;
-    NT[i]=NT[idc]=NT[id3]=1;
+    NE[i] = NE[idc] = NE[id3] = 2;
+    NT[i] = NT[idc] = NT[id3] = 1;
 
 
 
@@ -529,35 +529,35 @@ void MESHGROWING::UpdateFront_Seed(int i, int idc, int id3)
 void MESHGROWING::RunFront_BPA()
 {
 
-    int i=0;//queue iterator
+    int i = 0; //queue iterator
     int idedge1, idedge2;//id dei presunti nuovi edge
-    int NumSR=0;
-    int NumTorus=0;
+    int NumSR = 0;
+    int NumTorus = 0;
     //ADVANCING FRONT
-    cout<<"Running Front... ";
+    cout << "Running Front... ";
     //pop an elemnt from the priority queue at each iteration
-    while (counte<MAXE && Pqueue.Pop(&ide))
+    while (counte < MAXE && Pqueue.Pop(&ide))
     {
 
 
         //cout<<"i: "<<i<<" ide: "<<ide<<endl; //il bug is verifica per i=9024 ide=9023;
 
-        if (e[ide].t2>=0)
+        if (e[ide].t2 >= 0)
         {
             continue;   //edge is no more on front skip
         }
 #ifdef _DEBUG
-        if(e[ide].p1==21116 && e[ide].p2==18740)
+        if (e[ide].p1 == 21116 && e[ide].p2 == 18740)
         {
-            cout<<"edge under debug"<<endl;
+            cout << "edge under debug" << endl;
         }
 #endif
         //GetTriangle_BPA_Torus();
         //GetTriangle_BPA_SR();
-        if (e[ide].t2==-1)
+        if (e[ide].t2 == -1)
         {
             GetTriangle_BPA_SR();
-            if (P4==-1)
+            if (P4 == -1)
             {
                 Pqueue.Push(ide, 1);// add to queue with lower priority
                 e[ide].t2--;
@@ -570,25 +570,25 @@ void MESHGROWING::RunFront_BPA()
         else
         {
             GetTriangle_BPA_Torus();
-            if(P4>=0)
+            if (P4 >= 0)
             {
                 NumTorus++;
             }
         }
 
-        if (P4<0)
+        if (P4 < 0)
         {
             continue;   //no candidate
         }
 
         //CHECK EDGES CONNECTIVITY
-        idedge1=EPMap.GetEdge(P1, P4);
-        if(!CheckEdgeConformity(idedge1, P1))
+        idedge1 = EPMap.GetEdge(P1, P4);
+        if (!CheckEdgeConformity(idedge1, P1))
         {
             continue;   //edge not conform
         }
-        idedge2=EPMap.GetEdge(P4, P2);
-        if(!CheckEdgeConformity(idedge2, P4))
+        idedge2 = EPMap.GetEdge(P4, P2);
+        if (!CheckEdgeConformity(idedge2, P4))
         {
             continue;   //edge not conform
         }
@@ -599,7 +599,7 @@ void MESHGROWING::RunFront_BPA()
 
     }
 
-    cout<<countt<<" Triangles generated: "<<"NumSr :"<<NumSR<<" NumTorus: "<<NumTorus<<endl;
+    cout << countt << " Triangles generated: " << "NumSr :" << NumSR << " NumTorus: " << NumTorus << endl;
 }
 
 // Tessellation strategies
@@ -611,35 +611,41 @@ void MESHGROWING::BallPivoting(double inputr)
 
     PrintParameters(0);//Print BPA Parameters
 
-    R=inputr;//set the radius value
+    R = inputr; //set the radius value
 
     Pqueue.Set(queue, 2);//setting the queue with 2 priority leveles (SR or Torus triagnle)
 
-    SDS.step=R;//setting the SDS step to R
+    SDS.step = R; //setting the SDS step to R
 
 
 
-    cout<<"Building Search Data Structure...";
-    flag=SDS.BuildSDS(p, N);
-    if(flag<0)Error("Error duting SDS construction");//SDS uses -1 for out of memory
-    cout<<"Done"<<endl;
+    cout << "Building Search Data Structure...";
+    flag = SDS.BuildSDS(p, N);
+    if (flag < 0)
+    {
+        Error("Error duting SDS construction");    //SDS uses -1 for out of memory
+    }
+    cout << "Done" << endl;
 
 
-    cout<<endl<<"PREPROCESSING"<<endl;
+    cout << endl << "PREPROCESSING" << endl;
     PreP_NN_MeanDist(&meandist);//conpute NN graph
 
-    if(P.NN_Filter_Cutdist>0)PreP_NN_Filter(meandist/P.NN_Filter_Cutdist);//removing points too close too each other
+    if (P.NN_Filter_Cutdist > 0)
+    {
+        PreP_NN_Filter(meandist / P.NN_Filter_Cutdist);    //removing points too close too each other
+    }
 
     //auto computation of the ball radius
-    if(R==0)
+    if (R == 0)
     {
-        R=meandist*4;
+        R = meandist * 4;
     }
 
 
-    cout<<"Radius set to: "<<R<<endl;
+    cout << "Radius set to: " << R << endl;
 
-    cout<<endl<<"MESHING"<<endl;
+    cout << endl << "MESHING" << endl;
     SeedTriangle(true);//seed triagnle with BPATest
 
 
@@ -649,7 +655,7 @@ void MESHGROWING::BallPivoting(double inputr)
     //PostP
     if (P.EnablePostProcessing)
     {
-        cout<<endl<<"POSTPROCESSING"<<endl;
+        cout << endl << "POSTPROCESSING" << endl;
         PostP_PostProcessing();//the gateway routine that inlcudes postprocessing operations
     }
 
@@ -666,27 +672,30 @@ void MESHGROWING::SCBMesher()
     int flag;
     double meandist;
 
-    cout<<endl<<"PRE-PROCESSING"<<endl;
+    cout << endl << "PRE-PROCESSING" << endl;
     //setting SDS
-    cout<<"Building search data structure"<<endl;
-    SDS.density=.5;
-    flag=SDS.BuildSDS(p, N);
-    if(flag<0)Error("Error during SDS Construction");////SDS uses -1 for out of memory
+    cout << "Building search data structure" << endl;
+    SDS.density = .5;
+    flag = SDS.BuildSDS(p, N);
+    if (flag < 0)
+    {
+        Error("Error during SDS Construction");    ////SDS uses -1 for out of memory
+    }
 
 
 
     PreP_NN_MeanDist(&meandist);//conpute NN graph
-    PreP_NN_Filter(meandist/P.NN_Filter_Cutdist);//removing points too close too each other
+    PreP_NN_Filter(meandist / P.NN_Filter_Cutdist); //removing points too close too each other
 
-    Pqueue.Set(queue, P.SCB_Dotp_PriorityLevel+P.SCB_SR_PriorityLevel);//setting the queue
+    Pqueue.Set(queue, P.SCB_Dotp_PriorityLevel + P.SCB_SR_PriorityLevel); //setting the queue
 
 
-    cout<<endl<<"MESHING"<<endl;
+    cout << endl << "MESHING" << endl;
     SeedTriangle();
 
     RunFront_SCB();
 
-    cout<<endl<<"POST-PROCESSING"<<endl;
+    cout << endl << "POST-PROCESSING" << endl;
     PostP_PostProcessing();
 
     MakePublic();//pass to public members
@@ -705,7 +714,7 @@ void MESHGROWING::PostP_PostProcessing()//the gataway routine that inlcudes post
     //EdgeQueue_Fill_With_Boundary(2);
     //PostP_HoleFiller();
     //Here we could delete NT and NE but that's just a little memory and we wont do it!
-    if(Ntdel>0)
+    if (Ntdel > 0)
     {
         PostP_Restore_t();   //if there are deleted triagnles restore connections
     }
@@ -716,12 +725,12 @@ void MESHGROWING::EdgeQueue_Fill_With_Boundary(int sr_value)//fill the queue wit
     int j;
     Pqueue.Empty();//empty the priority queue
 
-    for (j=0; j<counte; j++)
+    for (j = 0; j < counte; j++)
     {
         if IsBound(j)//edge di boundary non cancellato
         {
             Pqueue.PushHigh(j);//add edge to the queue
-            e[j].t2=-sr_value;//resetto il search radius
+            e[j].t2 = -sr_value; //resetto il search radius
         }
     }
 }
@@ -737,7 +746,7 @@ void MESHGROWING::BuildTorus(Torus3D* Torus)  //Cosntruisce il toro di pivoting 
     //trova il punto medio dell'edge (centro del toro)
     MidPoint(p[P1]., p[P2]., Torus->Center.);
 
-//Asse del toro
+    //Asse del toro
     DiffPoints(p[P2]., p[P1]., Torus->Axis.);
     Normalize(Torus->Axis., leng);
 
@@ -747,8 +756,8 @@ void MESHGROWING::BuildTorus(Torus3D* Torus)  //Cosntruisce il toro di pivoting 
     //lunghezza dell'edge
     Distance(p[P2]., p[P1]., leng)
     //Calcolare la lunghezza di proiezione in base al raggio della palla
-    Torus->R=sqrt(R*R-leng*leng*0.25);//occhio R da solo è il raggio della palla (il raggio del toro è torus.R
-    Torus->r=R;
+    Torus->R = sqrt(R * R - leng * leng * 0.25); //occhio R da solo è il raggio della palla (il raggio del toro è torus.R
+    Torus->r = R;
 
 
 
@@ -767,28 +776,28 @@ bool MESHGROWING::InsideTorus(Torus3D* Torus, Coord3D* point)  //Detects if a po
 
     //distanza punto piano toro
     DotProduct(point->, Torus->Axis., dist);
-    dist=dist-Torus->d;
+    dist = dist - Torus->d;
 
 
-    a=sqrt(dista*dista-dist*dist);
-    b=Torus->R-a;
+    a = sqrt(dista * dista - dist * dist);
+    b = Torus->R - a;
 
-    return sqrt(dist*dist+b*b)<=Torus->r;
+    return sqrt(dist * dist + b * b) <= Torus->r;
 
 }
 
 void MESHGROWING::GetCandidates_Torus(Torus3D* Torus)
 {
     double Cuboid[6];
-    double sr=Torus->R+Torus->r;
+    double sr = Torus->R + Torus->r;
 
     //building the Cuboid
-    Cuboid[0]=Torus->Center.x-sr;
-    Cuboid[1]=Torus->Center.x+sr;
-    Cuboid[2]=Torus->Center.y-sr;
-    Cuboid[3]=Torus->Center.y+sr;
-    Cuboid[4]=Torus->Center.z-sr;
-    Cuboid[5]=Torus->Center.z+sr;
+    Cuboid[0] = Torus->Center.x - sr;
+    Cuboid[1] = Torus->Center.x + sr;
+    Cuboid[2] = Torus->Center.y - sr;
+    Cuboid[3] = Torus->Center.y + sr;
+    Cuboid[4] = Torus->Center.z - sr;
+    Cuboid[5] = Torus->Center.z + sr;
 
     SDS.GetPointsInRange(&Cuboid[0]);
 
@@ -819,7 +828,7 @@ void MESHGROWING::SelectCandidate_BPA_Torus(Torus3D* Torus)
     double Angle, Dotp;//we must choose the minimum angle ball center
     //ANgle is a modified dotprduct so we must choose the maximum "Angle"
 
-    double  MaxAngle=-2;
+    double  MaxAngle = -2;
     double StartAngle;//to aovid the ball to rotate at the contrary
     Coord3D T1Norm, T2Norm, tempnorm;
     double cr2;//squared circumradius
@@ -828,7 +837,7 @@ void MESHGROWING::SelectCandidate_BPA_Torus(Torus3D* Torus)
 
 #ifdef _DEBUG
     Distance(p[P1]., p[P2]., dist);
-    if (dist>2*R)
+    if (dist > 2 * R)
     {
         printf("Edge too long found\n");
         return;
@@ -839,32 +848,32 @@ void MESHGROWING::SelectCandidate_BPA_Torus(Torus3D* Torus)
 
 
 
-//Get the starting position of the ball
+    //Get the starting position of the ball
     CircumCenter(&p[P1], &p[P3], &p[P2], &T1Norm, &cr2, &cc);//normal computed as cross(v(p2-p1),v(p4-p1));
     BallCenter(&cc, &cr2, &T1Norm, &BC);
-    StartAngle=BCAngle(&m, &BC, &T1Norm);//compute angle (gamma) with T1
+    StartAngle = BCAngle(&m, &BC, &T1Norm); //compute angle (gamma) with T1
 
 
-//Start angle can not be greater thean the set tolerance this should avoid the front inversion in presence of holes
-//if(StartAngle>P.BPA_Max_BCAngle){StartAngle=P.BPA_Max_BCAngle;}
+    //Start angle can not be greater thean the set tolerance this should avoid the front inversion in presence of holes
+    //if(StartAngle>P.BPA_Max_BCAngle){StartAngle=P.BPA_Max_BCAngle;}
 
 
-//Get traingle data
+    //Get traingle data
     DiffPoints(p[P2]., p[P1]., v21.);
 
 
 
-//loop trough candidates
-    for (j=0; j<SDS.npts; j++)
+    //loop trough candidates
+    for (j = 0; j < SDS.npts; j++)
     {
-        Ptemp=SDS.idStore[j];
+        Ptemp = SDS.idStore[j];
 
 
-        if(P1==Ptemp || P2==Ptemp || P3==Ptemp)
+        if (P1 == Ptemp || P2 == Ptemp || P3 == Ptemp)
         {
             continue;   //verte belongs to T1
         }
-        if(!InsideTorus(Torus, &p[Ptemp]))
+        if (!InsideTorus(Torus, &p[Ptemp]))
         {
             continue;   //point outside torus
         }
@@ -889,53 +898,53 @@ void MESHGROWING::SelectCandidate_BPA_Torus(Torus3D* Torus)
 
 
 
-        Angle=BCAngle(&m, &BC, &T1Norm);//compute angle (gamma) with T1
-        if (Angle>MaxAngle && Angle<StartAngle && Angle>-StartAngle)
+        Angle = BCAngle(&m, &BC, &T1Norm); //compute angle (gamma) with T1
+        if (Angle > MaxAngle && Angle < StartAngle && Angle > -StartAngle)
         {
-            MaxAngle=Angle;
-            P4=Ptemp;
-            T2Norm=tempnorm;//compute normal
+            MaxAngle = Angle;
+            P4 = Ptemp;
+            T2Norm = tempnorm; //compute normal
         }
 
     }
 
-//checking if the ball is truly empty
+    //checking if the ball is truly empty
 
 
 
 
-    if(P4>=0)
+    if (P4 >= 0)
     {
         DotProduct( T2Norm., T1Norm., Dotp);
-        if (Dotp<P.BPA_TooSharp_Torus)
+        if (Dotp < P.BPA_TooSharp_Torus)
         {
             {
-                P4=-3;
+                P4 = -3;
                 return;
             }
         }
-        if(NE[P4]==NT[P4] && NE[P4]!=0)
+        if (NE[P4] == NT[P4] && NE[P4] != 0)
         {
-            P4=-4;    //not manifold vertex
+            P4 = -4;  //not manifold vertex
             return;
         }
     }
 #ifdef  _DEBUG //check for not BPA triagnles
-    if(P4>=0)
+    if (P4 >= 0)
     {
 
 
         CircumCenter(&p[P1], &p[P2], &p[P4], &tempnorm, &cr2, &cc);
         BallCenter(&cc, &cr2, &T2Norm, &BC);
         int test;
-        test=SDS.EmptyBallTest(&BC, R*R*.999);
-        if (test>=0 )//|| MaxAngle>1.2
+        test = SDS.EmptyBallTest(&BC, R * R * .999);
+        if (test >= 0 ) //|| MaxAngle>1.2
         {
 
             double dist;
             Distance(BC., p[test]., dist);
-            cout<<" P1="<<P1<<" P2="<<P2<<" P3="<<P3<<" P4="<<P4<<" test="<<test<<" Distance(BC-test)="<<dist<<endl;
-            P4=-1;//exclude this triagnle
+            cout << " P1=" << P1 << " P2=" << P2 << " P3=" << P3 << " P4=" << P4 << " test=" << test << " Distance(BC-test)=" << dist << endl;
+            P4 = -1; //exclude this triagnle
         }
     }
 #endif
@@ -953,9 +962,9 @@ void MESHGROWING::SelectCandidate_BPA_Torus(Torus3D* Torus)
 
 bool MESHGROWING::CheckEdgeConformity(int idedge, int point)
 {
-    if (idedge>=0)//solo se l'edge esiste già
+    if (idedge >= 0) //solo se l'edge esiste già
     {
-        if(e[idedge].t2>=0)
+        if (e[idedge].t2 >= 0)
         {
             return false;   //posto occupato
         }
@@ -963,7 +972,7 @@ bool MESHGROWING::CheckEdgeConformity(int idedge, int point)
         {
 
             //controlla l'orientamento
-            if (e[idedge].p1==point)
+            if (e[idedge].p1 == point)
             {
                 return false;   //degenere
             }
@@ -983,11 +992,11 @@ bool MESHGROWING::CheckEdgeConformity(int idedge, int point)
 void MESHGROWING::UpdateFront(int idedge1, int idedge2)
 {
     //Check the first edge
-    if  (idedge1<0)// %if edge1 is new
+    if  (idedge1 < 0) // %if edge1 is new
     {
-        e[counte].p1=P1;//add new edge
-        e[counte].p2=P4;//add new edge
-        e[counte].t1=countt;//add new triangle
+        e[counte].p1 = P1; //add new edge
+        e[counte].p2 = P4; //add new edge
+        e[counte].t1 = countt; //add new triangle
         Pqueue.PushHigh(counte);//add to queue
 
 
@@ -1004,16 +1013,16 @@ void MESHGROWING::UpdateFront(int idedge1, int idedge2)
     else//edge is old just remove it from front
     {
         //t[countt].e1=idedge1;
-        e[idedge1].t2=countt;//add new triangle
+        e[idedge1].t2 = countt; //add new triangle
     }
 
 
     //Check the second edge
-    if  (idedge2<0)// %if edge1 is new
+    if  (idedge2 < 0) // %if edge1 is new
     {
-        e[counte].p1=P4;//add new edge
-        e[counte].p2=P2;//add new edge
-        e[counte].t1=countt;//add new triangle
+        e[counte].p1 = P4; //add new edge
+        e[counte].p2 = P2; //add new edge
+        e[counte].t1 = countt; //add new triangle
         Pqueue.PushHigh(counte);//add to queue
 
         NE[P2]++;
@@ -1029,21 +1038,21 @@ void MESHGROWING::UpdateFront(int idedge1, int idedge2)
     else//edge is old just remove it from front
     {
         //t[countt].e2=idedge2;
-        e[idedge2].t2=countt;//add new triangle
+        e[idedge2].t2 = countt; //add new triangle
     }
 
 
     //Edge is no more on front
-    e[ide].t2=countt;
+    e[ide].t2 = countt;
 
     //Edge on front belongs to the current triangle
     //t[countt].e3=ide;
 
 
     //Add new triangle
-    t[countt].p1=P1;
-    t[countt].p2=P4;
-    t[countt].p3=P2;
+    t[countt].p1 = P1;
+    t[countt].p2 = P4;
+    t[countt].p3 = P2;
 
 
     //for not manifold check
@@ -1066,13 +1075,16 @@ bool MESHGROWING::BallCenter(Coord3D* cc, double* cr2, Coord3D* tnorm, Coord3D* 
 
 
 
-    if (*cr2>R*R) return false;//points outside the torus
+    if (*cr2 > R * R)
+    {
+        return false;    //points outside the torus
+    }
 
-    offset=sqrt(R*R-*cr2);
+    offset = sqrt(R * R - *cr2);
 
-    BC->x=cc->x+offset*tnorm->x;
-    BC->y=cc->y+offset*tnorm->y;
-    BC->z=cc->z+offset*tnorm->z;
+    BC->x = cc->x + offset * tnorm->x;
+    BC->y = cc->y + offset * tnorm->y;
+    BC->z = cc->z + offset * tnorm->z;
 
 
 
@@ -1110,10 +1122,16 @@ double MESHGROWING::BCAngle(Coord3D* m, Coord3D* BC, Coord3D* tnorm)
     Normalize(vp., leng);
     DotProduct(vp., vBCm., Sin);
 
-    if (Sin<0) //sharp corners
+    if (Sin < 0) //sharp corners
     {
-        if (Cos>0)Cos=2-Cos;//spigolo tagliente
-        else Cos=-2-Cos;//bordo acuto
+        if (Cos > 0)
+        {
+            Cos = 2 - Cos;    //spigolo tagliente
+        }
+        else
+        {
+            Cos = -2 - Cos;    //bordo acuto
+        }
 
     }
     return Cos;
@@ -1125,7 +1143,7 @@ double MESHGROWING::BCAngle(Coord3D* m, Coord3D* BC, Coord3D* tnorm)
 
 
 
-void MESHGROWING::CircumCenter(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n, double *r, Coord3D* cc)
+void MESHGROWING::CircumCenter(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n, double* r, Coord3D* cc)
 
 {
     //Ritorna il centro ed il quadrato del raggio della sfera SCB
@@ -1136,7 +1154,7 @@ void MESHGROWING::CircumCenter(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n
     double leng;
     double rtemp;
 
-//Getting the normal
+    //Getting the normal
 
     DiffPoints(p2->, p1->, v21.);
     DiffPoints(p4->, p1->, v41.);
@@ -1159,22 +1177,22 @@ void MESHGROWING::CircumCenter(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n
     DotProduct(v41., m., b.z);//terzo elemento vettore termini noti
 
 
-//Solve the system
+    //Solve the system
     FastCramer(&n->x, &v21.x, &v41.x, &b.x, &cc->x);
 
-//CircumRadius
+    //CircumRadius
     SquaredDistance(cc->, p1->, *r);
-//take the minum distance
-//avoids the triangle to self destruct during Dtest
+    //take the minum distance
+    //avoids the triangle to self destruct during Dtest
     SquaredDistance(cc->, p2->, rtemp);
-    if (rtemp<*r)
+    if (rtemp < *r)
     {
-        *r=rtemp;
+        *r = rtemp;
     }
     SquaredDistance(cc->, p4->, rtemp);
-    if (rtemp<*r)
+    if (rtemp < *r)
     {
-        *r=rtemp;
+        *r = rtemp;
     }
 
 #ifdef _DEBUG
@@ -1186,7 +1204,7 @@ void MESHGROWING::CircumCenter(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n
 
 
 }
-void MESHGROWING::CircumCenter_Fast(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n, double *r, Coord3D* cc)
+void MESHGROWING::CircumCenter_Fast(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n, double* r, Coord3D* cc)
 
 {
     //Ritorna il centro ed il quadrato del raggio della sfera SCB
@@ -1212,22 +1230,22 @@ void MESHGROWING::CircumCenter_Fast(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord
     DotProduct(v41., m., b.z);//terzo elemento vettore termini noti
 
 
-//Solve the system
+    //Solve the system
     FastCramer(&n->x, &v21.x, &v41.x, &b.x, &cc->x);
 
-//CircumRadius
+    //CircumRadius
     SquaredDistance(cc->, p1->, *r);
-//take the minum distance
-//avoids the triangle to self destruct during Dtest
+    //take the minum distance
+    //avoids the triangle to self destruct during Dtest
     SquaredDistance(cc->, p2->, rtemp);
-    if (rtemp<*r)
+    if (rtemp < *r)
     {
-        *r=rtemp;
+        *r = rtemp;
     }
     SquaredDistance(cc->, p4->, rtemp);
-    if (rtemp<*r)
+    if (rtemp < *r)
     {
-        *r=rtemp;
+        *r = rtemp;
     }
 
 #ifdef _DEBUG
@@ -1274,15 +1292,15 @@ void MESHGROWING::GetSearchPoint(Coord3D* P1, Coord3D* P2, Coord3D* tnorm, Coord
     //Calcola il search radius come lunghezza dell'edge
     Distance(P1->, P2->, *sr);
 
-    *sr=(*sr+*sr*kr)*.5;
+    *sr = (*sr + *sr * kr) * .5;
     //calcola il search point in grandendo un pò sqrt(3)/2=0.866025403784439
-    sp->x=v21.x+cosdir.x**sr*0.866025403785;
-    sp->y=v21.y+cosdir.y**sr*0.866025403785;
-    sp->z=v21.z+cosdir.z**sr*0.866025403785;
+    sp->x = v21.x + cosdir.x** sr * 0.866025403785;
+    sp->y = v21.y + cosdir.y** sr * 0.866025403785;
+    sp->z = v21.z + cosdir.z** sr * 0.866025403785;
 
 
     Distance(P1->, sp->, *sr);//ricalcola il search radius per il caso maxr>1
-    *sr=*sr*.9999999;
+    *sr = *sr * .9999999;
 
 }
 
@@ -1305,16 +1323,16 @@ void MESHGROWING::GetTriangle_BPA_Torus()  // Gets ball pivoting traignle using 
     Torus3D Torus;
 
 
-    P4=-1;//set to minus one in case triagnle can not be found
+    P4 = -1; //set to minus one in case triagnle can not be found
 
-    P1=e[ide].p1;
-    P2=e[ide].p2;
-    T1=e[ide].t1;
+    P1 = e[ide].p1;
+    P2 = e[ide].p2;
+    T1 = e[ide].t1;
 
     Distance(p[P1]., p[P2]., leng);
-    if (leng>P.Max_Edge_Length)
+    if (leng > P.Max_Edge_Length)
     {
-        P4=-2;    //edge is too long
+        P4 = -2;  //edge is too long
         return;
     }
 
@@ -1326,9 +1344,9 @@ void MESHGROWING::GetTriangle_BPA_Torus()  // Gets ball pivoting traignle using 
     GetCandidates_Torus(&Torus);
 
     //For all points in range che check if there is a Delaunay2_5D triangle
-    if (SDS.npts==0)
+    if (SDS.npts == 0)
     {
-        P4=-1;    //nopoints in range
+        P4 = -1;  //nopoints in range
         return;
     }
 
@@ -1353,17 +1371,17 @@ void MESHGROWING::GetTriangle_BPA_SR()  // Gets ball pivoting traignle using Sea
     Coord3D T1norm, sp;
 
 
-    P4=-1;//set to minus one in case triagnle can not be found
+    P4 = -1; //set to minus one in case triagnle can not be found
 
-    P1=e[ide].p1;
-    P2=e[ide].p2;
-    T1=e[ide].t1;
+    P1 = e[ide].p1;
+    P2 = e[ide].p2;
+    T1 = e[ide].t1;
 
 
     Distance(p[P1]., p[P2]., leng);
-    if (leng>P.Max_Edge_Length)
+    if (leng > P.Max_Edge_Length)
     {
-        P4=-2;    //edge is too long
+        P4 = -2;  //edge is too long
         return;
     }
 
@@ -1377,9 +1395,9 @@ void MESHGROWING::GetTriangle_BPA_SR()  // Gets ball pivoting traignle using Sea
 
 
     //For all points in range che check if there is a Delaunay2_5D triangle
-    if (SDS.npts==0)
+    if (SDS.npts == 0)
     {
-        P4=-1;    //nopoints in range
+        P4 = -1;  //nopoints in range
         return;
     }
 
@@ -1402,11 +1420,11 @@ void MESHGROWING::  SelectCandidate_BPA_SR()  // Gets th e points that forms a B
     int test;
 
 
-//initiate the ball center
+    //initiate the ball center
     //loop trough candidates
-    for (j=0; j<SDS.npts; j++)
+    for (j = 0; j < SDS.npts; j++)
     {
-        Ptemp=SDS.idStore[j];
+        Ptemp = SDS.idStore[j];
 
         //NOTA! : We can not use the fast circumcenter since we don't have v21 already computed
         //Ball center
@@ -1417,30 +1435,30 @@ void MESHGROWING::  SelectCandidate_BPA_SR()  // Gets th e points that forms a B
         }
 
         //test if the traignle is BPA
-        test=SDS.EmptyBallTest(&BC, R*R*.999999);
-        if (test<0 )
+        test = SDS.EmptyBallTest(&BC, R * R * .999999);
+        if (test < 0 )
         {
-            P4=Ptemp;
-            T2Norm=tempnorm;
+            P4 = Ptemp;
+            T2Norm = tempnorm;
             break;//we found one no need of more
         }
     }
 
 
-    if(P4>=0)
+    if (P4 >= 0)
     {
         TNormTriangle(T1, &T1Norm);
         DotProduct( T2Norm., T1Norm., Dotp);
-        if (Dotp<P.BPA_TooSharp_SR)
+        if (Dotp < P.BPA_TooSharp_SR)
         {
             {
-                P4=-3;    //sharp triagnle
+                P4 = -3;  //sharp triagnle
                 return;
             }
         }
-        if(NE[P4]==NT[P4] && NE[P4]!=0)
+        if (NE[P4] == NT[P4] && NE[P4] != 0)
         {
-            P4=-4;    //not manifold vertex
+            P4 = -4;  //not manifold vertex
             return;
         }
     }
@@ -1449,8 +1467,8 @@ void MESHGROWING::  SelectCandidate_BPA_SR()  // Gets th e points that forms a B
 
 void MESHGROWING:: TNormPoints(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* tnorm)
 {
-//gets the normal of the trianle formed by the points p1 p2 p4
-// it writes data into the globals v21 v14
+    //gets the normal of the trianle formed by the points p1 p2 p4
+    // it writes data into the globals v21 v14
     //Coord3D v21, v41; uncomment to use local variables
     double leng;
     //computing the normal of the triagnle
@@ -1470,27 +1488,30 @@ void MESHGROWING::RunFront_SCB()
     //vengono settati alcuni livelli di priorità, prima per il flatness toll poi per il search radius
     //I valori di priorità vengono salvati in e2t. Il flatnnes test viene salvato nelle unità il search radius nelle centinaia
 
-    int i=0;//queue iterator
+    int i = 0; //queue iterator
     int idedge1, idedge2;//id dei presunti nuovi edge
     int plevel;
 
-    Allocate(&FlatToll,P.SCB_Dotp_PriorityLevel);
+    Allocate(&FlatToll, P.SCB_Dotp_PriorityLevel);
 
     //initializing flatoll
-    for(i=0; i<P.SCB_Dotp_PriorityLevel; i++)FlatToll[i]=cos((M_PI/2)/P.SCB_Dotp_PriorityLevel*(i+1));
+    for (i = 0; i < P.SCB_Dotp_PriorityLevel; i++)
+    {
+        FlatToll[i] = cos((M_PI / 2) / P.SCB_Dotp_PriorityLevel * (i + 1));
+    }
 
 
 
     //ADVANCING FRONT
-    cout<<"Running Front... ";
-    while (counte<MAXE && Pqueue.Pop(&ide))
+    cout << "Running Front... ";
+    while (counte < MAXE && Pqueue.Pop(&ide))
     {
 
 
 
         //cout<<"i: "<<i<<" ide: "<<ide<<endl; //il bug is verifica per i=9024 ide=9023;
 
-        if (e[ide].t2>=0)
+        if (e[ide].t2 >= 0)
         {
             continue;   //edge is no more on front skip
         }
@@ -1501,21 +1522,21 @@ void MESHGROWING::RunFront_SCB()
 
         GetTriangle_SCB();
 
-        if (P4<0)
+        if (P4 < 0)
         {
 
-            if(P4==-1)//no points in search radius
+            if (P4 == -1) //no points in search radius
             {
-                e[ide].t2-=100;
-                plevel=P.SCB_Dotp_PriorityLevel-e[ide].t2/100-1;
+                e[ide].t2 -= 100;
+                plevel = P.SCB_Dotp_PriorityLevel - e[ide].t2 / 100 - 1;
                 Pqueue.Push(ide, plevel);
             }
-            if(P4==-3)//triagnle no flat enough
+            if (P4 == -3) //triagnle no flat enough
             {
-                plevel=-e[ide].t2%100;
-                if(plevel<P.SCB_Dotp_PriorityLevel)
+                plevel = -e[ide].t2 % 100;
+                if (plevel < P.SCB_Dotp_PriorityLevel)
                 {
-                    Pqueue.Push(ide,plevel);
+                    Pqueue.Push(ide, plevel);
                 }//Triangle is not flat enough push the edge in the queue with a different priority}
                 e[ide].t2--;//priority is save into e[i].t2, decrease it
             }
@@ -1529,13 +1550,13 @@ void MESHGROWING::RunFront_SCB()
 
 
         //CHECK EDGES CONNECTIVITY
-        idedge1=EPMap.GetEdge(P1, P4);
-        if(!CheckEdgeConformity(idedge1, P1))
+        idedge1 = EPMap.GetEdge(P1, P4);
+        if (!CheckEdgeConformity(idedge1, P1))
         {
             continue;   //edge not conform
         }
-        idedge2=EPMap.GetEdge(P4, P2);
-        if(!CheckEdgeConformity(idedge2, P4))
+        idedge2 = EPMap.GetEdge(P4, P2);
+        if (!CheckEdgeConformity(idedge2, P4))
         {
             continue;   //edge not conform
         }
@@ -1545,7 +1566,7 @@ void MESHGROWING::RunFront_SCB()
 
 
     }
-    cout<<countt<< " triangles generated"<<endl;
+    cout << countt << " triangles generated" << endl;
 
     //Deallocate memory
     Deallocate(&FlatToll);
@@ -1553,7 +1574,7 @@ void MESHGROWING::RunFront_SCB()
 
 void MESHGROWING::GetTriangle_SCB()
 {
-//Set the value of P4 attempting to find an SCB trianle
+    //Set the value of P4 attempting to find an SCB trianle
     //retunrs flag
     // P4>= candidate found
     // P4=-1 no points in range
@@ -1573,24 +1594,24 @@ void MESHGROWING::GetTriangle_SCB()
 
     Coord3D cc;//circumcenter
 
-    P1=e[ide].p1;
-    P2=e[ide].p2;
-    T1=e[ide].t1;
+    P1 = e[ide].p1;
+    P2 = e[ide].p2;
+    T1 = e[ide].t1;
 
 
-    P4=-1;//setting to default value (triangle can not be found)
+    P4 = -1; //setting to default value (triangle can not be found)
     //controllo la lunghezza dell'edge (se troppo lungo salta)
     Distance(p[P1]., p[P2]., leng);
-    if (leng>P.Max_Edge_Length)
+    if (leng > P.Max_Edge_Length)
     {
-        P4=-2;    //edge is too long
+        P4 = -2;  //edge is too long
         return;
     }
 
 
 
     //Get the search point
-    SearchRadius=pow(2,(double)(-e[ide].t2/100))*.5;//.5*2^i
+    SearchRadius = pow(2, (double)(-e[ide].t2 / 100)) * .5; //.5*2^i
     //SearchRadius=(-e[ide].t2/100)*.5;
     TNormTriangle(T1, &T1norm);
     GetSearchPoint(&p[P1], &p[P2], &T1norm, &sp, &sr, SearchRadius);
@@ -1601,15 +1622,15 @@ void MESHGROWING::GetTriangle_SCB()
 
 
     //For all points in range che check if there is a Delaunay2_5D triangle
-    if (SDS.npts==0)
+    if (SDS.npts == 0)
     {
-        P4=-1;    //nopoints in range
+        P4 = -1;  //nopoints in range
         return;
     }
 
     //RUN SCB TEST
 
-    P4=SDS.idStore[0];
+    P4 = SDS.idStore[0];
     // if(P4==P1 || P4==P2)//Controlla che il punto non appartenga già al triangolo
     //Questo non dovrebbe accadere ma nelle prime versioni lo controlliamo per sicurezza
     //{continue;}//trova un punto diverso
@@ -1621,20 +1642,20 @@ void MESHGROWING::GetTriangle_SCB()
     //we normalize in the end
 
     //Scan all points to check if we can find an SCB triagnle
-    for (j=1; j<SDS.npts; j++) //esegui il dtest solo se nel search radius ci sono più di punti
+    for (j = 1; j < SDS.npts; j++) //esegui il dtest solo se nel search radius ci sono più di punti
     {
 
         // trova il circocentro del triangolo per effettuare il test SCB
         CircumCenter_Fast(&p[P1], &p[P2], &p[P4], &T2norm, &cr2, &cc);
 
         //get a point form the search region
-        Ptemp=SDS.idStore[j];//punto su cui fare il dtest
+        Ptemp = SDS.idStore[j]; //punto su cui fare il dtest
 
         SquaredDistance(cc., p[Ptemp]., dist);//calcola la distanza dal punto sotto test
 
-        if (dist<cr2)//se il punto è dentro il test fallisce *0.9999
+        if (dist < cr2) //se il punto è dentro il test fallisce *0.9999
         {
-            P4=Ptemp;//ricomincia da questo punto
+            P4 = Ptemp; //ricomincia da questo punto
             //non delaunay recompute CC with new point, but first we need to get the noirmal of the new triangle
 
             //Get normal of new triangle
@@ -1648,9 +1669,9 @@ void MESHGROWING::GetTriangle_SCB()
 
     //Then check if it breaks some manifolds
 
-    if(NE[P4]==NT[P4] && NE[P4]!=0)
+    if (NE[P4] == NT[P4] && NE[P4] != 0)
     {
-        P4=-4;    //not manifold vertex
+        P4 = -4;  //not manifold vertex
         return;
     }
 
@@ -1658,10 +1679,10 @@ void MESHGROWING::GetTriangle_SCB()
 
     //Flatness test
     DotProduct(T2norm., T1norm., Dotp);//coseno dell'angolo fra 2 triangoli
-    plevel=-e[ide].t2%100-1;
-    if(Dotp<=FlatToll[plevel] )
+    plevel = -e[ide].t2 % 100 - 1;
+    if (Dotp <= FlatToll[plevel] )
     {
-        P4=-3;
+        P4 = -3;
         return;
     }
 
@@ -1673,7 +1694,7 @@ void MESHGROWING::GetTriangle_SCB()
 
 
 }
-void MESHGROWING::PreP_NN_MeanDist(double*meandist)
+void MESHGROWING::PreP_NN_MeanDist(double* meandist)
 {
     //trova la distanza media tra i punti calcolando il NN Graph
     // Elimina i punti doppi per cui dist=0;
@@ -1686,16 +1707,16 @@ void MESHGROWING::PreP_NN_MeanDist(double*meandist)
     //Memory allocation
 
 
-    *meandist=0;//init
+    *meandist = 0; //init
 
     //get the NN for each point
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
         SDS.SearchClosestExclusive(&p[i], &idc, &dist, i);
 
-        if (dist>0)
+        if (dist > 0)
         {
-            *meandist+=dist;
+            *meandist += dist;
         }
         else //duplicate point
         {
@@ -1706,7 +1727,7 @@ void MESHGROWING::PreP_NN_MeanDist(double*meandist)
     }
 
     //Getting the mean value of the distances
-    *meandist/=(N-Ndel);//mean distance
+    *meandist /= (N - Ndel); //mean distance
 }
 
 
@@ -1715,30 +1736,33 @@ void MESHGROWING::PreP_NN_Filter(double cutdist)    //filtro che rimuove tutti i
     // at the end no points will be closer than cutdist
 
     int i, j;
-    bool* removed=NULL;
+    bool* removed = NULL;
     AllocateAndInit(&removed, N, false);//flag if points has been removed
 
     //remove bad points
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
 
         if (!removed[i])
         {
             SDS.SearchRadiusExclusive(&p[i], cutdist, i);
-            for(j=0; j<SDS.npts; j++)
+            for (j = 0; j < SDS.npts; j++)
             {
                 SDS.RemovePoint(SDS.idStore[j]);
                 Ndel++;
-                removed[SDS.idStore[j]]=true;
+                removed[SDS.idStore[j]] = true;
             }//remove points in range
 
 
         }
     }
 
-    cout<<"Deleted "<<Ndel<<" points"<<endl;
+    cout << "Deleted " << Ndel << " points" << endl;
 
-    if ((N-Ndel)<3)Error("Too many points deleted by the filter, reduce filtering stregth");
+    if ((N - Ndel) < 3)
+    {
+        Error("Too many points deleted by the filter, reduce filtering stregth");
+    }
 
 }
 
@@ -1749,63 +1773,63 @@ void MESHGROWING::PostP_FillTriplets()   //funtion to fill empty triplets
     int i;
     int P1, P2, P4;
     int e14, e24;
-    int startt=countt;
+    int startt = countt;
 
-    cout<<"Filling triplets: ";
+    cout << "Filling triplets: ";
 
-    int* Map=NULL;
+    int* Map = NULL;
     AllocateAndInit(&Map, N, -1);//initializza to -1
-    int* StoredEdge=NULL;
+    int* StoredEdge = NULL;
     Allocate(&StoredEdge, N); //initializza to -1
 
-    bool found=false;
+    bool found = false;
 
     //loop trough all the edges
 
-    for (i=0; i<counte; i++)
+    for (i = 0; i < counte; i++)
     {
-        if(e[i].t2<0 && e[i].t1>=0)//boundary edge not deleted
+        if (e[i].t2 < 0 && e[i].t1 >= 0) //boundary edge not deleted
         {
-            P1=e[i].p1;
-            P2=e[i].p2;
-            if (Map[P1]>=0)//il punto era già allocato nella mappa
+            P1 = e[i].p1;
+            P2 = e[i].p2;
+            if (Map[P1] >= 0) //il punto era già allocato nella mappa
             {
                 //edge p1-p4 was in the map
-                P4=Map[P1];//trova il terzo punto chiamato P4 secondo le precedenti convenzioni
+                P4 = Map[P1]; //trova il terzo punto chiamato P4 secondo le precedenti convenzioni
 
-                e24=EPMap.GetEdge( P2, P4);
-                if (e24>=0 && e[e24].t2<0 && e[e24].t1>=0)//se l'edge esiste ed è boundary abbiamo trovato un triangolo
+                e24 = EPMap.GetEdge( P2, P4);
+                if (e24 >= 0 && e[e24].t2 < 0 && e[e24].t1 >= 0) //se l'edge esiste ed è boundary abbiamo trovato un triangolo
                 {
-                    e14=StoredEdge[P1];
-                    if (e[e14].p1==P1 || e[e24].p1==P4)  //cout<<P1+1<<" "<< P2+1<<" "<< P4+1<<" "<<endl;
+                    e14 = StoredEdge[P1];
+                    if (e[e14].p1 == P1 || e[e24].p1 == P4) //cout<<P1+1<<" "<< P2+1<<" "<< P4+1<<" "<<endl;
                     {
                         continue;
                     }//degenere}
-                    found=true;
+                    found = true;
                 }
             }
-            else if(Map[P2]>=0)  	//edge p2-p4 was in the map
+            else if (Map[P2] >= 0)  	//edge p2-p4 was in the map
             {
-                P4=Map[P2];//trova il terzo punto chiamato P4 secondo le precedenti convenzioni
+                P4 = Map[P2]; //trova il terzo punto chiamato P4 secondo le precedenti convenzioni
 
-                e14=EPMap.GetEdge( P1, P4);
-                if (e14>=0 && e[e14].t2<0 && e[e14].t1>=0)//se l'edge esiste, è boundary e non è cancellato abbiamo trovato un triangolo
+                e14 = EPMap.GetEdge( P1, P4);
+                if (e14 >= 0 && e[e14].t2 < 0 && e[e14].t1 >= 0) //se l'edge esiste, è boundary e non è cancellato abbiamo trovato un triangolo
                 {
-                    e24=StoredEdge[P2];
+                    e24 = StoredEdge[P2];
                     //Check the orientation
-                    if (e[e14].p1==P1 || e[e24].p1==P4)  //cout<<P1+1<<" "<< P2+1<<" "<< P4+1<<" "<<endl;
+                    if (e[e14].p1 == P1 || e[e24].p1 == P4) //cout<<P1+1<<" "<< P2+1<<" "<< P4+1<<" "<<endl;
                     {
                         continue;
                     }//degenere}
 
-                    found=true;
+                    found = true;
                 }
             }
             else//aggiungi i punti alla mappa
             {
-                Map[P1]=P2;
-                Map[P2]=P1;
-                StoredEdge[P1]=StoredEdge[P2]=i;
+                Map[P1] = P2;
+                Map[P2] = P1;
+                StoredEdge[P1] = StoredEdge[P2] = i;
                 continue;//go to next edge//no triangle found}
             }
 
@@ -1816,16 +1840,16 @@ void MESHGROWING::PostP_FillTriplets()   //funtion to fill empty triplets
                 NT[P1]++;
                 NT[P2]++;
                 NT[P4]++; //
-                t[countt].p1=P1;
-                t[countt].p2=P4;
-                t[countt].p3=P2;
+                t[countt].p1 = P1;
+                t[countt].p2 = P4;
+                t[countt].p3 = P2;
 
 
 
                 //update e2t
-                e[i].t2=countt;
-                e[e14].t2=countt;
-                e[e24].t2=countt;
+                e[i].t2 = countt;
+                e[e14].t2 = countt;
+                e[e24].t2 = countt;
 
 
 
@@ -1833,10 +1857,10 @@ void MESHGROWING::PostP_FillTriplets()   //funtion to fill empty triplets
 
 
                 countt++;//MANCA IL CONTROLLO DI OVERFLOW
-                found=false;//reset to false;
+                found = false; //reset to false;
 
                 //ResetMap
-                Map[P1]=Map[P2]=Map[P4]=-1;
+                Map[P1] = Map[P2] = Map[P4] = -1;
 
 
 
@@ -1848,7 +1872,7 @@ void MESHGROWING::PostP_FillTriplets()   //funtion to fill empty triplets
 
 
 
-    cout<<countt-startt<<"Triangles "<<endl;
+    cout << countt - startt << "Triangles " << endl;
 
     Deallocate(&Map);
     Deallocate(&StoredEdge);
@@ -1863,10 +1887,10 @@ void MESHGROWING::PostP_FillTriplets()   //funtion to fill empty triplets
 void MESHGROWING::ImportPoints_Pointers(double* pointer, int inputN)
 {
     //copy the pointer to the internal data structure and allocate memory
-    N=inputN;
+    N = inputN;
 
 
-    p=(Coord3D*)pointer;
+    p = (Coord3D*)pointer;
 
     //We ahve N now we can allocate memory
     Memory_Allocate();//allocate all the memory in the class constructor
@@ -1879,9 +1903,9 @@ inline void MESHGROWING::TNormTriangle(int idt, Coord3D* tnorm)  //gets the norm
 
     double leng;
     int p1, p2, p3;
-    p1=t[idt].p1;
-    p2=t[idt].p2;
-    p3=t[idt].p3;
+    p1 = t[idt].p1;
+    p2 = t[idt].p2;
+    p3 = t[idt].p3;
     //computing the normal of the triagnle
     //Get normal of new triangle
     DiffPoints(p[p2]., p[p1]., v21.);
@@ -1898,14 +1922,14 @@ void MESHGROWING::PostP_HealNMV()//delete triagnle related to not manifold vertx
     // then delete all traingles related to overboundary points (more than 2 boundary edges)
     int i, nNMV;
     int T1;
-    char* manifold=NULL;
+    char* manifold = NULL;
     Allocate(&manifold, N);
 
-    AllocateAndInit(&nbe, N,(char)0);//number of boundary edges for each point
+    AllocateAndInit(&nbe, N, (char)0); //number of boundary edges for each point
 
 
     //counting the number of boundary edges for each point
-    for (i=0; i<counte; i++)
+    for (i = 0; i < counte; i++)
     {
         if (IsBound(i))//boundary edges not deleted
         {
@@ -1916,11 +1940,11 @@ void MESHGROWING::PostP_HealNMV()//delete triagnle related to not manifold vertx
 
 
 
-    nNMV=PostP_FindNMV(manifold);
+    nNMV = PostP_FindNMV(manifold);
 
 
 
-    cout<<"Found "<<nNMV<<" starting not manifold vertxes"<<endl;
+    cout << "Found " << nNMV << " starting not manifold vertxes" << endl;
 
     /*
     #ifdef _DEBUG
@@ -1932,35 +1956,35 @@ void MESHGROWING::PostP_HealNMV()//delete triagnle related to not manifold vertx
     */
 
 
-//delete closed NMV
-    for (i=0; i<N; i++)
+    //delete closed NMV
+    for (i = 0; i < N; i++)
     {
-        if(manifold[i]==0 && nbe[i]==0)
+        if (manifold[i] == 0 && nbe[i] == 0)
         {
             PostP_Delete_NMV_Triangles_All(i);
         }
     }
 
 
-//loop trough all edges and delete recursively boundary triangle related to NMV
+    //loop trough all edges and delete recursively boundary triangle related to NMV
 
-    for (i=0; i<counte; i++)
+    for (i = 0; i < counte; i++)
     {
 
         if (IsBound(i))//boundary edges not deleted
         {
-            T1=e[i].t1;
+            T1 = e[i].t1;
 
             //if the triangle has one not manifold vetex
-            if (manifold[t[T1].p1]==0)
+            if (manifold[t[T1].p1] == 0)
             {
                 PostP_Delete_NMV_BoundTriangle_idp(T1, t[T1].p1);
             }
-            if(manifold[t[T1].p2]==0)
+            if (manifold[t[T1].p2] == 0)
             {
                 PostP_Delete_NMV_BoundTriangle_idp(T1, t[T1].p2);
             }
-            if(manifold[t[T1].p3]==0)
+            if (manifold[t[T1].p3] == 0)
             {
                 PostP_Delete_NMV_BoundTriangle_idp(T1, t[T1].p3);
             }
@@ -1971,32 +1995,32 @@ void MESHGROWING::PostP_HealNMV()//delete triagnle related to not manifold vertx
 
 
 
-//Ora dobbiamo eliminare i NMV che hanno più di 2 boundary edges
+    //Ora dobbiamo eliminare i NMV che hanno più di 2 boundary edges
 
-    for (i=0; i<counte; i++)
+    for (i = 0; i < counte; i++)
     {
         LookForNMV_OverBound_Triangle(i)
     }
 
 
 #ifdef _DEBUG
-//check the nbe status: if it gets odds number  it is corrupted.
-    for (i=0; i<N; i++)
+    //check the nbe status: if it gets odds number  it is corrupted.
+    for (i = 0; i < N; i++)
     {
-        if ((nbe[i]%2)==1)
+        if ((nbe[i] % 2) == 1)
         {
-            cout<<"point"<< i<< " nbe corrupted"<<endl;
+            cout << "point" << i << " nbe corrupted" << endl;
         }
         //if (nbe[i]>2){cout<<"point"<< i<< " is still not manifold"<<endl; }
-        if (NT[i]>0 && manifold[i]<0)
+        if (NT[i] > 0 && manifold[i] < 0)
         {
-            cout<<"point"<< i<< " is wrong marked"<<endl;    //uncheked points can not have no triagnle
+            cout << "point" << i << " is wrong marked" << endl; //uncheked points can not have no triagnle
         }
     }
 #endif
 
 
-//deallocate
+    //deallocate
     Deallocate(&manifold);
     Deallocate(&nbe);
 }
@@ -2006,20 +2030,23 @@ void MESHGROWING::PostP_Delete_NMV_Triangles_All(int idp)//Deletes all triagles 
     int idt;
     int e1, e2, e3;
 
-    for (idt=0; idt<countt; idt++)
+    for (idt = 0; idt < countt; idt++)
     {
-        if (t[idt].p1==idp || t[idt].p2==idp || t[idt].p3==idp)//boundary edges not deleted
+        if (t[idt].p1 == idp || t[idt].p2 == idp || t[idt].p3 == idp) //boundary edges not deleted
         {
 
-            if (t[idt].p1<0)continue;//triangle already deleted
+            if (t[idt].p1 < 0)
+            {
+                continue;    //triangle already deleted
+            }
 
             //Update triangle edges
 
-            e1=PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p2,idt);
-            e2=PostP_UpdateEdge_DeletedTriangle(t[idt].p2, t[idt].p3,idt);
-            e3=PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p3,idt);
+            e1 = PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p2, idt);
+            e2 = PostP_UpdateEdge_DeletedTriangle(t[idt].p2, t[idt].p3, idt);
+            e3 = PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p3, idt);
 
-            t[idt].p1=-1;
+            t[idt].p1 = -1;
             Ntdel++;//delete triangle
         }
 
@@ -2033,15 +2060,18 @@ void MESHGROWING::PostP_Delete_NMV_OverBound_Triangle(int idt)//Deletes the over
     int e1, e2, e3;
 
 
-    if (t[idt].p1<0)return;//triangle already deleted
+    if (t[idt].p1 < 0)
+    {
+        return;    //triangle already deleted
+    }
 
 
     //Update triangle edges
-    e1=PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p2,idt);
-    e2=PostP_UpdateEdge_DeletedTriangle(t[idt].p2, t[idt].p3,idt);
-    e3=PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p3,idt);
+    e1 = PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p2, idt);
+    e2 = PostP_UpdateEdge_DeletedTriangle(t[idt].p2, t[idt].p3, idt);
+    e3 = PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p3, idt);
 
-    t[idt].p1=-1;
+    t[idt].p1 = -1;
     Ntdel++;//delete triangle
 
     //call recursively
@@ -2055,43 +2085,46 @@ void MESHGROWING::PostP_Delete_NMV_BoundTriangle_idp(int idt, int idp)//Deletes 
 
 
 
-//function body
+    //function body
     int e1, e2, e3, T2;
 
-    if (t[idt].p1<0)return;//triangle already deleted
+    if (t[idt].p1 < 0)
+    {
+        return;    //triangle already deleted
+    }
 
 
 
     //Update triangle edges
-    e1=PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p2,idt);
-    e2=PostP_UpdateEdge_DeletedTriangle(t[idt].p2, t[idt].p3,idt);
-    e3=PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p3,idt);
+    e1 = PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p2, idt);
+    e2 = PostP_UpdateEdge_DeletedTriangle(t[idt].p2, t[idt].p3, idt);
+    e3 = PostP_UpdateEdge_DeletedTriangle(t[idt].p1, t[idt].p3, idt);
 
 
-    t[idt].p1=-1;
+    t[idt].p1 = -1;
     Ntdel++;//delete triangle
 
 
 #ifdef _DEBUG
-    cout<<"Triangle: "<<idt<<" is not manifold due to point: "<<idp<<endl;
+    cout << "Triangle: " << idt << " is not manifold due to point: " << idp << endl;
 
 #endif
 
-//call recursively trough neighbour trianlges
+    //call recursively trough neighbour trianlges
     LookForNMV_BoundTriangle_idp(e1)
     LookForNMV_BoundTriangle_idp(e2)
     LookForNMV_BoundTriangle_idp(e3)
 
 }
 
-int MESHGROWING::PostP_UpdateEdge_DeletedTriangle(int p1,int p2,int idt)//update the edge status before a triagnle idt that contains the edge is deleted
+int MESHGROWING::PostP_UpdateEdge_DeletedTriangle(int p1, int p2, int idt) //update the edge status before a triagnle idt that contains the edge is deleted
 {
-    int ide,temp;
+    int ide, temp;
     bool bound;
-    ide=EPMap.GetEdge(p1,p2);
-    IsBound(ide)? bound=true : bound=false;
+    ide = EPMap.GetEdge(p1, p2);
+    IsBound(ide) ? bound = true : bound = false;
     Reset_e2t(ide)//update e2t connectivy
-    if(!bound)
+    if (!bound)
     {
         nbe[p1]++;
         nbe[p2]++;
@@ -2110,103 +2143,106 @@ void MESHGROWING::PostP_Restore_t()//restore the t array due to deleted triagnle
 {
     int i, c;
 
-    c=0;
-    for (i=0; i<countt; i++)
+    c = 0;
+    for (i = 0; i < countt; i++)
     {
 
 
-        if (t[i].p1>=0)
+        if (t[i].p1 >= 0)
         {
-            t[c]=t[i];
+            t[c] = t[i];
             c++;
         }
 
     }
 
-    countt=c;//reset counters
+    countt = c; //reset counters
 }
 
 int MESHGROWING::PostP_FindNMV(char* manifold)//Finds  not manifold vertices
 {
     //richiede che nbe sia calcolato
 
-//Strategia:
-//
-// esamina e2t connctivity fino a che non si hiude il cerchio attorno ad un punto. Il cerchio viene identificato da un
-// Back ed un Front
-// Per gestire il controllo delgi edge viene usata una coda a doppia entrata
-// Gli edge hanno un orientazione, in e2t T1 va a T2 in senso antiorario
+    //Strategia:
+    //
+    // esamina e2t connctivity fino a che non si hiude il cerchio attorno ad un punto. Il cerchio viene identificato da un
+    // Back ed un Front
+    // Per gestire il controllo delgi edge viene usata una coda a doppia entrata
+    // Gli edge hanno un orientazione, in e2t T1 va a T2 in senso antiorario
 
-//char*manifold -1=untested 0=not manifold 1=manifold
+    //char*manifold -1=untested 0=not manifold 1=manifold
 
-//WARNING: global(queue) will be reset
+    //WARNING: global(queue) will be reset
 
     int  i, P1, T1, T2, iq, last, lastold, nNMV;
     bool checked;//counts how many edges have correspondence
-    int* Back=NULL;
+    int* Back = NULL;
     AllocateAndInit(&Back, N, -2);//init to -2 per non confonderlo con l'edge di boundary marcato con -1
-    int* Front=NULL;
+    int* Front = NULL;
     AllocateAndInit(&Front, N, -2);
-    int16_t* Count=NULL;
+    int16_t* Count = NULL;
     AllocateAndInit(&Count, N, int16_t(0));
 
 
-    nNMV=0;
+    nNMV = 0;
 
-//Presume all points are unchecked
-    Alls(manifold, N, (char)-1);
+    //Presume all points are unchecked
+    Alls(manifold, N, (char) - 1);
 
-//Flag overboundary points as not manifold
-    for (i=0; i<N; i++)
+    //Flag overboundary points as not manifold
+    for (i = 0; i < N; i++)
     {
-        if (nbe[i]>2)
+        if (nbe[i] > 2)
         {
-            manifold[i]=0;
+            manifold[i] = 0;
             nNMV++;
         }
     }
 
-//push all edges inside the queue
-    for(i=0; i<counte; i++)
+    //push all edges inside the queue
+    for (i = 0; i < counte; i++)
     {
-        queue[i+1]=i;//i+1 the array position 0 is occupied by the sentinel
-        if(e[i].t2<0)
+        queue[i + 1] = i; //i+1 the array position 0 is occupied by the sentinel
+        if (e[i].t2 < 0)
         {
-            e[i].t2=-1;   //to equal all boundary triangles
+            e[i].t2 = -1; //to equal all boundary triangles
         }
     }
 
 
-    last=0;
-    lastold=counte;
+    last = 0;
+    lastold = counte;
     while (1)//loop until we have analyzed all edges
     {
-        iq=counte;//initiate front queue iterator
-        queue[last]=-1;//setting sentinel
-        last=counte;//initiate back front iterator
-        while(1)//loop until sentinel
+        iq = counte; //initiate front queue iterator
+        queue[last] = -1; //setting sentinel
+        last = counte; //initiate back front iterator
+        while (1) //loop until sentinel
         {
-            ide=queue[iq];
-            if (ide<0)break;//break when meet sentinel
-
-
-
-            if(ide<counte)
+            ide = queue[iq];
+            if (ide < 0)
             {
-                i=ide;    //counter clockwise  orientation
-                P1=e[i].p1;
-                T1=e[i].t1;
-                T2=e[i].t2;
+                break;    //break when meet sentinel
+            }
+
+
+
+            if (ide < counte)
+            {
+                i = ide;  //counter clockwise  orientation
+                P1 = e[i].p1;
+                T1 = e[i].t1;
+                T2 = e[i].t2;
             }
             else
             {
-                i=ide-counte;    //clockwise orientation
-                P1=e[i].p2;
-                T2=e[i].t1;
-                T1=e[i].t2;
+                i = ide - counte; //clockwise orientation
+                P1 = e[i].p2;
+                T2 = e[i].t1;
+                T1 = e[i].t2;
             }
 
-            if(e[i].t1<0)
+            if (e[i].t1 < 0)
             {
                 iq--;    //edge deleted
                 continue;
@@ -2214,81 +2250,81 @@ int MESHGROWING::PostP_FindNMV(char* manifold)//Finds  not manifold vertices
 
 
 #ifdef _DEBUG
-            if(P1==0)
+            if (P1 == 0)
             {
-                cout<<"Point under debug"<<endl;
+                cout << "Point under debug" << endl;
             }
 #endif
 
-//trying to close the loop
+            //trying to close the loop
 
-            checked=false;//correspondence not found yet;
-            if (manifold[P1]>=0)
+            checked = false; //correspondence not found yet;
+            if (manifold[P1] >= 0)
             {
-                checked=true;   //correspondence found points already falgged as manifold or not manifold
+                checked = true; //correspondence found points already falgged as manifold or not manifold
             }
-            else if(Back[P1]==-2)//Point circle is still empty
+            else if (Back[P1] == -2) //Point circle is still empty
             {
-                checked=true;//correspondence found
-                Back[P1]=T1;
-                Front[P1]=T2;//copy
-                if(T1>=0)
+                checked = true; //correspondence found
+                Back[P1] = T1;
+                Front[P1] = T2; //copy
+                if (T1 >= 0)
                 {
                     Count[P1]++;   //one more triangle
                 }
-                if(T2>=0)
+                if (T2 >= 0)
                 {
                     Count[P1]++;   //one more triangle
                 }
             }
-            else if( Front[P1]==T1 )//advance front of P1 in counterclockwise order
+            else if ( Front[P1] == T1 ) //advance front of P1 in counterclockwise order
             {
-                checked=true;//correspondence found
-                Front[P1]=T2;
-                if(T2>=0 )
+                checked = true; //correspondence found
+                Front[P1] = T2;
+                if (T2 >= 0 )
                 {
                     Count[P1]++;   //one more triangle
                 }
-                if (Front[P1]==Back[P1])//loop is closed check manifold
+                if (Front[P1] == Back[P1]) //loop is closed check manifold
                 {
-                    if(T2>=0)
+                    if (T2 >= 0)
                     {
                         Count[P1]--;   //remove joining triagnle
                     }
-                    if(NT[P1]==Count[P1] || NT[P1]==1)//the number of traignles to close the loop must equals the total number of neighbours triangles
+                    if (NT[P1] == Count[P1] || NT[P1] == 1) //the number of traignles to close the loop must equals the total number of neighbours triangles
                     {
-                        manifold[P1]=1;
+                        manifold[P1] = 1;
                     }
                     else
                     {
-                        manifold[P1]=0;
+                        manifold[P1] = 0;
                         nNMV++;
                     }
 
                 }
 
             }
-            else if(Back[P1]==T2)//advance back of P1 in counterclockwise order
+            else if (Back[P1] == T2) //advance back of P1 in counterclockwise order
             {
-                checked=true;//correspondence found
-                Back[P1]=T1;
-                if(T1>=0)
+                checked = true; //correspondence found
+                Back[P1] = T1;
+                if (T1 >= 0)
                 {
                     Count[P1]++;   //one more triangle
                 }
-                if (Front[P1]==Back[P1])//loop is closed check manifold
+                if (Front[P1] == Back[P1]) //loop is closed check manifold
                 {
-                    if(T1>=0)
+                    if (T1 >= 0)
                     {
                         Count[P1]--;   //remove joining triagnle
                     }
-                    if(NT[P1]==Count[P1] || NT[P1]==1)//the number of traignles to close the loop must equals the total number of neighbours triangles
+                    if (NT[P1] == Count[P1] || NT[P1] == 1) //the number of traignles to close the loop must equals the total number of neighbours triangles
                     {
-                        manifold[P1]=1;
+                        manifold[P1] = 1;
                     }
                     else
                     {
-                        manifold[P1]=0;
+                        manifold[P1] = 0;
                         nNMV++;
                     }
 
@@ -2297,29 +2333,29 @@ int MESHGROWING::PostP_FindNMV(char* manifold)//Finds  not manifold vertices
 
 
 
-            if(!checked)//no corresponde found, re-push the edge in the back queue
+            if (!checked) //no corresponde found, re-push the edge in the back queue
             {
-                queue[last]=ide;//push in the back queue
+                queue[last] = ide; //push in the back queue
                 last--;
             }
-            else if(ide<counte)//if we have just analyzed the edge with counterclockkwise orientation, analyze it with clockwise
+            else if (ide < counte) //if we have just analyzed the edge with counterclockkwise orientation, analyze it with clockwise
             {
-                queue[iq]=ide+counte;
+                queue[iq] = ide + counte;
                 iq++;//to compensate the minus 1
             }
 
             iq--;//decrease queue iterator
         }
 
-        if (lastold==last)
+        if (lastold == last)
         {
             break;
         }
-        lastold=last;
+        lastold = last;
     }
 
 
-//Deallocate memory
+    //Deallocate memory
     Deallocate(&Back);
     Deallocate(&Front);
     Deallocate(&Count);
@@ -2345,7 +2381,7 @@ void MESHGROWING::PostP_HoleFiller()
 
 
 
-    int i=0;//queue iterator
+    int i = 0; //queue iterator
     int ide;
 
     int  j;//counter
@@ -2358,15 +2394,15 @@ void MESHGROWING::PostP_HoleFiller()
 
     int idedge1, idedge2;//id dei presunti nuovi edge
 
-//    Coord3D v21;//vettori per le operazioni vettoriali e midpoint per il sistema
+    //    Coord3D v21;//vettori per le operazioni vettoriali e midpoint per il sistema
 
     //point id map
 
-//          P2
-//        / | \
-// 	T1  P3  |  P4(newpoint) T2
-//        \ | /
-//		    P1
+    //          P2
+    //        / | \
+    // 	T1  P3  |  P4(newpoint) T2
+    //        \ | /
+    //		    P1
 
     //int flag;
     double dist;//double per operazioni varie
@@ -2374,41 +2410,41 @@ void MESHGROWING::PostP_HoleFiller()
     bool found;//per vedere se un triangolo è stato trovato
 
 
-    bool*bound=NULL;
+    bool* bound = NULL;
     AllocateAndInit(&bound, N, true);
 
     //flagginf boundary points
-    for (i=0; i<counte; i++)
+    for (i = 0; i < counte; i++)
     {
-        if (e[i].t2<0 && e[i].t1>=0)//se l'edge è di boundary e non è stato cancellato
+        if (e[i].t2 < 0 && e[i].t1 >= 0) //se l'edge è di boundary e non è stato cancellato
         {
-            bound[e[i].p1]=bound[e[i].p2]=true;   //flag as bnoundary point
+            bound[e[i].p1] = bound[e[i].p2] = true; //flag as bnoundary point
         }
     }
 
 
     //ADVANCING FRONT
-    i=0;
-    while (counte<MAXE && Pqueue.Pop(&ide))
+    i = 0;
+    while (counte < MAXE && Pqueue.Pop(&ide))
     {
 
-        if (e[ide].t2>=0 || e[ide].t1<0)
+        if (e[ide].t2 >= 0 || e[ide].t1 < 0)
         {
             continue;   //edge is no more on front or has been deleted
         }
 
-        P1=e[ide].p1;
-        P2=e[ide].p2;
+        P1 = e[ide].p1;
+        P2 = e[ide].p2;
 
         //controllo la lunghezza dell'edge (se troppo lungo salta)
         Distance(p[P1]., p[P2]., dist);
-        if (dist>P.Max_Edge_Length)
+        if (dist > P.Max_Edge_Length)
         {
             continue;   //edge is too long
         }
 
 
-        T1=e[ide].t1;
+        T1 = e[ide].t1;
 
         //Get the search point
         TNormTriangle(T1, &T1norm);
@@ -2429,22 +2465,22 @@ void MESHGROWING::PostP_HoleFiller()
 
 
         //Analizza tutti i punti per vedere se riusciamo a trovare un  edge noto e confome
-        found=false;
-        for (j=0; j<SDS.npts; j++)
+        found = false;
+        for (j = 0; j < SDS.npts; j++)
         {
-            P4=SDS.idStore[j];
+            P4 = SDS.idStore[j];
 
             if (!bound[P4])
             {
                 continue;   //point is not boundary
             }
 
-            idedge1=EPMap.GetEdge(P1, P4);
+            idedge1 = EPMap.GetEdge(P1, P4);
 
 
-            if (idedge1>=0)//solo se l'edge esiste già
+            if (idedge1 >= 0) //solo se l'edge esiste già
             {
-                if(e[idedge1].t2>=0 || e[idedge1].t1<0 )
+                if (e[idedge1].t2 >= 0 || e[idedge1].t1 < 0 )
                 {
                     continue;   //posto occupato o edge cancellato
                 }
@@ -2452,7 +2488,7 @@ void MESHGROWING::PostP_HoleFiller()
                 {
 
                     //controlla l'orientamento
-                    if (e[idedge1].p1==P1)
+                    if (e[idedge1].p1 == P1)
                     {
                         continue;   //orientazione non conforme
                     }
@@ -2460,13 +2496,13 @@ void MESHGROWING::PostP_HoleFiller()
                 }
             }
 
-            idedge2=EPMap.GetEdge(P4, P2);
+            idedge2 = EPMap.GetEdge(P4, P2);
 
 
 
-            if (idedge2>=0)//solo se l'edge esiste già
+            if (idedge2 >= 0) //solo se l'edge esiste già
             {
-                if(e[idedge2].t2>=0 || e[idedge2].t1<0 )
+                if (e[idedge2].t2 >= 0 || e[idedge2].t1 < 0 )
                 {
                     continue;   //posto occupato o edge cancellato
                 }
@@ -2474,7 +2510,7 @@ void MESHGROWING::PostP_HoleFiller()
                 {
 
                     //controlla l'orientamento
-                    if (e[idedge2].p1==P4)
+                    if (e[idedge2].p1 == P4)
                     {
                         continue;   //orientazione non conforme
                     }
@@ -2483,9 +2519,9 @@ void MESHGROWING::PostP_HoleFiller()
 
             }
 
-            if(idedge1>=0 || idedge2>=0)//almeno uno dei 2 esiste già
+            if (idedge1 >= 0 || idedge2 >= 0) //almeno uno dei 2 esiste già
             {
-                found=true;    //trovato un triangolo conforme esci
+                found = true;  //trovato un triangolo conforme esci
                 break;
             }
 
@@ -2506,11 +2542,11 @@ void MESHGROWING::PostP_HoleFiller()
         // FreePoint[P1]=FreePoint[P2]=FreePoint[P4]=false;
 
         //Check the first edge
-        if  (idedge1<0)// %if edge1 is new
+        if  (idedge1 < 0) // %if edge1 is new
         {
-            e[counte].p1=P1;//add new edge
-            e[counte].p2=P4;//add new edge
-            e[counte].t1=countt;//add new triangle
+            e[counte].p1 = P1; //add new edge
+            e[counte].p2 = P4; //add new edge
+            e[counte].t1 = countt; //add new triangle
             Pqueue.PushHigh(counte);//add to queue
             // FreePoint[P1]=FreePoint[P4]=true;//liberi
 
@@ -2524,16 +2560,16 @@ void MESHGROWING::PostP_HoleFiller()
         else//edge is old just remove it from front
         {
 
-            e[idedge1].t2=countt;//add new triangle
+            e[idedge1].t2 = countt; //add new triangle
         }
 
 
         //Check the second edge
-        if  (idedge2<0)// %if edge1 is new
+        if  (idedge2 < 0) // %if edge1 is new
         {
-            e[counte].p1=P4;//add new edge
-            e[counte].p2=P2;//add new edge
-            e[counte].t1=countt;//add new triangle
+            e[counte].p1 = P4; //add new edge
+            e[counte].p2 = P2; //add new edge
+            e[counte].t1 = countt; //add new triangle
             Pqueue.PushHigh(counte);//add to queue
             //FreePoint[P2]=FreePoint[P4]=true;//liberi
 
@@ -2547,27 +2583,27 @@ void MESHGROWING::PostP_HoleFiller()
         else//edge is old just remove it from front
         {
             //t[countt].e2=idedge2;
-            e[idedge2].t2=countt;//add new triangle
+            e[idedge2].t2 = countt; //add new triangle
         }
 
 
         //Edge is no more on front
-        e[ide].t2=countt;
+        e[ide].t2 = countt;
 
         //Edge on front belongs to the current triangle
 
 
         //Add new triangle
-        t[countt].p1=P2;
-        t[countt].p2=P1;
-        t[countt].p3=P4;
+        t[countt].p1 = P2;
+        t[countt].p2 = P1;
+        t[countt].p3 = P4;
 
 
         // cout<<P1<<" "<<P2<<" "<<P4<<endl;//display triangles
         countt++;//a new triagnle has been created
 
-//         Debug
-// Vedi se riesce a trovare i veritici non manifold
+        //         Debug
+        // Vedi se riesce a trovare i veritici non manifold
 
 
 
@@ -2582,11 +2618,11 @@ void MESHGROWING::PostP_HoleFiller()
 void MESHGROWING::PostP_FillQueue(int value)  //Fills the queue with all boundary edges
 {
     int i;
-    for(i=0; i<counte; i++)
+    for (i = 0; i < counte; i++)
     {
-        if (e[i].t2<0)
+        if (e[i].t2 < 0)
         {
-            e[i].t2=value;
+            e[i].t2 = value;
             Pqueue.PushHigh(i);
         }
     }//add to queue

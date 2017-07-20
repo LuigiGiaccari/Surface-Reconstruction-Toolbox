@@ -12,13 +12,13 @@
 
 class CStopWatch
 {
-    timeval t1, t2;
+        timeval t1, t2;
 
-public:
-    CStopWatch() ;
-    void startTimer( ) ;
-    void stopTimer( ) ;
-    double getElapsedTime() ;
+    public:
+        CStopWatch() ;
+        void startTimer( ) ;
+        void stopTimer( ) ;
+        double getElapsedTime() ;
 };
 
 
@@ -27,7 +27,7 @@ public:
 CStopWatch::CStopWatch()
 {
 
-//init t1,t2
+    //init t1,t2
     gettimeofday(&t1, NULL);
     gettimeofday(&t2, NULL);
 }

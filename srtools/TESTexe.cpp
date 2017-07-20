@@ -12,13 +12,13 @@ using namespace std;
 
 void ValidateTestFile(char* filename)//checks if all tools are present
 {
-//Dichiarazioni
-    FILE * pFile ;
+    //Dichiarazioni
+    FILE* pFile ;
 
     pFile = fopen(filename, "rb");//Open the input binary file
     if (pFile  == NULL)
     {
-        cout<<filename<<" not found"<<endl;
+        cout << filename << " not found" << endl;
         Error("Unable to find test file");
     }
     fclose(pFile);
@@ -26,18 +26,18 @@ void ValidateTestFile(char* filename)//checks if all tools are present
 
 }
 
-void ValidateAlgo(char* command,char* algoname)//checks if all tools are present
+void ValidateAlgo(char* command, char* algoname) //checks if all tools are present
 {
-//Dichiarazioni
+    //Dichiarazioni
     int flag;
 
-    cout<<"Validating " <<algoname<<endl;
-    flag=system(command);
-    if(flag!=0)
+    cout << "Validating " << algoname << endl;
+    flag = system(command);
+    if (flag != 0)
     {
         Error("Error during test");
     }
-    cout<<algoname<<" Validated!"<<endl;
+    cout << algoname << " Validated!" << endl;
 }
 
 
@@ -46,8 +46,8 @@ void ValidateAlgo(char* command,char* algoname)//checks if all tools are present
 int main()
 
 {
-    PAUSE_BEFORE_EXIT=true;//artificially avoids exit without pause
-    cout<<"TEST STARTED"<<endl;
+    PAUSE_BEFORE_EXIT = true; //artificially avoids exit without pause
+    cout << "TEST STARTED" << endl;
 
     ValidateTestFile("bunny.dat");
     ValidateTestFile("bunny.cgo");
@@ -80,9 +80,9 @@ int main()
     ValidateAlgo("./quickterrain -in kili_490k.cgo -out kili_cgo.stl -pa 0", "QuickTerrain");
 #endif
 
-    cout<<"TEST ENDED"<<endl;
+    cout << "TEST ENDED" << endl;
 
-    cout<<endl<<"UNMESHABLE IS NOTHING!"<<endl<<endl;
+    cout << endl << "UNMESHABLE IS NOTHING!" << endl << endl;
 
     ExitProgram(0);
 }
