@@ -8,7 +8,7 @@
 --pad-oper
 --pad-comma
 --pad-header
---add-braces 
+--add-braces
 #should we align on type or name?
 --align-pointer=type
 --align-reference=type

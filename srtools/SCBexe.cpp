@@ -25,9 +25,7 @@ int main(int argc, char* argv[])
     MESHGROWING Surface;//MEshgrowing class
     CStopWatch Timer;
 
-
     PrintHeader(algoname, version, author, user);
-
 
     cout << endl << "PROGRAM STARTED!" << endl;
 
@@ -65,8 +63,6 @@ int main(int argc, char* argv[])
     cout << "Writing stl file...";
     FileManager.Write_stl(p, &Surface.t[0].p1, Surface.nt, outputfile);
     cout << "Done" << endl;
-
-
 
     //memory deallocation
     Deallocate(&p);

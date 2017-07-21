@@ -86,12 +86,6 @@ void TNorm(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* tnorm);
 #define Length(v,leng)\
     leng=sqrt((v x * v x)+(v y * v y)+(v z * v z)) ;
 
-
-
-
-
-
-
 void Cramer(double* A, Coord3D* b, Coord3D* cc)
 {
     //Solve a system of the Ax=b form, the solution is stored in Coord3D cc
@@ -123,14 +117,10 @@ void GenerateRandom3D(Coord3D* p, int n)
 {
     //function to generate random points in 0-1 range
 
-
-
     // loop to generate random points not normalized
     int i;//counter;
     double tempmax = 0; //temporary integer maximum random point;
     srand( (unsigned)time( NULL ) );
-
-
 
     for ( i = 0;   i < n; i++ )
     {
@@ -154,11 +144,7 @@ void GenerateRandom3D(Coord3D* p, int n)
         {
             tempmax = p[i].z;
         }
-
-
-
     }
-
 
     //loop to normalize
     for ( i = 0;   i < n; i++ )
@@ -171,19 +157,10 @@ void GenerateRandom3D(Coord3D* p, int n)
     }
 }
 
+//Smallest circumscribing ball of a triangle
 void CC(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n, double* r, Coord3D* cc)
 
 {
-    //Ritorna il quadrato del raggio del sphera D2.5D
-
-    //Versione non ottimizzata per il calcolo del circocentro
-    //possibili ottimizzazioni:
-    //evitare il calcolo di v21 e v31 andando direttamente a scrivere il sistema a
-    // scrittura simbolica del sistema, qualcosa si può semplificare sicuro
-
-    //Questa routine viene usata solo nello start front, nel run front uso una versione "inline"
-    //che evita di calcolare le normali 2 volte
-
     double A[9];
     Coord3D b, v21, v41, m;
     double rtemp;
@@ -207,16 +184,16 @@ void CC(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n, double* r, Coord3D* c
     A[7] = v21.z;
     A[8] = v41.z;
 
-    //vettore dei termini noti
-    DotProduct(n->, p1->, b.x); //primo elemento vettore termini noti
+    //asembling system vector
+    DotProduct(n->, p1->, b.x);
 
-    MidPoint(p1->, p2->, m.); //salva in m il puntomedio
+    MidPoint(p1->, p2->, m.);
 
-    DotProduct(v21., m., b.y); //secondo elemento vettore termini noti
+    DotProduct(v21., m., b.y);
 
-    MidPoint(p1->, p4->, m.); //salva in m il puntomedio
+    MidPoint(p1->, p4->, m.);
 
-    DotProduct(v41., m., b.z); //terzo elemento vettore termini noti
+    DotProduct(v41., m., b.z);
 
 
     //Solve the system
@@ -237,8 +214,6 @@ void CC(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* n, double* r, Coord3D* c
         *r = rtemp;
     }
 
-
-
 }
 
 
@@ -256,11 +231,6 @@ double TriangleAngle(Coord3D* P1, Coord3D* P2, Coord3D* P3, Coord3D* P4)
     double leng;//leng to normalize
     double alpha;
 
-
-
-
-
-
     //trova i vettori
     DiffPoints(P1->, P2->, v12.); //find the vector p1-p2
     DiffPoints(P3->, P1->, v31.); //find the vector p3-p1
@@ -275,53 +245,44 @@ double TriangleAngle(Coord3D* P1, Coord3D* P2, Coord3D* P3, Coord3D* P4)
     Normalize(tnorm1., leng);
     Normalize(tnorm2., leng);
 
-
     //trova l'angolo con il DotProduct
     DotProduct(tnorm1., tnorm2., alpha);
 
     return alpha;
 }
 
-
-
+// get search point from a front edge
 void SearchPoint(Coord3D* P1, Coord3D* P2, Coord3D* tnorm, Coord3D* sp, double* sr, double kr)
 {
-
-
-
     //memory allocation
-
     Coord3D v21, cosdir;
     double leng;
 
+    //find the vector p2-p1
+    DiffPoints(P2->, P1->, v21.);
 
-    //trova i vettori
-    DiffPoints(P2->, P1->, v21.); //find the vector p2-p1
-
-
-    //calcola la direzione del search point
+    //direction of search point
     CrossProduct(v21., tnorm->, cosdir.);
 
     //normalizza
-
     Normalize(cosdir., leng);
 
-    //trova il punto medio dell'edge (ricicla v21)
+    //search point starts from mid point
     MidPoint(P1->, P2->, v21.);
 
     //sqrt(3)/2=0.866025403784439
 
-    //Calcola il search radius come lunghezza dell'edge
+    //search radius
     Distance(P1->, P2->, *sr);
 
     *sr = (*sr + *sr * kr) * .5;
-    //calcola il search point in grandendo un pò sqrt(3)/2=0.866025403784439
+    //make search radius a little bigger sqrt(3)/2=0.866025403784439
     sp->x = v21.x + cosdir.x** sr * 0.866025403785;
     sp->y = v21.y + cosdir.y** sr * 0.866025403785;
     sp->z = v21.z + cosdir.z** sr * 0.866025403785;
 
-
-    Distance(P1->, sp->, *sr); //ricalcola il search radius per il caso maxr>1
+    //recompute search radius for maxr>1
+    Distance(P1->, sp->, *sr);
     *sr = *sr * .9999999;
 }
 
@@ -335,9 +296,6 @@ void SearchPointExt(Coord3D* P1, Coord3D* P2, Coord3D* tnorm, Coord3D* sp, doubl
     //   \ | /
     //    p2
 
-
-    //memory allocation
-
     Coord3D v21, cosdir;
     double leng;
 
@@ -345,37 +303,26 @@ void SearchPointExt(Coord3D* P1, Coord3D* P2, Coord3D* tnorm, Coord3D* sp, doubl
     //trova i vettori
     DiffPoints(P2->, P1->, v21.); //find the vector p2-p1
 
-
-    //calcola la direzione del search point
     CrossProduct(v21., tnorm->, cosdir.);
-
-    //normalizza
 
     Normalize(cosdir., leng);
 
-    //trova il punto medio dell'edge (ricicla v21)
     MidPoint(P1->, P2->, v21.);
 
-    //sqrt(3)/2=0.866025403784439
-
-    //Calcola il search radius come lunghezza dell'edge
     Distance(P1->, P2->, *sr);
 
-    //*sr=*sr*kr;
-    //calcola il search point in grandendo un pò sqrt(3)/2=0.866025403784439
     sp->x = v21.x + cosdir.x** sr * 0.866025403785;
     sp->y = v21.y + cosdir.y** sr * 0.866025403785;
     sp->z = v21.z + cosdir.z** sr * 0.866025403785;
 
-
-    Distance(P1->, sp->, *sr); //ricalcola il search radius per il caso maxr>1
+    //recompute search radius for maxr>1
+    Distance(P1->, sp->, *sr);
     *sr = *sr * .9999999;
 }
 
-
+//Normalised triangle normal
 void TNorm(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* tnorm)
 {
-
     Coord3D v21, v41;
     double leng;
     //computing the normal of the triagnle
@@ -383,11 +330,11 @@ void TNorm(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* tnorm)
     DiffPoints(p2->, p1->, v21.);
     DiffPoints(p4->, p1->, v41.);
     CrossProduct(v21., v41., tnorm->);
-    Normalize(tnorm->, leng);//la normale potrebbe essere normalizzata  afine dtest pensaci!!!
+    Normalize(tnorm->, leng);
 }
 
-
-inline void FastCramer(double* v1, double* v2, double* v3, double* b, double* sol)  //Solve a linear system. v1 v2 v3 are the system rows, b is the coefficent vector and sol is the computed solution
+//Solves a linear system. v1 v2 v3 are the system rows, b is the coefficent vector and sol is the computed solution
+inline void FastCramer(double* v1, double* v2, double* v3, double* b, double* sol)
 {
 
 

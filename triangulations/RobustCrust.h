@@ -74,21 +74,12 @@ class CompareNode
     public:
         bool operator()(PQueueNode& t1, PQueueNode& t2)
         {
-
             return t1.plevel < t2.plevel;
         }
 };
 
-
-
-
-
-
-
-
 class RCRUST
 {
-
         //GLOBALS
 
     public:
@@ -100,13 +91,13 @@ class RCRUST
         int Triangulate(vector<double>* inputp, int innp);
         void FreeMemory();
         void CopyTriangles(int* triangles);
-        RCRUST();//constructor
-        ~RCRUST();//desstructor
+        RCRUST();
+        ~RCRUST();
 
     private:
         tetgenio in, out;//for delaunnay triangulation
         Coord3D* p;
-        int N;//numbe rof cloud points
+        int N;//number of cloud points
         int Nshield;//number of shiedl points
         Tetrahedra* T;
         Neigh* Tneigh;
@@ -119,8 +110,7 @@ class RCRUST
 
 
         //private functions
-
-        inline double Ifact(Coord3D* cc1, double* r1, Coord3D* cc2, double* r2);
+		inline double Ifact(Coord3D* cc1, double* r1, Coord3D* cc2, double* r2);
         void TetraCC(int idT, Coord3D* cc, double* r);
         void AnalyzeModel();
         void Marking();
@@ -154,24 +144,17 @@ RCRUST::RCRUST()//constructor
     T = NULL;
     Tneigh = NULL;
     p = NULL;
-
-
-
-
 }
 
 RCRUST::~RCRUST()//desstructor
 {
     //deallocate memory
     FreeMemory();
-
 }
 
 void RCRUST::FreeMemory()//desstructor
 {
     //deallocate memory
-
-
 
     Deallocate(&checked);
     Deallocate(&deleted);
@@ -182,7 +165,6 @@ void RCRUST::FreeMemory()//desstructor
     // Deallocate(&p); //bisogna rmuovere gli shield points
     t.clear();
 
-
 }
 
 
@@ -192,14 +174,11 @@ int RCRUST::Triangulate(vector<double>* inputp, int innp)
 
     CopyPoints(inputp, innp); //copy pointers
 
-
     AnalyzeModel();
 
     AddShield(&p[N], Nshield);
 
     exitcode = DelaunayTriangulation();
-
-
 
     BuildSurface();
     //out.deinitialize();//delete delaunay triangulation
@@ -225,7 +204,6 @@ void RCRUST::CopyPoints(vector<double>* inputp, int innp)
 
     //Adding space for shield points
     inputp->reserve((N + Nshield) * 3);
-
 
     //passing the pointer
     p = (Coord3D*) &inputp->front();
@@ -290,9 +268,6 @@ int RCRUST::DelaunayTriangulation()
 {
     //compute the delaunay triagnulariotn of the dataset
 
-
-
-
     // HCPO3D hpco;
 
     //HPCO sort
@@ -315,8 +290,6 @@ int RCRUST::DelaunayTriangulation()
     behav.neighout = true;
     behav.voroout = false;
 
-
-
     tetrahedralize(&behav, &in, &out);
 
     //copying pointers to local data structure
@@ -325,12 +298,11 @@ int RCRUST::DelaunayTriangulation()
     Tneigh = (Neigh*)out.neighborlist;
     NT = out.numberoftetrahedra;
 
+#if 0
     std::cout << "Nt= " << NT << std::endl;
     std::cout << "Maximum value= " << Max(&T[0].p1, NT * 4) << std::endl;
     std::cout << "Maximum value= " << Max(&Tneigh[0].T1, NT * 4) << std::endl;
-
-
-
+#endif
     return 0;
 }
 
@@ -376,7 +348,7 @@ void RCRUST::TetraCC(int idT, Coord3D* cc, double* r)
 
 inline double RCRUST::Ifact(Coord3D* cc1, double* r1, Coord3D* cc2, double* r2)
 {
-    //compute intersection factor between 2 tetredrons
+    //compute intersection factor between 2 tetrahedrons
 
     double distcc;
     double Ifact;
@@ -384,24 +356,20 @@ inline double RCRUST::Ifact(Coord3D* cc1, double* r1, Coord3D* cc2, double* r2)
     SquaredDistance(cc1->, cc2->, distcc);
 
     Ifact = (*r1** r1 + *r2** r2 - distcc) / (2 * *r1** r2); //Carnot teorem
-#ifdef _DEBUG
+#if 0
     if (Ifact >= 1 || Ifact <= -1)
     {
         Ifact = Ifact; //wrong Ifactor
     }
 #endif
 
-
     return Ifact;
-
 
 }
 
 void RCRUST::AnalyzeModel()
 {
     //Mark Tetraedrons as inside or outside
-
-
 
     //model bounding box
     Model.mx = Min(&p[0].x, N, 3);
@@ -412,7 +380,6 @@ void RCRUST::AnalyzeModel()
     Model.Mz = Max(&p[0].z, N, 3);
 
     //model center
-
     Model.c.x = (Model.Mx + Model.mx) / 2;
     Model.c.y = (Model.My + Model.my) / 2;
     Model.c.z = (Model.Mz + Model.mz) / 2;
@@ -473,37 +440,6 @@ void RCRUST::InitQueue()
 
     }
 
-    /* //Old version
-
-
-    Model.r*=10;
-    for (i=0;i<NT;i++)
-        {
-           if(Tneigh[i].T1<0)AnalyzeIntersection(Tneigh[i].T1,i);
-           if(Tneigh[i].T2<0)AnalyzeIntersection(Tneigh[i].T2,i);
-           if(Tneigh[i].T3<0)AnalyzeIntersection(Tneigh[i].T3,i);
-           if(Tneigh[i].T4<0)AnalyzeIntersection(Tneigh[i].T4,i);
-        }
-
-    //New version
-    double Vol;
-     for (i=0;i<NT;i++)
-        {
-           if(Tneigh[i].T1<0 || Tneigh[i].T2<0 || Tneigh[i].T3<0|| Tneigh[i].T4<0)//Tetredron is boundary
-               {Vol=TetraVol(i);
-                if (Vol<1e-14 &&Vol >-1e-14)continue;//jump slivers
-               TetraCC(i,&cc,&r);
-           if(r>Model.r) {Node.Ifact=1;//Tetraedrons with circumcenter bigger  than the model radius can not belogn to the surface
-                    Node.T1=-1;
-                    Node.T2=i;
-                    Node.plevel=ComputePlevel(Node.Ifact);
-                    queue.push(Node);}//add to queue
-
-
-               }
-        }
-        */
-
 }
 
 
@@ -515,7 +451,7 @@ void RCRUST::AnalyzeIntersection(int T1, int T2)
     double r1, r2;
 
     //stop for debug
-#ifdef _DEBUG
+#if 0
     if (T1 == -7581 && T2 == 12)
     {
         T1 = T1;
@@ -532,9 +468,6 @@ void RCRUST::AnalyzeIntersection(int T1, int T2)
     TetraCC(T1, &cc1, &r1);
     TetraCC(T2, &cc2, &r2);
 
-    //NOTA: sperimentare questa procedura!
-    //if(r2>Model.r) Node.Ifact=1;//Tetraedrons with circumcenter bigger  than the model radius can not belogn to the surface
-
     Node.Ifact = Ifact(&cc1, &r1, &cc2, &r2);
     Node.T1 = T1;
     Node.T2 = T2;
@@ -546,23 +479,15 @@ void RCRUST::AnalyzeIntersection(int T1, int T2)
 
 float RCRUST::ComputePlevel(float Ifact)
 {
-    //definisce la strategia di priorità in base all'Ifact
     float plevel;
 
-    //Il livello di priorità deve favorire le intersezioni molto forti Ifact>0
-    // rispetto alle intersezioni molto deboli, Ifact<0
-    // Ovviamente un intersezione molto debole è da preferire ad una intersezione poco forte
-
-    //plevel varia fra 1 (altissima priorità) e 0 (scarsissima priorità)
-    if (Ifact < 0) //separation
+    if (Ifact < 0)
     {
-        ;//intersezione molto debole rendila poco debole
-        plevel = -Ifact; //rendilo positivo fra 0 e 1,=0 per Ifact=-1
-
+        plevel = -Ifact;
     }
-    else //intersection
+    else
     {
-        plevel = Ifact; //rendilo positivo fra 0 e 1,=0 per Ifact=1
+        plevel = Ifact;
     }
 
     return plevel;
@@ -632,8 +557,6 @@ void RCRUST::FindFacet(int T1, int T2, Triangle* facet)
 void RCRUST::Marking()
 {
     //mark all tetraedrons as inside or outside
-
-
     PQueueNode Node;
     int c = 0;
     while (!queue.empty())
@@ -726,7 +649,6 @@ void RCRUST::GenerateTriangles()
         T1 = Stack.back();
         Stack.pop_back();//get and delete element
 
-
         LookForTriangle(&Stack, T1, Tneigh[T1].T1);
         LookForTriangle(&Stack, T1, Tneigh[T1].T2);
         LookForTriangle(&Stack, T1, Tneigh[T1].T3);
@@ -762,8 +684,6 @@ void RCRUST::LookForTriangle(vector<int>* Stack, int T1, int T2)
         deleted2 = true;
     }//outside tetraedrons are deleted
 
-
-
     if (deleted[T1] != deleted2) //need to generate a triagnle
     {
         //Finds the factes using using the inside tetraedrons to set outwar normal
@@ -784,8 +704,6 @@ void RCRUST::LookForTriangle(vector<int>* Stack, int T1, int T2)
             cout << "Erroneus facet " << T1 << " " << T2 << endl;
         }
     }
-
-
 }
 
 void RCRUST::BuildSurface()
@@ -794,7 +712,6 @@ void RCRUST::BuildSurface()
     //int flag;
     AllocateAndInit(&checked, NT, false); //true for checked tetraedroms
     AllocateAndInit(&deleted, NT, false); //true for deleted tetraedroms
-
 
     InitQueue();
 
@@ -806,12 +723,9 @@ void RCRUST::BuildSurface()
 
     //FillWedges();
 
-
     GenerateTriangles();
 
     cout << "Genrated: " << t.size() << " triangles From " << NT << " Tetraedrons" << endl;
-
-
 
     //remove from memory
     Deallocate(&checked);
@@ -848,8 +762,6 @@ void RCRUST::Clustering()
     int T1, T2;
 
     Alls(checked, NT, false); //Reset
-
-
 
     idClust = 0;
     while (1)
@@ -912,7 +824,6 @@ void RCRUST::Clustering()
         }
     }
 
-
     cout << "Found " << idClust << "Clusters. Bigger cluster had: " << NumTetra[BiggerClust] << " Tetraedrons" << endl;
     //flagging as deleted all tetraedrons non belonging to the bigger cluster
     for (i = 0; i < NT; i++)
@@ -950,9 +861,8 @@ int RCRUST::FindUnClustered()
 void RCRUST::ManifoldExtraction()
 {
     //Extract the Manifold performing  a walking operation
-
-
 }
+
 void RCRUST::FillWedges()
 {
     //Fills wedge tetraedrons which have 3 triangles on the surface
@@ -1024,7 +934,6 @@ void RCRUST::DeleteSlivers()
 double RCRUST::TetraVol(int idT)
 {
     //Gets the volume of the tetraedron idt
-
 
     //tetra points
     Coord3D p1 = p[T[idT].p1];

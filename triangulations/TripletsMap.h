@@ -7,7 +7,6 @@
 #include "PointEdgeMap.h"
 #endif
 
-
 struct TripletsMapNode
 {
     int s;//second
@@ -15,30 +14,22 @@ struct TripletsMapNode
 };
 typedef TripletsMapNode Node;
 
-
 class TripletsMap
 {
     private:
 
-
-
-        Node* Map;//Store per i nodi
-        int Np;//numero di nodi inseriti nella mappa
+        Node* Map;//node storage
+        int Np;//number of inserted nodes in the map
         PointEdgeMap* PEMap;
         Edge* e;
 
     public:
 
-
         TripletsMap();//constructor
         ~TripletsMap();//destructor
 
-
-
-        //funzioni membro
         void TripletsMap::BuildTripletsMap(int N, PointEdgeMap* PEMap, Edge* ein);
         int TripletsMap::AnalyzeEdge(int p1, int p2);
-
 
 };
 
@@ -52,16 +43,15 @@ TripletsMap::TripletsMap()//constructor
 void TripletsMap::BuildTripletsMap(int N, PointEdgeMap* PEMapIn, Edge* ein)
 {
     int i;
-    Np = N; //numero di punti
+    Np = N;
 
-    PEMap = PEMapIn; //salva il puntatore alla point 2 edge map
+    PEMap = PEMapIn;
 
     e = ein;
-    //Dimensiono le mappe in base al numero di punti (inizializzo con -1 )
 
     Map = new Node[Np];
 
-    //initializza to -1
+    //initialize to -1
     for (i = 0; i < Np; i++)
     {
         Map[i].s = Map[i].t = -1;
@@ -81,27 +71,27 @@ int TripletsMap::AnalyzeEdge(int p1, int p2);
     int p4;
     int idedge;
 
-    if (Map[p1].s > 0) //il punto era già allocato nella mappa
+    if (Map[p1].s > 0) //point was alrady in the map
     {
         //edge p1-p4 was in the map
-        p4 = Map[p1].s; //trova il terzo punto chiamato P4 secondo le precedenti convenzioni
+        p4 = Map[p1].s;
     }
     else if (Map[p2].s > 0)
     {
         //edge p1-p4 was in the map
-        p4 = Map[p2].s; //trova il terzo punto chiamato P4 secondo le precedenti convenzioni
+        p4 = Map[p2].s;
     }
-    else//aggiungi i punti alla mappa
+    else//add points in the map
     {
         Map[p1].s = p2;
         Map[p2].s = p1;
         return -1;
     }//no triangle found}
 
-
     idedge = PEMap-> GetEdge( p2, p4);
 
-    if (idedege > 0 && e[idedge].t2 < 0) //se l'edge esiste ed è boundary abbiamo trovato un triangolo
+    //the edge exists and it is a boundary one, we just found a candidate triangle
+    if (idedege > 0 && e[idedge].t2 < 0)
     {
         return p4;
     }

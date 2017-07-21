@@ -7,13 +7,9 @@
 //-Detect duplicate triagnle bug
 //-Detect inverse orientation bug
 
-
 #pragma once
 #ifndef _MESHGROWING_h__
 #define _MESHGROWING_h__
-
-
-
 
 #include <iostream>
 #include <fstream>
@@ -104,12 +100,6 @@ class MESHGROWING
         int MAXT;//maximum number or triangles
         int MAXE;//maximum numbers of edges
 
-
-
-
-
-
-
         int16_t* NE;//number of connected edges
         int16_t* NT;//number of connected points
         char* nbe; //number of boundary edges for each point
@@ -186,9 +176,6 @@ class MESHGROWING
         void PreP_NN_MeanDist(double* meandist);
         void PreP_NN_Filter(double cutdist);
 
-
-
-
         //POST-PROCESSING
         void PostP_FillQueue(int value);//Fill queue with boundary edges
         int PostP_FindNMV(char* manifold);//finds not manifold vertex
@@ -205,27 +192,22 @@ class MESHGROWING
 
         //Points
         int N;//number of points
-        Coord3D* p;//i punti della nuvola
+        Coord3D* p;//point cloud
         Triangle* t;//Triangles
         int nt;
-        Edge* e;//oversized edge structure
-        //Nota si assume che e abbia come valori di defautl valori negativi...
-        //altrimenti si rende necessario un loop di inizilizzazione
+        Edge* e;//oversized edge structure assumed set to -1
+
         int ne;// edges number
 
         double R;//The Ball Radius
 
-
         //public functions prototypes
-        MESHGROWING();//constructor
-        ~MESHGROWING();//destructor
+        MESHGROWING();
+        ~MESHGROWING();
 
         void BallPivoting(double R);//contains the strategy of tessellation
         void SCBMesher();
         void ImportPoints_Pointers(double* pointer, int inputN);
 
-
 };
-
-
 #endif
