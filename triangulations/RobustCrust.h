@@ -11,7 +11,7 @@
 //INCLUDES
 #include <iostream>
 #include "structs/Triangle.h"
-#include "triangulations/Coord3D.h"
+#include "structs/Coord3D.h"
 #include "sortlib/HCPO3D.h"
 #include "triangulations/TrianglesFunctions.h"
 #include "util/ArraysLib.h"
