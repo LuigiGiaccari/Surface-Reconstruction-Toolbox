@@ -3,7 +3,6 @@
 
 //Header file that manages input outputs for shell commands
 
-
 #include <time.h>
 #include "util/filemanager.h"
 #include <fstream>
@@ -11,23 +10,18 @@
 char inputfile[256] = "NONE"; //name of the input file
 char   outputfile[256] = "NONE"; //name of output file
 
-
 double R = 0;
 const char NOFILE[256] = "NONE";
 FILE_MANAGER FileManager;//group of routines to handle files
 
 
-
-
-
-
-
-
 void PrintHeader(char* algoname, char* version, char* author, char* user)
 {
 
-
-    char* license = " The Software provided has to be considered ""as is"" and it is without any kind of warranty. The authors deny any kind of warranty concerning the Software  as well as any kind of responsibility for problems and damages which may be caused by the use of the Software  itself.";
+    char* license = \
+" The Software provided has to be considered ""as is"" and it is without any kind of warranty.\
+ The authors deny any kind of warranty concerning the Software  as well as any kind of \
+ responsibility for problems and damages which may be caused by the use of the Software itself.";
     //Getting current time
     time_t rawtime;
     struct tm* timeinfo;
@@ -44,8 +38,6 @@ void PrintHeader(char* algoname, char* version, char* author, char* user)
     cout << "LICENSE TERMS" << endl;
     cout << license << endl;
 
-
-
 }
 
 void AskForInputs(int mode = 0) //asks for command line when is not provided
@@ -53,7 +45,7 @@ void AskForInputs(int mode = 0) //asks for command line when is not provided
     //ScbMesher and RC are fine with mode=0 (default value)
     //BPA require to have mode=1 to ask the radius value
 
-    char inputstring[256] = "__________"; //a file that can not be found (I hope so:-))
+    char inputstring[256] = "__________";
     while (1)
     {
         cout << "Please insert the Input File path" << endl;
@@ -80,21 +72,13 @@ void AskForInputs(int mode = 0) //asks for command line when is not provided
 
 void ReadInputs(int argc, char* argv[])
 {
-
-    //legge gli input dell'exe
-    // ritorna:
-    // 0 se tutto ok
-    // 1 per un errore negli input
     int temp;
     int i;
-
-
 
     //loop trough all the inputs parameters with step=2
     //jump the first input which is the path
     for (i = 1; i < argc; i = i + 2)
     {
-
 
         //INPUTFILE
         if (strcmp ("-in", argv[i]) == 0) //user selct input file
@@ -139,9 +123,6 @@ void ReadInputs(int argc, char* argv[])
 
     }
 
-
-
-
     if	(strcmp (NOFILE, inputfile) == 0)
     {
         Error("No Input File");
@@ -153,11 +134,6 @@ void ReadInputs(int argc, char* argv[])
 
     cout << endl; //crea spazion per le operazioni successive
 
-
 }
-
-
-
-
 
 #endif

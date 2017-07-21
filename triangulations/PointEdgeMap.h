@@ -4,7 +4,6 @@
 #define __PointEdgeMap_h__
 
 
-
 #define InsertNode(p1,p2)  \
     idFirst=First[p1];\
     First[p1]=counter;\
@@ -32,20 +31,15 @@ class PointEdgeMap
 {
     private:
 
-
         int* First;//Get the first node to check
         PENode* Map;//Store for PEnodes
         int counter;//numero di nodi inseriti nella mappa
 
     public:
 
+        PointEdgeMap();
+        ~PointEdgeMap();
 
-        PointEdgeMap();//constructor
-        ~PointEdgeMap();//destructor
-
-
-
-        //funzioni membro
         int BuildPointEdgeMap(int Np, int MAXE);
         void AddEdge(int p1, int p2, int idedge);
         int GetEdge(int p1, int p2);
@@ -67,7 +61,6 @@ int PointEdgeMap::BuildPointEdgeMap(int Np, int MAXE)
     //     1: out of memory
     int i;
     counter = 0;
-    //Dimensiono le mappe in base al numero di punti (inizializzo con -1 )
 
     First = new int[Np];
     if (First == NULL)
@@ -88,7 +81,7 @@ int PointEdgeMap::BuildPointEdgeMap(int Np, int MAXE)
 
     for (i = 0; i < MAXE; i++)
     {
-        Map[i].Next = -1; //sovradimensionato a 3 volte il numero di punti
+        Map[i].Next = -1;
     }
 
 
@@ -99,7 +92,6 @@ int PointEdgeMap::BuildPointEdgeMap(int Np, int MAXE)
 PointEdgeMap::~PointEdgeMap()//destructor
 {
     Deallocate();
-
 }
 
 void PointEdgeMap::Deallocate()//destructor
@@ -117,14 +109,9 @@ void PointEdgeMap::Deallocate()//destructor
 
 }
 
-
-
-
-//ritorna l'idedge dell'edge formato dai punti se l'edge esiste
-//se l'edge non esiste ritorna -1;
+//returns the edge id or -1
 int PointEdgeMap::GetEdge(int p1, int p2)
 {
-
     int id;
 
     if (p1 > p2) //sort p1 and p2
@@ -140,7 +127,7 @@ int PointEdgeMap::GetEdge(int p1, int p2)
 }
 
 
-//Aggiunge un edge alla mappa formato dai punti p1 e p2
+// add new edge to the map
 void PointEdgeMap::AddEdge(int p1, int p2, int idedge)
 {
     int idFirst;
@@ -154,7 +141,7 @@ void PointEdgeMap::AddEdge(int p1, int p2, int idedge)
     {
         InsertNode(p2, p1)
     }
-    counter++;//c'è un nodo in più
+    counter++;
 
 }
 

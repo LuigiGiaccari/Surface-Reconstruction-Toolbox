@@ -3,9 +3,6 @@
 #define __SMALLPRIORITYQUEUE_h__
 //class that implesnt an afficent priority queue for a few priorities
 //Level of priority are considered from 0 to N. Highest priority is 0;
-
-//NOTE: this implementation is not robust: it does not consider errors check
-// including memory errors or array overflow.
 using namespace std;
 
 class SMALLPRIORITYQUEUE
@@ -130,8 +127,6 @@ bool SMALLPRIORITYQUEUE::Pop(int* id)
     {
         return true;   //per quando la coda arriva all'ultimo elemnto e poi si ricarica
     }
-
-
 
     for (i = 0; i < Nlevel; i++)
     {

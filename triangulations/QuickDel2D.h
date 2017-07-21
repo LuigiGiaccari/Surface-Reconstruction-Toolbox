@@ -29,8 +29,6 @@ extern Statistics Stats;
 
 #endif
 
-
-
 #ifdef STATS
 Statistics Stats;//structure for statistics
 #endif
@@ -48,11 +46,7 @@ Statistics Stats;//structure for statistics
 #include <fstream>
 
 
-
 using namespace std;
-
-
-
 
 class QUICKDEL2D
 {
@@ -65,7 +59,6 @@ class QUICKDEL2D
         int* flipstack;//stack for triagnles to be flipped
         int  stack_iter;//iterator for flipstack
         int first_tria;//first  triangle before flip_them_all
-
 
         //functions
 
@@ -88,7 +81,6 @@ class QUICKDEL2D
         bool IsInside(int T1, int T2); //checkes if the apex of T2 is inside th circumcircle of T1
         //memory
         void FreeMemory();//deallocate
-
 
     public:
         //variables
@@ -115,7 +107,6 @@ class QUICKDEL2D
 
         void PrintOutput_mfile();//print a matlab script to visualize traigulation
         bool IsDelaunay();//checks is triagnulations is truly delaunay
-
 
 };
 
