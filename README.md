@@ -1,4 +1,7 @@
 # Surface-Reconstruction-Toolbox
+**Download** latest release:
+https://github.com/LuigiGiaccari/Surface-Reconstruction-Toolbox/releases/latest
+
 ![alt text](/doc/scb_image.PNG)
 
 ## Introduction
@@ -79,7 +82,8 @@ Many thanks to:
 - tetgen http://wias-berlin.de/software/tetgen/ saved a lot of time
 
 ## Contacts
-For bugs,suggestions,questions refer to; giaccariluigi@msn.com
+For bugs, suggestions, questions refer to: giaccariluigi@msn.com
+Feel free to open issues or pull requests.
 
 # Development
 Build
