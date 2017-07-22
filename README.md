@@ -1,15 +1,15 @@
 # Surface-Reconstruction-Toolbox
-![alt text](https://github.com/LuigiGiaccari/Surface-Reconstruction-Toolbox/tree/master/doc/scb_image.png)
+![alt text](/doc/scb_image.PNG)
 
 ## Introduction
 This tool was mainly coded during my master thesis. It offers several algorithms to triangulate 3d scattered points for 3d scanning applications. After finding it again on a old hard disk I thought that github could give it a fresh restart.
 During the thesis, in collaboration with Luca Di angelo and Paolo Di Stefano 3 papers were published
 
--Luca Di Angelo, Paolo Di Stefano, Luigi Giaccari: A new mesh-growing algorithm for fast surface reconstruction. Computer-Aided Design 43(6): 639-650 (2011)
+- Luca Di Angelo, Paolo Di Stefano, Luigi Giaccari: A new mesh-growing algorithm for fast surface reconstruction. Computer-Aided Design 43(6): 639-650 (2011)
 https://pdfs.semanticscholar.org/4332/35ea0ca6b6db86131ceb206bc160aab65614.pdf
--An efficient algorithm for the nearest neighbourhood search for point clouds
+- Luca Di Angelo and Luigi Giaccari, 2011, An Efficient Algorithm for the Nearest Neighborhood Search for Point Cloud, IJCSI International Journal of Computer Science Issues, Vol. 8, Issue 5.
 https://www.ijcsi.org/papers/IJCSI-8-5-1-1-11.pdf
--A Fast Mesh-Growing Algorithm for Manifold Surface Reconstruction
+- Luca Di Angelo, Paolo Di Stefano, Luigi Giaccari: A Fast Mesh-Growing Algorithm for Manifold Surface Reconstruction. Computer-Aided Design and Applications Pages 197-220 | Published online: 09 Aug 2013
 http://www.improve2011.it/Full_Paper/33.pdf
 
 ## Description
