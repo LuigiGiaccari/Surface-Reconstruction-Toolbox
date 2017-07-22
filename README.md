@@ -1,5 +1,5 @@
 # Surface-Reconstruction-Toolbox
-**Download** latest release:
+**Download** latest released binaries:
 https://github.com/LuigiGiaccari/Surface-Reconstruction-Toolbox/releases/latest
 
 ![alt text](/doc/scb_image.PNG)
@@ -15,8 +15,6 @@ https://www.ijcsi.org/papers/IJCSI-8-5-1-1-11.pdf
 - Luca Di Angelo, Paolo Di Stefano, Luigi Giaccari: A Fast Mesh-Growing Algorithm for Manifold Surface Reconstruction. Computer-Aided Design and Applications Pages 197-220 | Published online: 09 Aug 2013
 http://www.improve2011.it/Full_Paper/33.pdf
 
-## Downloads (binaries)
-coming soon
 
 ## Description
 
