@@ -1,5 +1,0 @@
-﻿  TESTexe.cpp
-c:\users\giacc\onedrive\documenti\surfacerecontoolbox\srtools\testexe.cpp(18): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
-  Test.vcxproj -> C:\Users\giacc\OneDrive\Documenti\SurfaceReconToolbox\Debug\Test.exe
-  Test.vcxproj -> C:\Users\giacc\OneDrive\Documenti\SurfaceReconToolbox\Debug\Test.pdb (Partial PDB)
