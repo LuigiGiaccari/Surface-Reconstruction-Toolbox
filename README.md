@@ -41,8 +41,8 @@ The file starts with an “int” typeindicating the number of points, next data
 Points are stored this way: X1,Y1,Z1,X2,Y2,Z2…….
 These are the Matlab commands to generate such file:
 ```Matlab
-fid=fopen(name,'wb');%open input file
-fwrite(fid, np, 'int');%first data=the numbers of points;
+fid=fopen("filename.dat",'wb');%open input file
+fwrite(fid, size(p,1), 'int');%first data=the numbers of points;
 fwrite(fid,p,'double');%points;
 fclose(fid);%close the file
 ```

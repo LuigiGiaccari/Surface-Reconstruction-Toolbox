@@ -19,7 +19,7 @@ void CC(Coord3D* p1, Coord3D* p2, Coord3D* p3, Coord3D* cc, double* r); //Circum
 double TriangleAngle(Coord3D* P1, Coord3D* P2, Coord3D* P3, Coord3D* P4); //finds the cosine of the angle between the 2 traingles formed by the 4 points
 void SearchPointExt(Coord3D* P1, Coord3D* P2, Coord3D* P3, Coord3D* sp, double* sr); //search point extended version (UNUSED)
 void SearchPoint(Coord3D* P1, Coord3D* P2, Coord3D* P3, Coord3D* sp, double* sr, double kr); //gets the search point for SCBMesher
-inline void FastCramer(double* v1, double* v2, double* v3, double* b, double* sol);//Solve a linear system. v1 v2 v3 are the system rows, b is the coefficent vector and sol is the computed solution
+inline bool FastCramer(double* v1, double* v2, double* v3, double* b, double* sol);//Solve a linear system. v1 v2 v3 are the system rows, b is the coefficent vector and sol is the computed solution
 void TNorm(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* tnorm);
 
 //MACROS GOES HERE
@@ -334,7 +334,7 @@ void TNorm(Coord3D* p1, Coord3D* p2, Coord3D* p4, Coord3D* tnorm)
 }
 
 //Solves a linear system. v1 v2 v3 are the system rows, b is the coefficent vector and sol is the computed solution
-inline void FastCramer(double* v1, double* v2, double* v3, double* b, double* sol)
+inline bool FastCramer(double* v1, double* v2, double* v3, double* b, double* sol)
 {
 
 
@@ -349,26 +349,25 @@ inline void FastCramer(double* v1, double* v2, double* v3, double* b, double* so
           v1[1] * det20 +
           v1[2] * det01;
 
-#ifdef _DEBUG
-    if (det < 1e-14 && det > -1e-14)
+
+    if (abs(det) > 1e-14)
     {
-        cout << "Small det Found: " << det << endl;
+
+        detx = b[0] * det12 +
+            -b[1] * (v1[1] * v3[2] - v1[2] * v3[1]) +
+            b[2] * (v1[1] * v2[2] - v1[2] * v2[1]);
+        dety = b[0] * det20
+            - b[1] * (v1[2] * v3[0] - v1[0] * v3[2]) +
+            b[2] * (v1[2] * v2[0] - v1[0] * v2[2]);
+        detz = b[0] * det01
+            - b[1] * (v1[0] * v3[1] - v1[1] * v3[0]) +
+            b[2] * (v1[0] * v2[1] - v1[1] * v2[0]);
+
+        sol[0] = detx / det;
+        sol[1] = dety / det;
+        sol[2] = detz / det;
+        return true;
     }
-#endif
-
-    detx = b[0] * det12 +
-           -b[1] * (v1[1] * v3[2] - v1[2] * v3[1]) +
-           b[2] * (v1[1] * v2[2] - v1[2] * v2[1]);
-    dety = b[0] * det20
-           - b[1] * (v1[2] * v3[0] - v1[0] * v3[2]) +
-           b[2] * (v1[2] * v2[0] - v1[0] * v2[2]);
-    detz = b[0] * det01
-           - b[1] * (v1[0] * v3[1] - v1[1] * v3[0]) +
-           b[2] * (v1[0] * v2[1] - v1[1] * v2[0]);
-
-    sol[0] = detx / det;
-    sol[1] = dety / det;
-    sol[2] = detz / det;
-
+    return false;
 }
 #endif

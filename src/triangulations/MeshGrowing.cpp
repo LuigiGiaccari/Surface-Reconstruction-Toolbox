@@ -140,8 +140,6 @@ void MESHGROWING::PrintParameters(int mode) //set default values for internalpar
     cout << "-EnablePreProcessing: " << P.EnablePreProcessing << endl;
     cout << "-EnablePostProcessing: " << P.EnablePostProcessing << endl;
 
-
-
 }
 
 void MESHGROWING::Memory_Deallocate(DeallocateMode Mode)
@@ -192,9 +190,7 @@ void MESHGROWING::Memory_Allocate()
 
     EPMap.BuildPointEdgeMap(N, MAXE); //EPmap
 
-    //inizilizza alcuni valori
-    int i;
-    for (i = 0; i < MAXE; i++)
+    for (int i = 0; i < MAXE; i++)
     {
         e[i].t2 = -1; //flag all edges as boundary
     }
@@ -205,10 +201,6 @@ void MESHGROWING::Memory_Allocate()
 // get first triangle to start the front
 void MESHGROWING::SeedTriangle(bool BPAtest = false)
 {
-
-    //COSTANT DEFINITION
-
-
     //MEMORY ALLOCATION
 
     int i, j;
@@ -230,7 +222,6 @@ void MESHGROWING::SeedTriangle(bool BPAtest = false)
         P1 = i;
         //Find the closet to i point
         SDS.SearchClosestExclusive( &p[P1], &P2, &mindist, P1);
-
 
         //Find all the points in k range of edge midpoint
         MidPoint(p[P1]., p[P2]., pm.)
@@ -282,11 +273,9 @@ void MESHGROWING::SeedTriangle(bool BPAtest = false)
 
         }//loop trough all points in k-range
 
-
         if (GoodTriangle)
         {
-            //aggiungi il nuovo triangolo
-
+            //add new triangle
             if (P.BPA_ReverseNormal)
             {
                 cout << "Reversing Normal: Inner Ball" << endl;
