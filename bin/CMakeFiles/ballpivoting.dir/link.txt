@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/ballpivoting.dir/src/srtools/BPAexe.cpp.o  -o ballpivoting 

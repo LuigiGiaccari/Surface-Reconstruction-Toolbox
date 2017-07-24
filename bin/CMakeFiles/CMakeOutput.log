@@ -1,0 +1,368 @@
+The system is: Linux - 3.0.13-0.27-default - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/3.9.0/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/3.9.0/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_b302e/fast"
+gmake: Warning: File `Makefile' has modification time 0.00093 s in the future
+/usr/bin/gmake -f CMakeFiles/cmTC_b302e.dir/build.make CMakeFiles/cmTC_b302e.dir/build
+gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake[1]: Warning: File `CMakeFiles/cmTC_b302e.dir/progress.make' has modification time 0.0044 s in the future
+Building C object CMakeFiles/cmTC_b302e.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_b302e.dir/testCCompiler.c.o   -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_b302e
+/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b302e.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_b302e.dir/testCCompiler.c.o  -o cmTC_b302e 
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[1]: Leaving directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake: warning:  Clock skew detected.  Your build may be incomplete.
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_66063/fast"
+gmake: Warning: File `Makefile' has modification time 0.00092 s in the future
+/usr/bin/gmake -f CMakeFiles/cmTC_66063.dir/build.make CMakeFiles/cmTC_66063.dir/build
+gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake[1]: Warning: File `CMakeFiles/cmTC_66063.dir/progress.make' has modification time 0.0041 s in the future
+Building C object CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o   -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/share/cmake-3.9/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_66063
+/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_66063.dir/link.txt --verbose=1
+/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o  -o cmTC_66063 
+Using built-in specs.
+Target: x86_64-suse-linux
+Configured with: ../configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man --libdir=/usr/lib64 --libexecdir=/usr/lib64 --enable-languages=c,c++,objc,fortran,obj-c++,java,ada --enable-checking=release --with-gxx-include-dir=/usr/include/c++/4.3 --enable-ssp --disable-libssp --with-bugurl=http://bugs.opensuse.org/ --with-pkgversion='SUSE Linux' --disable-libgcj --disable-libmudflap --with-slibdir=/lib64 --with-system-zlib --enable-__cxa_atexit --enable-libstdcxx-allocator=new --disable-libstdcxx-pch --enable-version-specific-runtime-libs --program-suffix=-4.3 --enable-linux-futex --without-system-libunwind --with-cpu=generic --build=x86_64-suse-linux
+Thread model: posix
+gcc version 4.3.4 [gcc-4_3-branch revision 152973] (SUSE Linux) 
+COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/
+LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_66063' '-mtune=generic'
+ /usr/lib64/gcc/x86_64-suse-linux/4.3/collect2 --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_66063 /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/4.3/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/4.3 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../.. CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib64/gcc/x86_64-suse-linux/4.3/crtend.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crtn.o
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[1]: Leaving directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake: warning:  Clock skew detected.  Your build may be incomplete.
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_66063/fast"]
+  ignore line: [gmake: Warning: File `Makefile' has modification time 0.00092 s in the future]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_66063.dir/build.make CMakeFiles/cmTC_66063.dir/build]
+  ignore line: [gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Warning: File `CMakeFiles/cmTC_66063.dir/progress.make' has modification time 0.0041 s in the future]
+  ignore line: [Building C object CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o   -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/share/cmake-3.9/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_66063]
+  ignore line: [/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_66063.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o  -o cmTC_66063 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [Target: x86_64-suse-linux]
+  ignore line: [Configured with: ../configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man --libdir=/usr/lib64 --libexecdir=/usr/lib64 --enable-languages=c,c++,objc,fortran,obj-c++,java,ada --enable-checking=release --with-gxx-include-dir=/usr/include/c++/4.3 --enable-ssp --disable-libssp --with-bugurl=http://bugs.opensuse.org/ --with-pkgversion='SUSE Linux' --disable-libgcj --disable-libmudflap --with-slibdir=/lib64 --with-system-zlib --enable-__cxa_atexit --enable-libstdcxx-allocator=new --disable-libstdcxx-pch --enable-version-specific-runtime-libs --program-suffix=-4.3 --enable-linux-futex --without-system-libunwind --with-cpu=generic --build=x86_64-suse-linux]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.3.4 [gcc-4_3-branch revision 152973] (SUSE Linux) ]
+  ignore line: [COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/]
+  ignore line: [LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_66063' '-mtune=generic']
+  link line: [ /usr/lib64/gcc/x86_64-suse-linux/4.3/collect2 --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_66063 /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/4.3/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/4.3 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../.. CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib64/gcc/x86_64-suse-linux/4.3/crtend.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crtn.o]
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/collect2] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_66063] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crt1.o] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crti.o] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/crtbegin.o] ==> ignore
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3]
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib]
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../..] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../..]
+    arg [CMakeFiles/cmTC_66063.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/crtend.o] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crtn.o] ==> ignore
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3] ==> [/usr/lib64/gcc/x86_64-suse-linux/4.3]
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64] ==> [/usr/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib] ==> [/usr/x86_64-suse-linux/lib]
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../..] ==> [/usr/lib64]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit dirs: [/usr/lib64/gcc/x86_64-suse-linux/4.3;/usr/lib64;/lib64;/usr/x86_64-suse-linux/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_a5d9e/fast"
+gmake: Warning: File `Makefile' has modification time 0.00035 s in the future
+/usr/bin/gmake -f CMakeFiles/cmTC_a5d9e.dir/build.make CMakeFiles/cmTC_a5d9e.dir/build
+gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake[1]: Warning: File `CMakeFiles/cmTC_a5d9e.dir/progress.make' has modification time 0.0035 s in the future
+Building C object CMakeFiles/cmTC_a5d9e.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_a5d9e.dir/feature_tests.c.o   -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/feature_tests.c
+Linking C executable cmTC_a5d9e
+/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a5d9e.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_a5d9e.dir/feature_tests.c.o  -o cmTC_a5d9e 
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[1]: Leaving directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake: warning:  Clock skew detected.  Your build may be incomplete.
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c89] compiler features compiled with the following output:
+Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_6bb74/fast"
+gmake: Warning: File `Makefile' has modification time 0.00023 s in the future
+/usr/bin/gmake -f CMakeFiles/cmTC_6bb74.dir/build.make CMakeFiles/cmTC_6bb74.dir/build
+gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake[1]: Warning: File `CMakeFiles/cmTC_6bb74.dir/progress.make' has modification time 0.0032 s in the future
+Building C object CMakeFiles/cmTC_6bb74.dir/feature_tests.c.o
+/usr/bin/cc   -std=c89 -o CMakeFiles/cmTC_6bb74.dir/feature_tests.c.o   -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/feature_tests.c
+Linking C executable cmTC_6bb74
+/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6bb74.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_6bb74.dir/feature_tests.c.o  -o cmTC_6bb74 
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[1]: Leaving directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake: warning:  Clock skew detected.  Your build may be incomplete.
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_b7a82/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_b7a82.dir/build.make CMakeFiles/cmTC_b7a82.dir/build
+gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake[1]: Warning: File `CMakeFiles/cmTC_b7a82.dir/progress.make' has modification time 0.0042 s in the future
+Building CXX object CMakeFiles/cmTC_b7a82.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_b7a82.dir/testCXXCompiler.cxx.o -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_b7a82
+/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7a82.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_b7a82.dir/testCXXCompiler.cxx.o  -o cmTC_b7a82 
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[1]: Leaving directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_9fbbf/fast"
+gmake: Warning: File `Makefile' has modification time 0.00038 s in the future
+/usr/bin/gmake -f CMakeFiles/cmTC_9fbbf.dir/build.make CMakeFiles/cmTC_9fbbf.dir/build
+gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake[1]: Warning: File `CMakeFiles/cmTC_9fbbf.dir/progress.make' has modification time 0.0034 s in the future
+Building CXX object CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/share/cmake-3.9/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_9fbbf
+/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9fbbf.dir/link.txt --verbose=1
+/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_9fbbf 
+Using built-in specs.
+Target: x86_64-suse-linux
+Configured with: ../configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man --libdir=/usr/lib64 --libexecdir=/usr/lib64 --enable-languages=c,c++,objc,fortran,obj-c++,java,ada --enable-checking=release --with-gxx-include-dir=/usr/include/c++/4.3 --enable-ssp --disable-libssp --with-bugurl=http://bugs.opensuse.org/ --with-pkgversion='SUSE Linux' --disable-libgcj --disable-libmudflap --with-slibdir=/lib64 --with-system-zlib --enable-__cxa_atexit --enable-libstdcxx-allocator=new --disable-libstdcxx-pch --enable-version-specific-runtime-libs --program-suffix=-4.3 --enable-linux-futex --without-system-libunwind --with-cpu=generic --build=x86_64-suse-linux
+Thread model: posix
+gcc version 4.3.4 [gcc-4_3-branch revision 152973] (SUSE Linux) 
+COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/
+LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9fbbf' '-shared-libgcc' '-mtune=generic'
+ /usr/lib64/gcc/x86_64-suse-linux/4.3/collect2 --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_9fbbf /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/4.3/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/4.3 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../.. CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib64/gcc/x86_64-suse-linux/4.3/crtend.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crtn.o
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[1]: Leaving directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake: warning:  Clock skew detected.  Your build may be incomplete.
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_9fbbf/fast"]
+  ignore line: [gmake: Warning: File `Makefile' has modification time 0.00038 s in the future]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_9fbbf.dir/build.make CMakeFiles/cmTC_9fbbf.dir/build]
+  ignore line: [gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Warning: File `CMakeFiles/cmTC_9fbbf.dir/progress.make' has modification time 0.0034 s in the future]
+  ignore line: [Building CXX object CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/share/cmake-3.9/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_9fbbf]
+  ignore line: [/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9fbbf.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_9fbbf ]
+  ignore line: [Using built-in specs.]
+  ignore line: [Target: x86_64-suse-linux]
+  ignore line: [Configured with: ../configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man --libdir=/usr/lib64 --libexecdir=/usr/lib64 --enable-languages=c,c++,objc,fortran,obj-c++,java,ada --enable-checking=release --with-gxx-include-dir=/usr/include/c++/4.3 --enable-ssp --disable-libssp --with-bugurl=http://bugs.opensuse.org/ --with-pkgversion='SUSE Linux' --disable-libgcj --disable-libmudflap --with-slibdir=/lib64 --with-system-zlib --enable-__cxa_atexit --enable-libstdcxx-allocator=new --disable-libstdcxx-pch --enable-version-specific-runtime-libs --program-suffix=-4.3 --enable-linux-futex --without-system-libunwind --with-cpu=generic --build=x86_64-suse-linux]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.3.4 [gcc-4_3-branch revision 152973] (SUSE Linux) ]
+  ignore line: [COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/]
+  ignore line: [LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/4.3/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9fbbf' '-shared-libgcc' '-mtune=generic']
+  link line: [ /usr/lib64/gcc/x86_64-suse-linux/4.3/collect2 --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_9fbbf /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/4.3/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/4.3 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../.. CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib64/gcc/x86_64-suse-linux/4.3/crtend.o /usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crtn.o]
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/collect2] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_9fbbf] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crt1.o] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crti.o] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/crtbegin.o] ==> ignore
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3]
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib]
+    arg [-L/usr/lib64/gcc/x86_64-suse-linux/4.3/../../..] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../..]
+    arg [CMakeFiles/cmTC_9fbbf.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/crtend.o] ==> ignore
+    arg [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64/crtn.o] ==> ignore
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3] ==> [/usr/lib64/gcc/x86_64-suse-linux/4.3]
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../lib64] ==> [/usr/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/lib] ==> [/usr/x86_64-suse-linux/lib]
+  collapse library dir [/usr/lib64/gcc/x86_64-suse-linux/4.3/../../..] ==> [/usr/lib64]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/usr/lib64/gcc/x86_64-suse-linux/4.3;/usr/lib64;/lib64;/usr/x86_64-suse-linux/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_82036/fast"
+gmake: Warning: File `Makefile' has modification time 0.00062 s in the future
+/usr/bin/gmake -f CMakeFiles/cmTC_82036.dir/build.make CMakeFiles/cmTC_82036.dir/build
+gmake[1]: Entering directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake[1]: Warning: File `CMakeFiles/cmTC_82036.dir/progress.make' has modification time 0.0037 s in the future
+Building CXX object CMakeFiles/cmTC_82036.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_82036.dir/feature_tests.cxx.o -c /nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_82036
+/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Downloads/cmake-3.9.0-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82036.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_82036.dir/feature_tests.cxx.o  -o cmTC_82036 
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[1]: Leaving directory `/nfs/punlinuxvault2/fcdata13/visitor/lgiaccar/Surface-Reconstruction-Toolbox/bin/CMakeFiles/CMakeTmp'
+gmake: warning:  Clock skew detected.  Your build may be incomplete.
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:0cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
