@@ -18,8 +18,8 @@
 #include "triangulations/TrianglesFunctions.h"
 #include "util/ArraysLib.h"
 #include "util/filemanager.h"
-#include "tetgen1.4.3/predicates.cxx"
-#include "tetgen1.4.3/tetgen.cxx"
+#include "tetgen1.5.0/predicates.cxx"
+#include "tetgen1.5.0/tetgen.cxx"
 #include <queue>
 #include <stack>
 
@@ -292,7 +292,7 @@ int RCRUST::DelaunayTriangulation()
     tetgenbehavior behav;//behaviour class for tetgen
     //behav.insertaddpoints=true;
     //behav.plc=true;
-    behav.conformdel = true;
+    //behav.conformdel = true;
     behav.nonodewritten = true;
     behav.noelewritten = false;
     behav.nofacewritten = true;
