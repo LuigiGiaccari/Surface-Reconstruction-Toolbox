@@ -7,6 +7,8 @@
 #define M_PI 3.14159265358979323846 //pigreco
 #endif
 
+/*speed up debug mode*/
+#define _ITERATOR_DEBUG_LEVEL 0
 
 //INCLUDES
 #include <iostream>
@@ -22,10 +24,21 @@
 #include <stack>
 
 
+static const int TET_EDGE_NODE[6][2] = {
+   { 0, 1 },{ 1, 2 },{ 2, 0 },{ 0, 3 },{ 1, 3 },{ 2, 3 }
+};
+
+/* also indicates edge rotation */
+static const int TET_EDGE_FACE[6][2] = {
+    { 2, 3 },{ 0, 3 },{ 1, 3 },{ 1, 2 },{ 2, 0 },{ 0, 1 }
+};
+
+static const int TET_FACE[4][3] = {
+    { 1, 2, 3 },{ 2, 0, 3 },{ 0 ,1, 3 },{ 0, 2, 1 }
+};
+
+
 //STRUCTURES
-
-
-
 struct Tetrahedra
 {
     int p1;
@@ -36,7 +49,6 @@ struct Tetrahedra
 
 struct Neigh
 {
-
     int T1;
     int T2;
     int T3;
@@ -65,7 +77,6 @@ struct PQueueNode
     {
         return plevel < rhs.plevel;
     }
-
 };
 
 //operaor to compare 2 priority queue nodes
@@ -76,6 +87,13 @@ class CompareNode
         {
             return t1.plevel < t2.plevel;
         }
+};
+
+enum PC_TET_STATUS
+{
+    PC_UNKNOWN,
+    PC_INSIDE,
+    PC_OUTSIDE
 };
 
 class RCRUST
@@ -105,12 +123,10 @@ class RCRUST
         int ct;//triangles iterator
         Model3D Model;//infos about the model
         priority_queue<PQueueNode, vector<PQueueNode>, CompareNode > queue;
-        bool* deleted;
-        bool* checked;
-
+        PC_TET_STATUS* TetStatus;
 
         //private functions
-		inline double Ifact(Coord3D* cc1, double* r1, Coord3D* cc2, double* r2);
+        inline double Ifact(Coord3D* cc1, double* r1, Coord3D* cc2, double* r2);
         void TetraCC(int idT, Coord3D* cc, double* r);
         void AnalyzeModel();
         void Marking();
@@ -125,12 +141,9 @@ class RCRUST
         void HandleError(int flag);
         void FindFacet(int T1, int T2, Triangle* facet);
         void GenerateTriangles();
-        void LookForTriangle(vector<int>* Stack, int T1, int T2);
-        int FindUnClustered();
+        void LookForTriangle( int T1, int T2);
         void Clustering();
         void ManifoldExtraction();
-        void FillWedges();
-        void DeleteSlivers();
         double TetraVol(int idT);
         void CopyPoints(vector<double>* inputp, int innp);
         void AddShield(Coord3D* p, int N);
@@ -139,8 +152,7 @@ class RCRUST
 RCRUST::RCRUST()//constructor
 {
     ct = 0;
-    checked = NULL;
-    deleted = NULL;
+    TetStatus = NULL;
     T = NULL;
     Tneigh = NULL;
     p = NULL;
@@ -156,8 +168,7 @@ void RCRUST::FreeMemory()//desstructor
 {
     //deallocate memory
 
-    Deallocate(&checked);
-    Deallocate(&deleted);
+    Deallocate(&TetStatus);
 
     //free the memory from delaunay triangulation
     out.deinitialize();//delete delaunay triangulation
@@ -410,15 +421,18 @@ void RCRUST::InitQueue()
     {
         if (T[i].p1 >= N || T[i].p2 >= N || T[i].p3 >= N || T[i].p4 >= N)
         {
-            checked[i] = deleted[i] = true;
+            TetStatus[i] = PC_OUTSIDE;
         }
-
+        else
+        {
+            TetStatus[i] = PC_UNKNOWN;
+        }
     }
     //add to queue all neighbours of shield tetraedrons
 
     for (i = 0; i < NT; i++)
     {
-        if (deleted[i])
+        if (TetStatus[i] == PC_OUTSIDE)
         {
             if (Tneigh[i].T1 >= 0)
             {
@@ -460,7 +474,7 @@ void RCRUST::AnalyzeIntersection(int T1, int T2)
 
     PQueueNode Node;
 
-    if (checked[T2])
+    if (TetStatus[T2] != PC_UNKNOWN)
     {
         return;    //no need to check go forward
     }
@@ -493,63 +507,43 @@ float RCRUST::ComputePlevel(float Ifact)
     return plevel;
 }
 
-
 void RCRUST::FindFacet(int T1, int T2, Triangle* facet)
 {
     //retunrs the facet shared by T1 and T2, T1 is a not deleted tetraedron
     //getting the position of T2
-    int p1, p2, p3, p4;
+    int p1, p2, p3;
+    int face_id;
+    int *T1ptr = &T[T1].p1;
+
     //    Coord3D tnorm;
     if (Tneigh[T1].T1 == T2)
     {
-        p1 = T[T1].p2;
-        p2 = T[T1].p3;
-        p3 = T[T1].p4;
-        p4 = T[T1].p1;
+        face_id = 0;
     }
     else if (Tneigh[T1].T2 == T2)
     {
-        p1 = T[T1].p1;
-        p2 = T[T1].p3;
-        p3 = T[T1].p4;
-        p4 = T[T1].p2;
+        face_id = 1;
     }
     else if (Tneigh[T1].T3 == T2)
     {
-        p1 = T[T1].p1;
-        p2 = T[T1].p2;
-        p3 = T[T1].p4;
-        p4 = T[T1].p3;
+        face_id = 2;
     }
     else if (Tneigh[T1].T4 == T2)
     {
-        p1 = T[T1].p1;
-        p2 = T[T1].p2;
-        p3 = T[T1].p3;
-        p4 = T[T1].p4;
+        face_id = 3;
     }
     else
     {
         Error("Facet error");
     }
 
-    //Check the orientation of p4 and i case swap triagnle
-    double o = orient3d(&p[p1].x, &p[p2].x, &p[p3].x, &p[p4].x);
+     p1 = TET_FACE[face_id][0];
+     p2 = TET_FACE[face_id][1];
+     p3 = TET_FACE[face_id][2];
 
-    if (o > 0)
-    {
-        facet->p1 = p1;
-        facet->p2 = p2;
-        facet->p3 = p3;
-    }
-    else
-    {
-        facet->p1 = p2;
-        facet->p2 = p1;
-        facet->p3 = p3;
-    }
-
-
+     facet->p1 = T1ptr[p1];
+     facet->p2 = T1ptr[p2];
+     facet->p3 = T1ptr[p3];
 
 }
 
@@ -564,7 +558,7 @@ void RCRUST::Marking()
         Node = queue.top();
         queue.pop();//get and delete the last element form the queue
 
-        if (Node.T2 < 0 || checked[Node.T2])
+        if (Node.T2 < 0 || TetStatus[Node.T2] != PC_UNKNOWN)
         {
             continue;    //no need to check outside tetra our already checked
         }
@@ -579,35 +573,40 @@ void RCRUST::MarkTetra(int T1, int T2, float Ifact)
     //Mark the tetraedrons T2 Accoording to the Ifact and the status of T1
     //T2 is always >=0, T1<0 is assumed as deleted
     //after marking analyze the connection with his neighbours
-    bool status;
+    PC_TET_STATUS status;
 
-    if (checked[T2])
+    if (TetStatus[T2] != PC_UNKNOWN)
     {
         return;    //no need to recheck
     }
 
     if (T1 >= 0)
     {
-        status = deleted[T1];
+        status = TetStatus[T1];
     }
     else
     {
-        status = true; //outside tetraedrons are deleted
+        status = PC_OUTSIDE; //outside tetraedrons are deleted
     }
 
 
 
     if (Ifact > 0) //intersection marl as equal
     {
-        deleted[T2] = status;
+        TetStatus[T2] = status;
     }
     else
     {
-        deleted[T2] = !status; //not interection mark as different
+        if (TetStatus[T1] == PC_INSIDE)
+        {
+            TetStatus[T2] = PC_OUTSIDE;
+        }
+        else
+        {
+            TetStatus[T2] = PC_INSIDE;
+        }
     }
 
-    //T2 is now checked
-    checked[T2] = true;
     //analyize connection with his neighbours
     if (Tneigh[T2].T1 >= 0)
     {
@@ -630,107 +629,63 @@ void RCRUST::MarkTetra(int T1, int T2, float Ifact)
 }
 
 
-
-
 void RCRUST::GenerateTriangles()
 {
     //finds the intersection between deleted and not tetraedra
 
-    vector<int> Stack;
-    int T1;
-
-    Alls(checked, NT, false); //Reset
-
-    //Start from tetra 0
-    Stack.push_back(0);
-
-    while (!Stack.empty())
+    for(int i = 0; i< NT; i++)
     {
-        T1 = Stack.back();
-        Stack.pop_back();//get and delete element
-
-        LookForTriangle(&Stack, T1, Tneigh[T1].T1);
-        LookForTriangle(&Stack, T1, Tneigh[T1].T2);
-        LookForTriangle(&Stack, T1, Tneigh[T1].T3);
-        LookForTriangle(&Stack, T1, Tneigh[T1].T4);
-        checked[T1] = true; //T1 is now checked
+        LookForTriangle( i, Tneigh[i].T1);
+        LookForTriangle( i, Tneigh[i].T2);
+        LookForTriangle( i, Tneigh[i].T3);
+        LookForTriangle( i, Tneigh[i].T4);
     }
 
 }
 
-void RCRUST::LookForTriangle(vector<int>* Stack, int T1, int T2)
+/* Generates a triangle between T1 INSIDE and T2 OUTSIDE*/
+void RCRUST::LookForTriangle(int T1, int T2)
 {
-    //if THey have different deleted a traignle is generated
-    //T1 Always>0
-
     Triangle facet;
     bool deleted2;
 
-    if (T2 >= 0)
+    if ( T1 >= 0 &&
+         T2 >= 0 &&
+         TetStatus[T1] == PC_INSIDE &&
+         TetStatus[T2] == PC_OUTSIDE)
     {
-        if (checked[T2])
-        {
-            return;   //already checked skip
-        }
-        deleted2 = deleted[T2];
-        Stack->push_back(T2);
-    }//add to stack}
-    else
-    {
-        if (checked[T1])
-        {
-            return;
-        }
-        deleted2 = true;
-    }//outside tetraedrons are deleted
+        FindFacet(T1, T2, &facet);
 
-    if (deleted[T1] != deleted2) //need to generate a triagnle
-    {
-        //Finds the factes using using the inside tetraedrons to set outwar normal
-        if (deleted[T1])
-        {
-            FindFacet(T2, T1, &facet);
-        }
-        else
-        {
-            FindFacet(T1, T2, &facet);
-        }
-        if (facet.p1 < N && facet.p3 < N && facet.p3 < N )
-        {
-            t.push_back(facet);
-        }//new triangle is generated}
-        else
-        {
-            cout << "Erroneus facet " << T1 << " " << T2 << endl;
-        }
+       if (facet.p1 < N && facet.p2 < N && facet.p3 < N)
+       {
+           t.push_back(facet);
+       }//new triangle is generated}
+       else
+       {
+           cout << "Erroneus facet " << T1 << " " << T2 << endl;
+       }
     }
+
 }
 
 void RCRUST::BuildSurface()
 {
     //All operation to extract the surface
     //int flag;
-    AllocateAndInit(&checked, NT, false); //true for checked tetraedroms
-    AllocateAndInit(&deleted, NT, false); //true for deleted tetraedroms
+    AllocateAndInit(&TetStatus, NT, PC_UNKNOWN); //true for checked tetraedroms
 
     InitQueue();
 
     Marking();
 
-    //DeleteSlivers();
-
     Clustering();
-
-    //FillWedges();
 
     GenerateTriangles();
 
     cout << "Genrated: " << t.size() << " triangles From " << NT << " Tetraedrons" << endl;
 
     //remove from memory
-    Deallocate(&checked);
-    Deallocate(&deleted);
-
+    Deallocate(&TetStatus);
 }
 
 
@@ -761,42 +716,46 @@ void RCRUST::Clustering()
     int BiggerClust;
     int T1, T2;
 
-    Alls(checked, NT, false); //Reset
-
     idClust = 0;
-    while (1)
+    for(i = 0; i < NT; i++)
     {
-        T1 = FindUnClustered();
-        if (T1 < 0)
-        {
-            break;
-        }
-        //Start from tetra 0
+        T1 = i;
 
+        if (ClustId[T1] >= 0)
+            continue;
+
+        //Start from tetra 0
         Stack.push_back(T1);
         while (!Stack.empty())
         {
             T1 = Stack.back();
             Stack.pop_back();//get and delete element
-            checked[T1] = true; //T1 is now checked
             ClustId[T1] = idClust;
             T2 = Tneigh[T1].T1;
-            if (T2 >= 0 && !deleted[T2] && !checked[T2])
+            if (T2 >= 0 && 
+                TetStatus[T2] == PC_INSIDE &&
+                ClustId[T2] == -1)
             {
                 Stack.push_back(T2);
             }
             T2 = Tneigh[T1].T2;
-            if (T2 >= 0 && !deleted[T2] && !checked[T2])
+            if (T2 >= 0 &&
+                TetStatus[T2] == PC_INSIDE &&
+                ClustId[T2] == -1)
             {
                 Stack.push_back(T2);
             }
             T2 = Tneigh[T1].T3;
-            if (T2 >= 0 && !deleted[T2] && !checked[T2])
+            if (T2 >= 0 &&
+                TetStatus[T2] == PC_INSIDE &&
+                ClustId[T2] == -1)
             {
                 Stack.push_back(T2);
             }
             T2 = Tneigh[T1].T4;
-            if (T2 >= 0 && !deleted[T2] && !checked[T2])
+            if (T2 >= 0 &&
+                TetStatus[T2] == PC_INSIDE &&
+                ClustId[T2] == -1)
             {
                 Stack.push_back(T2);
             }
@@ -830,105 +789,19 @@ void RCRUST::Clustering()
     {
         if (ClustId[i] == BiggerClust)
         {
-            deleted[i] = false;
+            TetStatus[i] = PC_INSIDE;
         }
         else
         {
-            deleted[i] = true;
+            TetStatus[i] = PC_OUTSIDE;
         }
     }
-
-}
-
-
-int RCRUST::FindUnClustered()
-{
-    //finds the first unclustered tetraedron id
-    //returns -1 if all points are clustered
-    int i;
-
-    for (i = 0; i < NT; i++)
-    {
-        if (!checked[i] && !deleted[i])
-        {
-            return i;
-        }
-    }
-    return -1;
 
 }
 
 void RCRUST::ManifoldExtraction()
 {
     //Extract the Manifold performing  a walking operation
-}
-
-void RCRUST::FillWedges()
-{
-    //Fills wedge tetraedrons which have 3 triangles on the surface
-    int i;
-    char c;//int8
-    for (i = 0; i < NT; i++)
-    {
-        if (!deleted[i])
-        {
-            continue;    //already filled
-        }
-        c = 0;
-        if (Tneigh[i].T1 < 0)
-        {
-            continue;
-        }
-        else if (!deleted[Tneigh[i].T1])
-        {
-            c++;
-        }
-        if (Tneigh[i].T2 < 0)
-        {
-            continue;
-        }
-        else if (!deleted[Tneigh[i].T2])
-        {
-            c++;
-        }
-        if (Tneigh[i].T3 < 0)
-        {
-            continue;
-        }
-        else if (!deleted[Tneigh[i].T3])
-        {
-            c++;
-        }
-        if (Tneigh[i].T4 < 0)
-        {
-            continue;
-        }
-        else if (!deleted[Tneigh[i].T4])
-        {
-            c++;
-        }
-        if (c == 3)
-        {
-            deleted[i] = false;    //fill wedge
-        }
-    }
-}
-
-
-void RCRUST::DeleteSlivers()
-{
-    //delete all tetraedrons with almost null value
-    int i;
-    double det;
-    for (i = 0; i < NT; i++)
-    {
-        det = TetraVol(i);
-        if (det < 1e-14 && det > -1e-14)
-        {
-            deleted[i] = true;
-        }
-    }
-
 }
 
 double RCRUST::TetraVol(int idT)
