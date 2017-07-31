@@ -46,8 +46,6 @@ int main(int argc, char* argv[])
     cout << "Importing points...";
     FileManager.Read_Points(&ptemp, &N, inputfile) ;
 
-
-
     p.resize(N * 3);
     Copy(&p[0], &ptemp[0], N * 3);
     Deallocate(&ptemp);
@@ -60,10 +58,9 @@ int main(int argc, char* argv[])
         Error("Not enough points to launch the algorithm");
     }
 
-
-
     cout << endl << "LAUNCHING MyRobustCrust" << endl;
-    Surface.Triangulate(&p, N);
+    Surface.TriangulatePowerCrust(&p, N);
+    /*Surface.TriangulateABPA(&p, N);*/
     int nt = Surface.t.size();
 
     Timer.stopTimer();

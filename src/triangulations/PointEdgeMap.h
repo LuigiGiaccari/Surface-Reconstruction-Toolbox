@@ -33,7 +33,7 @@ class PointEdgeMap
 
         int* First;//Get the first node to check
         PENode* Map;//Store for PEnodes
-        int counter;//numero di nodi inseriti nella mappa
+        int counter;
 
     public:
 
@@ -53,7 +53,6 @@ PointEdgeMap::PointEdgeMap()//constructor
     //do nothing just allocate memory
 }
 
-//Costruisce la pointedgeMap
 int PointEdgeMap::BuildPointEdgeMap(int Np, int MAXE)
 {
     //return:
@@ -83,7 +82,6 @@ int PointEdgeMap::BuildPointEdgeMap(int Np, int MAXE)
     {
         Map[i].Next = -1;
     }
-
 
     return 0;
 }
@@ -134,7 +132,6 @@ void PointEdgeMap::AddEdge(int p1, int p2, int idedge)
 
     if (p1 > p2) //sort p1 and p2
     {
-
         InsertNode(p1, p2)
     }
     else
@@ -144,8 +141,4 @@ void PointEdgeMap::AddEdge(int p1, int p2, int idedge)
     counter++;
 
 }
-
-
-
-
 #endif

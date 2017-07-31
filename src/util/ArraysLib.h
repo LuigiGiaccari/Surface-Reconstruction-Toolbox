@@ -66,9 +66,6 @@ void Allocate(arr** a, int N)
 template <class arr>
 void AllocateAndInit (arr** a, int N, arr value)
 {
-
-
-
     if (*a != NULL)
     {
         Error("Can Not Allocate");;
