@@ -43,7 +43,7 @@ These are the Matlab commands to generate such file:
 ```Matlab
 fid=fopen("filename.dat",'wb');%open input file
 fwrite(fid, size(p,1), 'int');%first data=the numbers of points;
-fwrite(fid,p,'double');%points;
+fwrite(fid,p','double');%points;
 fclose(fid);%close the file
 ```
 And this are the C++ ones:
